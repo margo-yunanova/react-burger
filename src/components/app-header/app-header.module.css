@@ -1,0 +1,13 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 1240px;
+  margin: auto;
+}
+
+.cell {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
