@@ -1,0 +1,28 @@
+.ingredientsSection {
+  width: 600px;
+  margin: 0;
+}
+
+.table {
+  display: grid;
+  grid-template-columns: 272px 272px;
+  column-gap: 24px;
+  justify-items: center;
+}
+
+.cell {
+  text-align: center;
+}
+
+.price {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.scroll {
+  height: 756px;
+  overflow-y: auto;
+  -webkit-scrollbar-width: 8px;
+  -webkit-scrollbar-color: #4C4CFF;
+}
