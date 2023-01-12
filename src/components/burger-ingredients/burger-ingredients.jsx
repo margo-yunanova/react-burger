@@ -1,4 +1,3 @@
-import React from 'react';
 import { Count, Tab, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 
@@ -19,7 +18,7 @@ export default function BurgerIngredients( {ingredients} ) {
   const sauces = ingredients.filter(i => i.type === "sauce");
 
   return (
-    <section className={styles.ingredientsSection}>
+    <section className={styles.section}>
       <h1 className="text text_type_main-large">Соберите бургер</h1>
       <nav className='menu'>
         <Tab className="pt-6 pb-10">Булки</Tab>

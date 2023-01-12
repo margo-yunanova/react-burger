@@ -1,0 +1,38 @@
+.section {
+  width: 600px;
+
+}
+
+.lists {
+  list-style-type: none;
+  margin: 0;
+  padding-left: 0;
+}
+
+.total {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  align-items: center;
+  justify-content: end;
+  padding-right: 16px;
+}
+
+.price {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+}
+
+.scroll {
+  height: 340px;
+  overflow-y: auto;
+}
+
+.cell {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  align-items: center;
+}
