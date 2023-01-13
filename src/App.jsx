@@ -1,25 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+
 import './App.css';
+import AppHeader from './components/app-header/app-header';
+import BurgerIngredients from './components/burger-ingredients/burger-ingredients';
+import BurgerConstructor from './components/burger-constructor/burger-constructor';
+import Modal from './components/modal/modal';
+import ModalOverlay from './components/modal-overlay/modal-overlay';
+
 
 function App() {
+
+  const domainAddress = 'https://norma.nomoreparties.space/api/ingredients';
+
+  const [menu, setMenu] = useState({
+    success: true,
+    data: []
+  });
+
+  useEffect(() => {
+
+    fetch(domainAddress)
+      .then(res => res.json())
+      .then(obj => {
+        setMenu({ ...menu, data: obj.data });
+      })
+      .catch(e => console.log);
+  }, []);
+
+  const { success, data: ingredients } = menu;
+
+  const bun = ingredients.findLast(item => item.type === 'bun');
+
+  const bunFilling = ingredients.filter(item => item.type !== 'bun');
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <AppHeader />
+      <div className='menu'>
+        <BurgerIngredients ingredients={ingredients} />
+        {bun && <BurgerConstructor bun={bun} bunFilling={bunFilling} />}
+      </div>
+      <div id="react-modals">
+      </div>
+      <ModalOverlay />
+    </>
   );
 }
 
