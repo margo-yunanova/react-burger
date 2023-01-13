@@ -3,8 +3,8 @@ import styles from './modal-overlay.module.css'
 
 export default function ModalOverlay() {
   return (
-    <section className={styles.section}>
+    <div className={styles.popup}>
       <Modal />
-    </section>
+    </div>
   )
 }

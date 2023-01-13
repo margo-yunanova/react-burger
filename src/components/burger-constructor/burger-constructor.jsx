@@ -1,27 +1,25 @@
-import { ConstructorElement, Button, CurrencyIcon, LockIcon, DeleteIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
-
-
 
 export default function BurgerConstructor({ bun, bunFilling }) {
   return (
-    <section className={`pt-25 ${styles.section}`}>
-      <ul className={`pb-10 ${styles.lists}`}>
+    <section className={`${styles.section} pt-25`}>
+      <ul className={`${styles.lists} pb-10`}>
         <li className='pl-10 ml-3 pt-4 pb-4'>
-          <ConstructorElement thumbnail={bun.image} text={bun.name} price={bun.price} type="top" />
+          <ConstructorElement key={bun._id} thumbnail={bun.image} text={bun.name} price={bun.price} type="top" isLocked={true} />
         </li>
         <div className={styles.scroll}>
           {
             bunFilling.map(item =>
-              <li className={`pt-4 pb-4 ${styles.cell}`}>
+              <li className={`${styles.cell} pt-4 pb-4`}>
                 <DragIcon type="primary" />
-                <ConstructorElement key={item._id} thumbnail={item.image} text={item.name} price={item.price} isLocked={true} />
+                <ConstructorElement key={item._id} thumbnail={item.image} text={item.name} price={item.price} />
               </li>
             )
           }
         </div>
         <li className='pl-10 ml-3 pt-4 pb-4'>
-          <ConstructorElement thumbnail={bun.image} text={bun.name} price={bun.price} type="bottom"/>
+          <ConstructorElement key={bun._id} thumbnail={bun.image} text={bun.name} price={bun.price} type="bottom" isLocked={true} />
         </li>
       </ul>
       <div className={styles.total}>

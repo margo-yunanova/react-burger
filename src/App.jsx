@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
-
+import { useEffect, useState } from 'react';
 import './App.css';
 import AppHeader from './components/app-header/app-header';
 import BurgerIngredients from './components/burger-ingredients/burger-ingredients';
 import BurgerConstructor from './components/burger-constructor/burger-constructor';
-import Modal from './components/modal/modal';
 import ModalOverlay from './components/modal-overlay/modal-overlay';
 
 
@@ -27,7 +25,7 @@ function App() {
       .catch(e => console.log);
   }, []);
 
-  const { success, data: ingredients } = menu;
+  const { data: ingredients } = menu;
 
   const bun = ingredients.findLast(item => item.type === 'bun');
 
@@ -39,8 +37,6 @@ function App() {
       <div className='menu'>
         <BurgerIngredients ingredients={ingredients} />
         {bun && <BurgerConstructor bun={bun} bunFilling={bunFilling} />}
-      </div>
-      <div id="react-modals">
       </div>
       <ModalOverlay />
     </>
