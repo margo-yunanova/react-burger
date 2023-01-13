@@ -18,3 +18,8 @@
   row-gap: 8px;
   justify-items: center;
 }
+
+.image {
+  width: 480px;
+  height: 240px;
+}

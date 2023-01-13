@@ -3,7 +3,7 @@ import './App.css';
 import AppHeader from './components/app-header/app-header';
 import BurgerIngredients from './components/burger-ingredients/burger-ingredients';
 import BurgerConstructor from './components/burger-constructor/burger-constructor';
-import ModalOverlay from './components/modal-overlay/modal-overlay';
+import IngredientDetails from './components/ingredient-details/ingredient-details';
 
 
 function App() {
@@ -38,7 +38,7 @@ function App() {
         <BurgerIngredients ingredients={ingredients} />
         {bun && <BurgerConstructor bun={bun} bunFilling={bunFilling} />}
       </div>
-      <ModalOverlay />
+      {bun && <IngredientDetails bun={bun}/>}
     </>
   );
 }

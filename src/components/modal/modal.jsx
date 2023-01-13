@@ -1,15 +1,19 @@
-import { createPortal } from 'react-dom';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import OrderDetails from '../order-details/order-details';
+import PropTypes from 'prop-types';
+import ModalOverlay from '../modal-overlay/modal-overlay';
 import styles from './modal.module.css';
 
-export default function Modal() {
-  return (
+export default function Modal({children}) {
 
-    <div className={styles.popup}>
-      <button className={styles.close} type="button" aria-label="закрыть модальное окно"></button>
-      {/* <IngredientDetails /> */}
-      <OrderDetails />
-    </div>
+  return (
+    <ModalOverlay>
+      <div className={styles.popup}>
+        <button className={styles.close} type="button" aria-label="закрыть модальное окно"></button>
+        {children}
+      </div>
+    </ModalOverlay>
   );
+}
+
+Modal.propTypes = {
+  children: PropTypes.node
 }

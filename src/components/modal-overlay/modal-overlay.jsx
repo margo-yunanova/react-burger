@@ -1,10 +1,14 @@
-import Modal from '../modal/modal'
+import PropTypes from 'prop-types';
 import styles from './modal-overlay.module.css'
 
-export default function ModalOverlay() {
+export default function ModalOverlay({children}) {
   return (
     <div className={styles.popup}>
-      <Modal />
+      {children}
     </div>
   )
+}
+
+ModalOverlay.propTypes = {
+  children: PropTypes.node
 }

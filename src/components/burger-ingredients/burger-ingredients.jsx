@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Count, Tab, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 
@@ -11,6 +12,14 @@ const Ingredient = ({ ingredient }) => (
     <p className="text text_type_main-default pb-7">{ingredient.name}</p>
   </div>
 );
+
+Ingredient.propTypes = {
+  ingredient: PropTypes.shape({
+    image: PropTypes.string,
+    name: PropTypes.string,
+    price: PropTypes.number
+  })
+}
 
 export default function BurgerIngredients({ ingredients }) {
   const buns = ingredients.filter(i => i.type === "bun");
@@ -51,4 +60,13 @@ export default function BurgerIngredients({ ingredients }) {
 
     </section>
   );
+}
+
+BurgerIngredients.propTypes = {
+  ingredients: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string,
+    image: PropTypes.string,
+    name: PropTypes.string,
+    price: PropTypes.number
+  }))
 }
