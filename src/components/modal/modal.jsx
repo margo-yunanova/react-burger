@@ -2,12 +2,13 @@ import PropTypes from 'prop-types';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import styles from './modal.module.css';
 
-export default function Modal({children}) {
+export default function Modal({ children, visible, setModal }) {
+
 
   return (
-    <ModalOverlay>
+    <ModalOverlay visible={visible}>
       <div className={styles.popup}>
-        <button className={styles.close} type="button" aria-label="закрыть модальное окно"></button>
+        <button className={styles.close} type="button" aria-label="закрыть модальное окно" onClick={() => setModal(false)}></button>
         {children}
       </div>
     </ModalOverlay>
@@ -16,4 +17,4 @@ export default function Modal({children}) {
 
 Modal.propTypes = {
   children: PropTypes.node
-}
+};

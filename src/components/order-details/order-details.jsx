@@ -1,10 +1,11 @@
+
 import Modal from '../modal/modal';
 import styles from './order-details.module.css';
 
 
-export default function OrderDetails() {
+export default function OrderDetails({visible, setModal}) {
   return (
-    <Modal>
+    <Modal visible={visible} setModal={setModal}>
       <div className={styles.popup}>
         <p className="text text_type_digits-large pt-30 pb-8">034536</p>
         <p className="text text_type_main-medium pb-15">индентификатор закака</p>
@@ -13,5 +14,6 @@ export default function OrderDetails() {
         <p className="text text_type_main-default text_color_inactive">Дождитесь готовности на орбитальной станции</p>
       </div>
     </Modal>
+
   );
 }

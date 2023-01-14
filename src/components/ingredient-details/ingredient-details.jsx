@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
+
 import Modal from '../modal/modal';
 import styles from './ingredient-details.module.css';
 
-export default function IngredientDetails({ bun }) {
+export default function IngredientDetails({ bun, visible, setModal }) {
   return (
-    <Modal>
+    <Modal visible={visible} setModal={setModal}>
       <div className={styles.popup}>
         <p className="text text_type_main-large pt-10 pl-10 pr-10">Детали ингридиента</p>
         <div className={styles.details}>

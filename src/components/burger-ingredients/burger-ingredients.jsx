@@ -21,7 +21,7 @@ Ingredient.propTypes = {
   })
 }
 
-export default function BurgerIngredients({ ingredients }) {
+export default function BurgerIngredients({ ingredients, setModal }) {
   const buns = ingredients.filter(i => i.type === "bun");
   const main = ingredients.filter(i => i.type === "main");
   const sauces = ingredients.filter(i => i.type === "sauce");
