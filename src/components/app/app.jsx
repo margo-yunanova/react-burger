@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import './App.css';
-import AppHeader from './components/app-header/app-header';
-import BurgerIngredients from './components/burger-ingredients/burger-ingredients';
-import BurgerConstructor from './components/burger-constructor/burger-constructor';
-import OrderDetails from './components/order-details/order-details';
-import IngredientDetails from './components/ingredient-details/ingredient-details';
+import styles from './app.module.css';
+import AppHeader from '../app-header/app-header';
+import BurgerIngredients from '../burger-ingredients/burger-ingredients';
+import BurgerConstructor from '../burger-constructor/burger-constructor';
+import OrderDetails from '../order-details/order-details';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import Modal from '../modal/modal';
 
 
 function App() {
@@ -21,7 +22,6 @@ function App() {
   const [currentIngredient, setCurrentIngredient] = useState(undefined);
 
   useEffect(() => {
-
     fetch(apiUrl)
       .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
       .then(obj => {
@@ -39,13 +39,19 @@ function App() {
   return (
     <>
       <AppHeader />
-      <div className='menu'>
+      <main className={styles.menu}>
         <BurgerIngredients ingredients={ingredients} setCurrentIngredient={setCurrentIngredient} />
-        {bun && <BurgerConstructor bun={bun} bunFilling={bunFilling} setVisible={setOrderDetailVisible} />}
-      </div>
+        {bun && <BurgerConstructor bun={bun} bunFilling={bunFilling} openOrderModal={() => setOrderDetailVisible(true)} />}
+      </main>
 
-        {currentIngredient && <IngredientDetails ingredient={currentIngredient} setVisible={() => setCurrentIngredient(undefined)}/>}
-        {orderDetailVisible && <OrderDetails visible={orderDetailVisible} setVisible={setOrderDetailVisible} />}
+      {currentIngredient &&
+        <Modal close={() => setCurrentIngredient(undefined)} title='Детали ингридиента'>
+          <IngredientDetails ingredient={currentIngredient} />
+        </Modal>}
+      {orderDetailVisible &&
+        <Modal close={() => setOrderDetailVisible(false)}>
+          <OrderDetails />
+        </Modal>}
     </>
   );
 }

@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
+import {ingredientBrief} from '../../utils/prop-types';
 
-export default function BurgerConstructor({ bun, bunFilling, setVisible }) {
+export default function BurgerConstructor({ bun, bunFilling, openOrderModal }) {
   const orderTotal = bun.price * 2 + bunFilling.reduce((sum, item) => sum + item.price, 0);
 
   return (
@@ -30,23 +31,14 @@ export default function BurgerConstructor({ bun, bunFilling, setVisible }) {
           <p className="text text_type_digits-medium">{orderTotal}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button htmlType="button" type="primary" size="large" onClick={() => setVisible(true)}>Оформить заказ</Button>
+        <Button htmlType="button" type="primary" size="large" onClick={openOrderModal}>Оформить заказ</Button>
       </div>
     </section>
   );
 }
 
 BurgerConstructor.propTypes = {
-  bun: PropTypes.shape({
-    _id: PropTypes.string,
-    image: PropTypes.string,
-    name: PropTypes.string,
-    price: PropTypes.number
-  }),
-  bunFilling: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string,
-    image: PropTypes.string,
-    name: PropTypes.string,
-    price: PropTypes.number
-  }))
+  bun: ingredientBrief.isRequired,
+  bunFilling: PropTypes.arrayOf(ingredientBrief).isRequired,
+  openOrderModal: PropTypes.func.isRequired,
 };

@@ -1,19 +1,38 @@
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import styles from './modal.module.css';
 
-export default function Modal({ children, visible, setVisible }) {
+export default function Modal({ children, close, title='' }) {
+  const handleEscClose = (e) => {
+    if (e.key === 'Escape') {
+      close();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleEscClose);
+    return () => {
+      document.removeEventListener("keydown", handleEscClose);
+    };
+  }, []);
 
   return (
-    <ModalOverlay visible={visible} setVisible={setVisible}>
-      <div className={styles.popup} onClick={(e) => e.stopPropagation()}>
-        <button className={styles.close} type="button" aria-label="закрыть модальное окно" onClick={() => setVisible(false)}></button>
-        {children}
-      </div>
-    </ModalOverlay>
+    createPortal(
+      <ModalOverlay close={close}>
+        <div className={styles.popup} onClick={(e) => e.stopPropagation()}>
+          <button className={styles.close} type="button" aria-label="закрыть модальное окно" onClick={close}></button>
+          {title && <p className="text text_type_main-large pt-10 pl-10 pr-10">{title}</p>}
+          {children}
+        </div>
+      </ModalOverlay>,
+      document.getElementById("react-modals"))
   );
 }
 
 Modal.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node.isRequired,
+  close: PropTypes.func.isRequired,
+  title: PropTypes.node,
 };
