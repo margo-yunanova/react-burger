@@ -16,7 +16,9 @@ function App() {
     data: []
   });
 
-  const [modal, setModal] = useState(false);
+  const [orderDetailVisible, setOrderDetailVisible] = useState(false);
+
+  const [currentIngredient, setCurrentIngredient] = useState(undefined);
 
   useEffect(() => {
 
@@ -34,17 +36,16 @@ function App() {
 
   const bunFilling = ingredients.filter(item => item.type !== 'bun');
 
-
-
   return (
     <>
       <AppHeader />
       <div className='menu'>
-        <BurgerIngredients ingredients={ingredients} setModal={setModal} />
-        {bun && <BurgerConstructor bun={bun} bunFilling={bunFilling} setModal={setModal} />}
+        <BurgerIngredients ingredients={ingredients} setCurrentIngredient={setCurrentIngredient} />
+        {bun && <BurgerConstructor bun={bun} bunFilling={bunFilling} setVisible={setOrderDetailVisible} />}
       </div>
-      {bun && <IngredientDetails bun={bun} visible={modal} setModal={setModal} />}
-      <OrderDetails visible={modal} setModal={setModal} />
+
+        {currentIngredient && <IngredientDetails ingredient={currentIngredient}/>}
+        {orderDetailVisible && <OrderDetails visible={orderDetailVisible} setVisible={setOrderDetailVisible} />}
     </>
   );
 }

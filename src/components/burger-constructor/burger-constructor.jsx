@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
 
-export default function BurgerConstructor({ bun, bunFilling, setModal }) {
+export default function BurgerConstructor({ bun, bunFilling, setVisible }) {
   return (
     <section className={`${styles.section} pt-25`}>
       <ul className={`${styles.lists} pb-10`}>
@@ -28,7 +28,7 @@ export default function BurgerConstructor({ bun, bunFilling, setModal }) {
           <p className="text text_type_digits-medium">0</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button htmlType="button" type="primary" size="large" onClick={() => setModal(true)}>Оформить заказ</Button>
+        <Button htmlType="button" type="primary" size="large" onClick={() => setVisible(true)}>Оформить заказ</Button>
       </div>
     </section>
   );

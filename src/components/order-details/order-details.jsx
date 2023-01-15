@@ -3,9 +3,9 @@ import Modal from '../modal/modal';
 import styles from './order-details.module.css';
 
 
-export default function OrderDetails({visible, setModal}) {
+export default function OrderDetails({visible, setVisible}) {
   return (
-    <Modal visible={visible} setModal={setModal}>
+    <Modal visible={visible} setVisible={setVisible}>
       <div className={styles.popup}>
         <p className="text text_type_digits-large pt-30 pb-8">034536</p>
         <p className="text text_type_main-medium pb-15">индентификатор закака</p>

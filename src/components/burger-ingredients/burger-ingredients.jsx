@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import { Count, Tab, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 
-const Ingredient = ({ ingredient }) => (
-  <div className={styles.cell}>
+const Ingredient = ({ ingredient, setCurrentIngredient }) => (
+  <div className={styles.cell} onClick={() => setCurrentIngredient(ingredient)}>
     <img src={ingredient.image} alt={ingredient.name} />
     <div className={`${styles.price} pt-1 pb-1`}>
       <p className="text text_type_digits-default">{ingredient.price}</p>
@@ -21,7 +21,7 @@ Ingredient.propTypes = {
   })
 }
 
-export default function BurgerIngredients({ ingredients, setModal }) {
+export default function BurgerIngredients({ ingredients, setCurrentIngredient }) {
   const buns = ingredients.filter(i => i.type === "bun");
   const main = ingredients.filter(i => i.type === "main");
   const sauces = ingredients.filter(i => i.type === "sauce");
@@ -39,21 +39,21 @@ export default function BurgerIngredients({ ingredients, setModal }) {
         <h2 className="text text_type_main-medium">Булки</h2>
         <div className={`${styles.table} pl-4`}>
           {
-            buns.map(bun => <Ingredient key={bun._id} ingredient={bun} />)
+            buns.map(bun => <Ingredient key={bun._id} ingredient={bun} setCurrentIngredient={setCurrentIngredient}/>)
           }
         </div>
 
         <h2 className="text text_type_main-medium">Соусы</h2>
         <div className={`${styles.table} pl-4`}>
           {
-            sauces.map(sauce => <Ingredient key={sauce._id} ingredient={sauce} />)
+            sauces.map(sauce => <Ingredient key={sauce._id} ingredient={sauce} setCurrentIngredient={setCurrentIngredient}/>)
           }
         </div>
 
         <h2 className="text text_type_main-medium">Начинки</h2>
         <div className={`${styles.table} pl-4`}>
           {
-            main.map(item => <Ingredient key={item._id} ingredient={item} />)
+            main.map(item => <Ingredient key={item._id} ingredient={item} setCurrentIngredient={setCurrentIngredient}/>)
           }
         </div>
       </div>
