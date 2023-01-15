@@ -44,7 +44,7 @@ function App() {
         {bun && <BurgerConstructor bun={bun} bunFilling={bunFilling} setVisible={setOrderDetailVisible} />}
       </div>
 
-        {currentIngredient && <IngredientDetails ingredient={currentIngredient}/>}
+        {currentIngredient && <IngredientDetails ingredient={currentIngredient} setVisible={() => setCurrentIngredient(undefined)}/>}
         {orderDetailVisible && <OrderDetails visible={orderDetailVisible} setVisible={setOrderDetailVisible} />}
     </>
   );
