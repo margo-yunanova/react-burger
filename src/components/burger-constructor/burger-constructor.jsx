@@ -6,21 +6,21 @@ export default function BurgerConstructor({ bun, bunFilling, setVisible }) {
   return (
     <section className={`${styles.section} pt-25`}>
       <ul className={`${styles.lists} pb-10`}>
-        <li className='pl-10 ml-3 pt-4 pb-4'>
-          <ConstructorElement thumbnail={bun.image} text={bun.name} price={bun.price} type="top" isLocked={true} />
+        <li className='pl-8 pt-4 pb-4'>
+          <ConstructorElement thumbnail={bun.image} text={bun.name+' (верх)'} price={bun.price} type="top" isLocked={true} />
         </li>
         <div className={styles.scroll}>
           {
-            bunFilling.map(item =>
-              <li className={`${styles.cell} pt-4 pb-4`} key={item._id}>
+            bunFilling.map((item, i) =>
+              <li className={`${styles.cell}${i===0?'':' pt-4'}`} key={item._id}>
                 <DragIcon type="primary" />
                 <ConstructorElement thumbnail={item.image} text={item.name} price={item.price} />
               </li>
             )
           }
         </div>
-        <li className='pl-10 ml-3 pt-4 pb-4'>
-          <ConstructorElement thumbnail={bun.image} text={bun.name} price={bun.price} type="bottom" isLocked={true} />
+        <li className='pl-8 pt-4'>
+          <ConstructorElement thumbnail={bun.image} text={bun.name+' (низ)'} price={bun.price} type="bottom" isLocked={true} />
         </li>
       </ul>
       <div className={styles.total}>

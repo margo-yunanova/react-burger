@@ -9,7 +9,7 @@ import IngredientDetails from './components/ingredient-details/ingredient-detail
 
 function App() {
 
-  const domainAddress = 'https://norma.nomoreparties.space/api/ingredients';
+  const apiUrl = 'https://norma.nomoreparties.space/api/ingredients';
 
   const [menu, setMenu] = useState({
     success: true,
@@ -22,10 +22,10 @@ function App() {
 
   useEffect(() => {
 
-    fetch(domainAddress)
-      .then(res => res.json())
+    fetch(apiUrl)
+      .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
       .then(obj => {
-        setMenu({ ...menu, data: obj.data });
+        setMenu((prev) => ({ ...prev, data: obj.data }));
       })
       .catch(e => console.log(e));
   }, []);
