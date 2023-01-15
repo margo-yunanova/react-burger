@@ -3,6 +3,10 @@
   margin: 0;
 }
 
+.tab {
+  display: flex;
+}
+
 .table {
   display: grid;
   grid-template-columns: 272px 272px;
@@ -12,6 +16,7 @@
 
 .cell {
   text-align: center;
+  position: relative;
 }
 
 .price {

@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
-import { Count, Tab, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Counter, Tab, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 
 const Ingredient = ({ ingredient, setCurrentIngredient }) => (
   <div className={styles.cell} onClick={() => setCurrentIngredient(ingredient)}>
+    <Counter count={1} size="default" extraClass="m-1" />
     <img src={ingredient.image} alt={ingredient.name} />
     <div className={`${styles.price} pt-1 pb-1`}>
       <p className="text text_type_digits-default">{ingredient.price}</p>
@@ -28,29 +29,29 @@ export default function BurgerIngredients({ ingredients, setCurrentIngredient })
 
   return (
     <section className={styles.section}>
-      <h1 className="text text_type_main-large">Соберите бургер</h1>
-      <nav className='menu'>
-        <Tab className="pt-6 pb-10">Булки</Tab>
+      <h1 className="text text_type_main-large pb-5">Соберите бургер</h1>
+      <nav className={`${styles.tab} pb-10`}>
+        <Tab>Булки</Tab>
         <Tab>Соусы</Tab>
         <Tab>Начинки</Tab>
       </nav>
 
       <div className={styles.scroll}>
-        <h2 className="text text_type_main-medium">Булки</h2>
+        <h2 className="text text_type_main-medium pt-6">Булки</h2>
         <div className={`${styles.table} pl-4`}>
           {
             buns.map(bun => <Ingredient key={bun._id} ingredient={bun} setCurrentIngredient={setCurrentIngredient}/>)
           }
         </div>
 
-        <h2 className="text text_type_main-medium">Соусы</h2>
+        <h2 className="text text_type_main-medium pt-10 pt-6">Соусы</h2>
         <div className={`${styles.table} pl-4`}>
           {
             sauces.map(sauce => <Ingredient key={sauce._id} ingredient={sauce} setCurrentIngredient={setCurrentIngredient}/>)
           }
         </div>
 
-        <h2 className="text text_type_main-medium">Начинки</h2>
+        <h2 className="text text_type_main-medium pt-10 pt-6">Начинки</h2>
         <div className={`${styles.table} pl-4`}>
           {
             main.map(item => <Ingredient key={item._id} ingredient={item} setCurrentIngredient={setCurrentIngredient}/>)
