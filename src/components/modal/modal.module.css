@@ -7,10 +7,7 @@
 }
 
 .close {
-  width: 20px;
-  height: 20px;
-  background: url(../../images/icon-close.svg);
-  background-size: cover;
+  background: none;
   padding: 0;
   border: none;
   cursor: pointer;

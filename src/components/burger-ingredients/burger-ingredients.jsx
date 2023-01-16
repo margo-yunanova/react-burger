@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Counter, Tab, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
-import {ingredientBrief} from '../../utils/prop-types';
+import {ingredientType} from '../../utils/prop-types';
 
 const Ingredient = ({ ingredient, setCurrentIngredient }) => (
   <div className={styles.cell} onClick={() => setCurrentIngredient(ingredient)}>
@@ -16,7 +16,7 @@ const Ingredient = ({ ingredient, setCurrentIngredient }) => (
 );
 
 Ingredient.propTypes = {
-  ingredient: ingredientBrief.isRequired,
+  ingredient: ingredientType.isRequired,
   setCurrentIngredient: PropTypes.func.isRequired,
 }
 
@@ -62,6 +62,6 @@ export default function BurgerIngredients({ ingredients, setCurrentIngredient })
 }
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientBrief).isRequired,
+  ingredients: PropTypes.arrayOf(ingredientType).isRequired,
   setCurrentIngredient: PropTypes.func.isRequired,
 }
