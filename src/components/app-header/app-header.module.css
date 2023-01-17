@@ -1,0 +1,25 @@
+.header {
+  width: 1240px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+}
+
+.logo {
+  justify-self: center;
+}
+
+.cell {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.rightnav {
+  justify-self: end;
+}
+
+.leftnav {
+  justify-self: start;
+}

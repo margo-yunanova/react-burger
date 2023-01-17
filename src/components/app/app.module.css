@@ -1,0 +1,7 @@
+.menu {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  margin: auto;
+  width: 1240px;
+}

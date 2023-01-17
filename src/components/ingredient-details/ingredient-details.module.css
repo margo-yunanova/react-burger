@@ -1,0 +1,24 @@
+.popup {
+  width: 720px;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.table {
+  display: grid;
+  grid-template-columns: 120px 120px 120px 120px;
+  grid-template-rows: 24px 24px;
+  grid-auto-flow: column;
+  column-gap: 20px;
+  row-gap: 8px;
+  justify-items: center;
+}
+
+.image {
+  width: 480px;
+  height: 240px;
+}
