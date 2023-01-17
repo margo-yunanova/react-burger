@@ -5,7 +5,7 @@ export const ingredientType = PropTypes.shape({
   image: PropTypes.string.isRequired,
   image_large: PropTypes.string.isRequired,
   image_mobile: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(['bun', 'name', 'sauce']).isRequired,
+  type: PropTypes.oneOf(['bun', 'main', 'sauce']).isRequired,
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   calories: PropTypes.number.isRequired,
