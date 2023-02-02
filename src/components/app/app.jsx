@@ -8,9 +8,7 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
 import { IngredientsContext } from '../../services/ingredientsContext';
 
-
 function App() {
-
   const apiUrl = 'https://norma.nomoreparties.space/api/ingredients';
 
   const [menu, setMenu] = useState({
@@ -19,7 +17,7 @@ function App() {
   });
 
   const [orderDetailVisible, setOrderDetailVisible] = useState(false);
-
+  const [orderDetails, setOrderDetails] = useState({});
   const [currentIngredient, setCurrentIngredient] = useState(undefined);
 
   useEffect(() => {
@@ -41,8 +39,8 @@ function App() {
       <AppHeader />
       <main className={styles.menu}>
         <BurgerIngredients ingredients={ingredients} setCurrentIngredient={setCurrentIngredient} />
-        <IngredientsContext.Provider value={{bun, bunFilling}}>
-          {bun && <BurgerConstructor openOrderModal={() => setOrderDetailVisible(true)} />}
+        <IngredientsContext.Provider value={{ bun, bunFilling }}>
+          {bun && <BurgerConstructor setOrderDetails={setOrderDetails} setOrderDetailVisible={setOrderDetailVisible}/>}
         </IngredientsContext.Provider>
       </main>
 
@@ -52,7 +50,7 @@ function App() {
         </Modal>}
       {orderDetailVisible &&
         <Modal close={() => setOrderDetailVisible(false)}>
-          <OrderDetails />
+          <OrderDetails orderDetails={orderDetails} />
         </Modal>}
     </>
   );

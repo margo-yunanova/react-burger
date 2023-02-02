@@ -1,9 +1,10 @@
+import { orderType } from '../../utils/prop-types';
 import styles from './order-details.module.css';
 
-export default function OrderDetails() {
+export default function OrderDetails({ orderDetails: {order: { number }} }) {
   return (
     <div className={styles.popup}>
-      <p className="text text_type_digits-large pt-30 pb-8">034536</p>
+      <p className="text text_type_digits-large pt-30 pb-8">{number}</p>
       <p className="text text_type_main-medium pb-15">идентификатор заказа</p>
       <div className={styles.checkbox}></div>
       <p className="text text_type_main-default pt-15 pb-2">Ваш заказ начали готовить</p>
@@ -11,3 +12,7 @@ export default function OrderDetails() {
     </div>
   );
 }
+
+OrderDetails.propTypes = {
+  orderDetails: orderType.isRequired,
+};
