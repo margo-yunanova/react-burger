@@ -1,9 +1,13 @@
 import PropTypes from 'prop-types';
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
-import {ingredientType} from '../../utils/prop-types';
+import { useContext } from 'react';
+import { IngredientsContext } from '../../services/ingredientsContext';
 
-export default function BurgerConstructor({ bun, bunFilling, openOrderModal }) {
+export default function BurgerConstructor({ openOrderModal }) {
+
+  const { bun, bunFilling } = useContext(IngredientsContext);
+
   const orderTotal = bun.price * 2 + bunFilling.reduce((sum, item) => sum + item.price, 0);
 
   return (
@@ -38,7 +42,5 @@ export default function BurgerConstructor({ bun, bunFilling, openOrderModal }) {
 }
 
 BurgerConstructor.propTypes = {
-  bun: ingredientType.isRequired,
-  bunFilling: PropTypes.arrayOf(ingredientType).isRequired,
   openOrderModal: PropTypes.func.isRequired,
 };

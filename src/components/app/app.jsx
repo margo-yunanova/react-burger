@@ -6,6 +6,7 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
+import { IngredientsContext } from '../../services/ingredientsContext';
 
 
 function App() {
@@ -33,7 +34,6 @@ function App() {
   const { data: ingredients } = menu;
 
   const bun = ingredients.findLast(item => item.type === 'bun');
-
   const bunFilling = ingredients.filter(item => item.type !== 'bun');
 
   return (
@@ -41,7 +41,9 @@ function App() {
       <AppHeader />
       <main className={styles.menu}>
         <BurgerIngredients ingredients={ingredients} setCurrentIngredient={setCurrentIngredient} />
-        {bun && <BurgerConstructor bun={bun} bunFilling={bunFilling} openOrderModal={() => setOrderDetailVisible(true)} />}
+        <IngredientsContext.Provider value={{bun, bunFilling}}>
+          {bun && <BurgerConstructor openOrderModal={() => setOrderDetailVisible(true)} />}
+        </IngredientsContext.Provider>
       </main>
 
       {currentIngredient &&
