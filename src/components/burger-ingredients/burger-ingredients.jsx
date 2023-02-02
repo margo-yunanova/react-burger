@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Counter, Tab, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 import { ingredientType } from '../../utils/prop-types';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 const Ingredient = ({ ingredient, setCurrentIngredient }) => (
   <div className={styles.cell} onClick={() => setCurrentIngredient(ingredient)}>
@@ -25,30 +25,25 @@ export default function BurgerIngredients({ ingredients, setCurrentIngredient })
 
   const [activeTab, setActiveTab] = useState('Булки');
 
-  const topEdgeScrollSection = useRef();
   const titleMealEl = useRef(null);
   const titleSauceEl = useRef(null);
   const titleBunEl = useRef(null);
-  const scrollSectionEl = useRef(null);
 
-  useEffect(() => {
-    topEdgeScrollSection.current = scrollSectionEl.current.offsetTop;
-  }, []);
 
-  const titlesIngredients = [titleBunEl.current, titleMealEl.current, titleSauceEl.current];
-
-  const getTopCoordinatesActiveTab = (value) => {
-    const topEdgeActiveIngredient = titlesIngredients.find(ingredient => ingredient.id === value).offsetTop;
-    return topEdgeActiveIngredient - topEdgeScrollSection.current;
+  const scrollToTitle = (activeTab) => {
+    setActiveTab(activeTab);
+    const titlesIngredients = {
+         'Булки': titleBunEl.current,
+         'Соусы': titleSauceEl.current,
+         'Начинки': titleMealEl.current,
+    };
+    titlesIngredients[activeTab].scrollIntoView({
+      behavior: "smooth",
+    });
   };
 
-  const scrollToTitle = (value) => {
-    setActiveTab(value);
-    scrollSectionEl.current.scrollTo(0, getTopCoordinatesActiveTab(value));
-  };
-
-  const scroll = () => {
-    const numberPixelsScrollSectionMove = scrollSectionEl.current.scrollTop + topEdgeScrollSection.current;
+  const scroll = (evt) => {
+    const numberPixelsScrollSectionMove = evt.target.scrollTop + evt.target.offsetTop;
     const topEdgeSauce = titleSauceEl.current.offsetTop;
     const topEdgeMeal = titleMealEl.current.offsetTop;
 
@@ -56,7 +51,7 @@ export default function BurgerIngredients({ ingredients, setCurrentIngredient })
       setActiveTab('Булки');
     } else if (numberPixelsScrollSectionMove >= topEdgeSauce && numberPixelsScrollSectionMove < topEdgeMeal) {
       setActiveTab('Соусы');
-    } else if (numberPixelsScrollSectionMove >= topEdgeMeal) {
+    } else {
       setActiveTab('Начинки');
     }
   };
@@ -75,22 +70,22 @@ export default function BurgerIngredients({ ingredients, setCurrentIngredient })
         <Tab value='Начинки' active={activeTab === 'Начинки'} onClick={scrollToTitle}>Начинки</Tab>
       </nav>
 
-      <div ref={scrollSectionEl} className={styles.scroll} onScroll={scroll}>
-        <h2 ref={titleBunEl} id="Булки" className="text text_type_main-medium pt-6">Булки</h2>
+      <div className={styles.scroll} onScroll={scroll}>
+        <h2 ref={titleBunEl} data-name="Булки" className="text text_type_main-medium pt-6">Булки</h2>
         <div className={`${styles.table} pl-4`}>
           {
             buns.map(bun => <Ingredient key={bun._id} ingredient={bun} setCurrentIngredient={setCurrentIngredient} />)
           }
         </div>
 
-        <h2 ref={titleSauceEl} id="Соусы" className="text text_type_main-medium pt-10 pt-6">Соусы</h2>
+        <h2 ref={titleSauceEl} data-name="Соусы" className="text text_type_main-medium pt-10 pt-6">Соусы</h2>
         <div className={`${styles.table} pl-4`}>
           {
             sauces.map(sauce => <Ingredient key={sauce._id} ingredient={sauce} setCurrentIngredient={setCurrentIngredient} />)
           }
         </div>
 
-        <h2 ref={titleMealEl} id="Начинки" className="text text_type_main-medium pt-10 pt-6">Начинки</h2>
+        <h2 ref={titleMealEl} data-name="Начинки" className="text text_type_main-medium pt-10 pt-6">Начинки</h2>
         <div className={`${styles.table} pl-4`}>
           {
             main.map(item => <Ingredient key={item._id} ingredient={item} setCurrentIngredient={setCurrentIngredient} />)
