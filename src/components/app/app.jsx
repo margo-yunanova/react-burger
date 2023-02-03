@@ -7,9 +7,9 @@ import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
 import { IngredientsContext } from '../../services/ingredientsContext';
+import { getIngredients } from "../../utils/burger-api";
 
 function App() {
-  const apiUrl = 'https://norma.nomoreparties.space/api/ingredients';
 
   const [menu, setMenu] = useState({
     success: true,
@@ -17,12 +17,11 @@ function App() {
   });
 
   const [orderDetailVisible, setOrderDetailVisible] = useState(false);
-  const [orderDetails, setOrderDetails] = useState({});
-  const [currentIngredient, setCurrentIngredient] = useState(undefined);
+  const [orderDetails, setOrderDetails] = useState();
+  const [currentIngredient, setCurrentIngredient] = useState();
 
   useEffect(() => {
-    fetch(apiUrl)
-      .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
+    getIngredients()
       .then(obj => {
         setMenu((prev) => ({ ...prev, data: obj.data }));
       })
@@ -40,12 +39,12 @@ function App() {
       <main className={styles.menu}>
         <BurgerIngredients ingredients={ingredients} setCurrentIngredient={setCurrentIngredient} />
         <IngredientsContext.Provider value={{ bun, bunFilling }}>
-          {bun && <BurgerConstructor setOrderDetails={setOrderDetails} setOrderDetailVisible={setOrderDetailVisible}/>}
+          {bun && <BurgerConstructor setOrderDetails={setOrderDetails} setOrderDetailVisible={setOrderDetailVisible} />}
         </IngredientsContext.Provider>
       </main>
 
       {currentIngredient &&
-        <Modal close={() => setCurrentIngredient(undefined)} title='Детали ингридиента'>
+        <Modal close={() => setCurrentIngredient()} title='Детали ингридиента'>
           <IngredientDetails ingredient={currentIngredient} />
         </Modal>}
       {orderDetailVisible &&

@@ -3,34 +3,25 @@ import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktiku
 import styles from './burger-constructor.module.css';
 import { useContext, useState } from 'react';
 import { IngredientsContext } from '../../services/ingredientsContext';
+import { getOrderDetails } from '../../utils/burger-api';
 
 export default function BurgerConstructor({ setOrderDetails, setOrderDetailVisible }) {
 
   const { bun, bunFilling } = useContext(IngredientsContext);
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
-  const apiUrlOrder = 'https://norma.nomoreparties.space/api/orders';
   const orderTotal = bun.price * 2 + bunFilling.reduce((sum, item) => sum + item.price, 0);
 
   const makeOrder = () => {
-    setButtonDisabled(true)
-    const ingredientsId = [bun._id, ...bunFilling.map(item => item._id)];
-    fetch(apiUrlOrder, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8'
-      },
-      body: JSON.stringify({
-        'ingredients': ingredientsId,
-      })
-    })
-      .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
+    setButtonDisabled(true);
+    const ingredientsId = [bun._id, ...bunFilling.map(item => item._id), bun._id];
+    getOrderDetails(ingredientsId)
       .then((data) => {
         setOrderDetails(data);
         setOrderDetailVisible(true);
       })
       .catch(e => console.log(e))
-      .finally(() => setButtonDisabled(false))
+      .finally(() => setButtonDisabled(false));
   };
 
   return (
