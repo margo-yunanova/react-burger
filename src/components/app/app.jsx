@@ -17,8 +17,8 @@ function App() {
   });
 
   const [orderDetailVisible, setOrderDetailVisible] = useState(false);
-  const [orderDetails, setOrderDetails] = useState();
-  const [currentIngredient, setCurrentIngredient] = useState();
+  const [orderDetails, setOrderDetails] = useState(null);
+  const [currentIngredient, setCurrentIngredient] = useState(null);
 
   useEffect(() => {
     getIngredients()
@@ -44,7 +44,7 @@ function App() {
       </main>
 
       {currentIngredient &&
-        <Modal close={() => setCurrentIngredient()} title='Детали ингридиента'>
+        <Modal close={() => setCurrentIngredient(null)} title='Детали ингридиента'>
           <IngredientDetails ingredient={currentIngredient} />
         </Modal>}
       {orderDetailVisible &&
