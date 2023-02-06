@@ -34,7 +34,7 @@ function App() {
         </Modal>}
       {orderDetailVisible &&
         <Modal close={() => setOrderDetailVisible(false)}>
-          <OrderDetails orderDetails={orderDetails} />
+          <OrderDetails />
         </Modal>}
     </>
   );

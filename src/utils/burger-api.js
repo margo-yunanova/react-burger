@@ -5,7 +5,7 @@ const checkResponse = (res) => res.ok ? res.json() : Promise.reject(`Ошибк�
 export const getIngredientsRequest = () => fetch(`${BURGER_API_URL}/ingredients`)
   .then(checkResponse);
 
-export const getOrderDetails = (ingredientsId) => fetch(`${BURGER_API_URL}/orders`, {
+export const makeOrderDetailsRequest = (ingredientsId) => fetch(`${BURGER_API_URL}/orders`, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json;charset=utf-8'

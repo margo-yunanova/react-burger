@@ -1,27 +1,19 @@
 import PropTypes from 'prop-types';
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
-import { useContext, useState } from 'react';
-import { IngredientsContext } from '../../services/ingredientsContext';
-import { getOrderDetails } from '../../utils/burger-api';
+import { useDispatch, useSelector } from 'react-redux';
+import { getOrderDetails, SET_CHECKOUT_BUTTON_DISABLED } from '../../services/actions/orderDetails';
 
-export default function BurgerConstructor({ setOrderDetails, setOrderDetailVisible }) {
+  const dispatch = useDispatch();
 
-  const { bun, bunFilling } = useContext(IngredientsContext);
-  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const buttonDisabled = useSelector(store => store.orderDetails.buttonDisabled);
 
   const orderTotal = bun.price * 2 + bunFilling.reduce((sum, item) => sum + item.price, 0);
 
   const makeOrder = () => {
-    setButtonDisabled(true);
+    dispatch({ type: SET_CHECKOUT_BUTTON_DISABLED });
     const ingredientsId = [bun._id, ...bunFilling.map(item => item._id), bun._id];
-    getOrderDetails(ingredientsId)
-      .then((data) => {
-        setOrderDetails(data);
-        setOrderDetailVisible(true);
-      })
-      .catch(e => console.log(e))
-      .finally(() => setButtonDisabled(false));
+    dispatch(getOrderDetails(ingredientsId));
   };
 
   return (
