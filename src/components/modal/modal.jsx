@@ -7,7 +7,6 @@ import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
 export default function Modal({ children, close, title='' }) {
 
-
   useEffect(() => {
     const handleEscClose = (e) => {
       if (e.key === 'Escape') {
@@ -19,7 +18,7 @@ export default function Modal({ children, close, title='' }) {
     return () => {
       document.removeEventListener("keydown", handleEscClose);
     };
-  }, []);
+  }, [close]);
 
   return (
     createPortal(

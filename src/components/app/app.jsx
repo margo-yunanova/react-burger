@@ -8,12 +8,15 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIngredients } from '../../services/actions/ingredients';
+import { HIDE_ORDER_DETAILS } from '../../services/actions/orderDetails';
 
 function App() {
 
   const dispatch = useDispatch();
 
   const ingredients = useSelector(state => state.ingredients.listBurgerIngredients.ingredients);
+  const orderDetailVisible = useSelector(state => state.orderDetails.orderDetailVisible);
+
   const [currentIngredient, setCurrentIngredient] = useState(null);
 
   useEffect(() => dispatch(getIngredients()), [dispatch]);
@@ -23,9 +26,7 @@ function App() {
       <AppHeader />
       <main className={styles.menu}>
         <BurgerIngredients ingredients={ingredients} setCurrentIngredient={setCurrentIngredient} />
-        <IngredientsContext.Provider value={{ bun, bunFilling }}>
-          {bun && <BurgerConstructor setOrderDetails={setOrderDetails} setOrderDetailVisible={setOrderDetailVisible} />}
-        </IngredientsContext.Provider>
+        {ingredients.length > 0 && <BurgerConstructor />}
       </main>
 
       {currentIngredient &&
@@ -33,7 +34,7 @@ function App() {
           <IngredientDetails ingredient={currentIngredient} />
         </Modal>}
       {orderDetailVisible &&
-        <Modal close={() => setOrderDetailVisible(false)}>
+        <Modal close={() => dispatch({ type: HIDE_ORDER_DETAILS })}>
           <OrderDetails />
         </Modal>}
     </>
