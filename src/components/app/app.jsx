@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
@@ -9,6 +9,7 @@ import Modal from '../modal/modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIngredients } from '../../services/actions/ingredients';
 import { HIDE_ORDER_DETAILS } from '../../services/actions/orderDetails';
+import { HIDE_INGREDIENT_MODAL } from '../../services/actions/current-ingredient';
 
 function App() {
 
@@ -16,8 +17,7 @@ function App() {
 
   const ingredients = useSelector(state => state.ingredients.listBurgerIngredients.ingredients);
   const orderDetailVisible = useSelector(state => state.orderDetails.orderDetailVisible);
-
-  const [currentIngredient, setCurrentIngredient] = useState(null);
+  const currentIngredientVisible = useSelector(state => state.currentIngredient.currentIngredientVisible);
 
   useEffect(() => dispatch(getIngredients()), [dispatch]);
 
@@ -25,13 +25,13 @@ function App() {
     <>
       <AppHeader />
       <main className={styles.menu}>
-        <BurgerIngredients ingredients={ingredients} setCurrentIngredient={setCurrentIngredient} />
+        <BurgerIngredients ingredients={ingredients} />
         {ingredients.length > 0 && <BurgerConstructor />}
       </main>
 
-      {currentIngredient &&
-        <Modal close={() => setCurrentIngredient(null)} title='Детали ингридиента'>
-          <IngredientDetails ingredient={currentIngredient} />
+      {currentIngredientVisible &&
+        <Modal close={() => dispatch({ type: HIDE_INGREDIENT_MODAL })} title='Детали ингридиента'>
+          <IngredientDetails />
         </Modal>}
       {orderDetailVisible &&
         <Modal close={() => dispatch({ type: HIDE_ORDER_DETAILS })}>
