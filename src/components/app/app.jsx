@@ -8,7 +8,7 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIngredients } from '../../services/actions/ingredients';
-import { HIDE_ORDER_DETAILS } from '../../services/actions/orderDetails';
+import { HIDE_ORDER_MODAL } from '../../services/actions/orderDetails';
 import { HIDE_INGREDIENT_MODAL } from '../../services/actions/current-ingredient';
 
 function App() {
@@ -34,7 +34,7 @@ function App() {
           <IngredientDetails />
         </Modal>}
       {orderDetailVisible &&
-        <Modal close={() => dispatch({ type: HIDE_ORDER_DETAILS })}>
+        <Modal close={() => dispatch({ type: HIDE_ORDER_MODAL })}>
           <OrderDetails />
         </Modal>}
     </>

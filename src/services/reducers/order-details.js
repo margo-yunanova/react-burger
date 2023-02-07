@@ -1,8 +1,8 @@
 import {
   GET_ORDER_DETAILS_FAILED,
   GET_ORDER_DETAILS_SUCCESS,
-  SHOW_ORDER_DETAILS,
-  HIDE_ORDER_DETAILS,
+  SHOW_ORDER_MODAL,
+  HIDE_ORDER_MODAL,
   SET_CHECKOUT_BUTTON_ACTIVE,
   SET_CHECKOUT_BUTTON_DISABLED,
  } from "../actions/orderDetails";
@@ -32,13 +32,13 @@ export const orderDetails = (state = initialState, action) => {
         },
       }
     }
-    case SHOW_ORDER_DETAILS: {
+    case SHOW_ORDER_MODAL: {
       return {
         ...state,
         orderDetailVisible: true,
       }
     }
-    case HIDE_ORDER_DETAILS: {
+    case HIDE_ORDER_MODAL: {
       return {
         ...state,
         orderDetailVisible: false,
