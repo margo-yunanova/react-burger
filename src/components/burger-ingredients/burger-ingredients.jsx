@@ -4,12 +4,17 @@ import styles from './burger-ingredients.module.css';
 import { ingredientType } from '../../utils/prop-types';
 import { useRef, useState } from 'react';
 import { SHOW_INGREDIENT_MODAL } from '../../services/actions/current-ingredient';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useDrag } from "react-dnd";
 
 const Ingredient = ({ ingredient }) => {
 
   const dispatch = useDispatch();
+
+  const { bun, bunFilling } = useSelector(state => state.draggedIngredients)
+
+  const count = ingredient.type !== 'bun' ? bunFilling.reduce((sum, item) => item._id === ingredient._id ? sum + 1 : sum, 0)
+    : bun?._id === ingredient._id ? 1 : 0;
 
   const [{ isDrag }, dragRef, dragPreviewRef] = useDrag({
     type: 'ingredient',
@@ -21,7 +26,7 @@ const Ingredient = ({ ingredient }) => {
     return (
     !isDrag &&
     <div ref={dragRef} className={styles.cell} onClick={() => dispatch({ type: SHOW_INGREDIENT_MODAL, payload: ingredient })}>
-      <Counter count={1} size="default" extraClass="m-1" />
+      <Counter count={count} size="default" extraClass="m-1" />
       <img src={ingredient.image} alt={ingredient.name} />
       <div className={`${styles.price} pt-1 pb-1`}>
         <p className="text text_type_digits-default">{ingredient.price}</p>
