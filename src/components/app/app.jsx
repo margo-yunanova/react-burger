@@ -10,6 +10,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getIngredients } from '../../services/actions/ingredients';
 import { HIDE_ORDER_MODAL } from '../../services/actions/orderDetails';
 import { HIDE_INGREDIENT_MODAL } from '../../services/actions/current-ingredient';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { ADD_INGREDIENT_INTO_CONSTRUCTOR } from '../../services/actions/constructor';
 
 function App() {
 
@@ -21,12 +24,23 @@ function App() {
 
   useEffect(() => dispatch(getIngredients()), [dispatch]);
 
+  const handleDrop = (ingredient) => {
+    dispatch({
+      type: ADD_INGREDIENT_INTO_CONSTRUCTOR,
+      payload: {
+        ingredient,
+      }
+    })
+  }
+
   return (
     <>
       <AppHeader />
       <main className={styles.menu}>
-        <BurgerIngredients ingredients={ingredients} />
-        {ingredients.length > 0 && <BurgerConstructor />}
+        <DndProvider backend={HTML5Backend}>
+          <BurgerIngredients ingredients={ingredients} />
+          {ingredients.length > 0 && <BurgerConstructor onDropHandler={handleDrop} />}
+        </DndProvider>
       </main>
 
       {currentIngredientVisible &&

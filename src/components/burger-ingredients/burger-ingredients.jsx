@@ -5,13 +5,22 @@ import { ingredientType } from '../../utils/prop-types';
 import { useRef, useState } from 'react';
 import { SHOW_INGREDIENT_MODAL } from '../../services/actions/current-ingredient';
 import { useDispatch } from 'react-redux';
+import { useDrag } from "react-dnd";
 
 const Ingredient = ({ ingredient }) => {
 
   const dispatch = useDispatch();
 
-  return (
-    <div className={styles.cell} onClick={() => dispatch({ type: SHOW_INGREDIENT_MODAL, payload: ingredient })}>
+  const [{ isDrag }, dragRef, dragPreviewRef] = useDrag({
+    type: 'ingredient',
+    item: ingredient,
+    collect: monitor => ({ isDrag: monitor.isDragging() })
+
+  }, [])
+
+    return (
+    !isDrag &&
+    <div ref={dragRef} className={styles.cell} onClick={() => dispatch({ type: SHOW_INGREDIENT_MODAL, payload: ingredient })}>
       <Counter count={1} size="default" extraClass="m-1" />
       <img src={ingredient.image} alt={ingredient.name} />
       <div className={`${styles.price} pt-1 pb-1`}>

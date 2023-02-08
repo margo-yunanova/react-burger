@@ -1,14 +1,14 @@
 import { combineReducers } from "redux";
 import { ingredients } from "./ingredients";
-import { burgerConstructor } from "./constructor";
+import { draggedIngredients } from "./constructor";
 import { orderDetails } from "./order-details";
 import { currentIngredient } from "./current-ingredient";
 
 const rootReducer = combineReducers({
   ingredients,
-  burgerConstructor,
   orderDetails,
   currentIngredient,
+  draggedIngredients,
 });
 
 export { rootReducer };
