@@ -13,6 +13,7 @@ import { HIDE_INGREDIENT_MODAL } from '../../services/actions/current-ingredient
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { ADD_INGREDIENT_INTO_CONSTRUCTOR } from '../../services/actions/constructor';
+import { v4 as uuidv4 } from 'uuid';
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
       type: ADD_INGREDIENT_INTO_CONSTRUCTOR,
       payload: {
         ingredient,
+        code: uuidv4(),
       }
     })
   }

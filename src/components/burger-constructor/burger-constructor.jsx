@@ -3,6 +3,7 @@ import styles from './burger-constructor.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrderDetails, SET_CHECKOUT_BUTTON_DISABLED } from '../../services/actions/orderDetails';
 import { useDrop } from "react-dnd";
+import { REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from '../../services/actions/constructor';
 
 export default function BurgerConstructor({ onDropHandler }) {
 
@@ -25,6 +26,15 @@ export default function BurgerConstructor({ onDropHandler }) {
     drop: item => onDropHandler(item)
   })
 
+  const handleClose = (ingredient) => {
+    dispatch({
+      type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
+      payload: {
+        ingredient
+      },
+    })
+  }
+
   return (
     <section className={`${styles.section} pt-25`}>
       <ul ref={dropTargetRef} className={`${styles.lists} pb-10`}>
@@ -34,9 +44,9 @@ export default function BurgerConstructor({ onDropHandler }) {
         { bunFilling && <div className={styles.scroll}>
           {
             bunFilling.map((item, i) =>
-              <li className={`${styles.cell}${i === 0 ? '' : ' pt-4'}`} key={item._id}>
+              <li className={`${styles.cell}${i === 0 ? '' : ' pt-4'}`} key={item.code} >
                 <DragIcon type="primary" />
-                <ConstructorElement thumbnail={item.image} text={item.name} price={item.price} />
+                <ConstructorElement thumbnail={item.image} text={item.name} price={item.price} handleClose={() => handleClose(item)}/>
               </li>
             )
           }
