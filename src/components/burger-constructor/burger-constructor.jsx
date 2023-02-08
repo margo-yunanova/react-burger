@@ -13,7 +13,7 @@ export default function BurgerConstructor({ onDropHandler }) {
 
   const buttonDisabled = useSelector(store => store.orderDetails.buttonDisabled);
 
-  const orderTotal = bun ? bun.price * 2 + bunFilling.reduce((sum, item) => sum + item.price, 0) : 0
+  const orderTotal = bun ? bun.price * 2 + bunFilling.reduce((sum, item) => sum + item.price, 0) : null
 
   const makeOrder = () => {
     dispatch({ type: SET_CHECKOUT_BUTTON_DISABLED });

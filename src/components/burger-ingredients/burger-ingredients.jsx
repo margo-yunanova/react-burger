@@ -16,16 +16,16 @@ const Ingredient = ({ ingredient }) => {
   const count = ingredient.type !== 'bun' ? bunFilling.reduce((sum, item) => item._id === ingredient._id ? sum + 1 : sum, 0)
     : bun?._id === ingredient._id ? 1 : 0;
 
-  const [{ isDrag }, dragRef, dragPreviewRef] = useDrag({
+  const [{ opacity }, dragRef] = useDrag({
     type: 'ingredient',
     item: ingredient,
-    collect: monitor => ({ isDrag: monitor.isDragging() })
-
-  }, [])
+    collect: monitor => ({
+      opacity: monitor.isDragging() ? 0.5 : 1
+    })
+  })
 
     return (
-    !isDrag &&
-    <div ref={dragRef} className={styles.cell} onClick={() => dispatch({ type: SHOW_INGREDIENT_MODAL, payload: ingredient })}>
+    <div ref={dragRef} className={styles.cell} style={{opacity }} onClick={() => dispatch({ type: SHOW_INGREDIENT_MODAL, payload: ingredient })}>
       <Counter count={count} size="default" extraClass="m-1" />
       <img src={ingredient.image} alt={ingredient.name} />
       <div className={`${styles.price} pt-1 pb-1`}>
