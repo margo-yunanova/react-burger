@@ -32,8 +32,8 @@ function App() {
         ingredient,
         code: uuidv4(),
       }
-    })
-  }
+    });
+  };
 
   return (
     <>

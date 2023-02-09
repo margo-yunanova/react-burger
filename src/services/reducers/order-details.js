@@ -6,7 +6,7 @@ import {
   SET_CHECKOUT_BUTTON_ACTIVE,
   SET_CHECKOUT_BUTTON_DISABLED,
   GET_ORDER_DETAILS_REQUEST,
- } from "../actions/orderDetails";
+} from "../actions/orderDetails";
 
 
 const initialState = {
@@ -28,39 +28,39 @@ export const orderDetails = (state = initialState, action) => {
       return state;
     }
     case GET_ORDER_DETAILS_SUCCESS: {
-      const { order: { number} } = action.payload;
+      const { order: { number } } = action.payload;
       return {
         ...state,
         order: {
           number: number,
         },
-      }
+      };
     }
     case SHOW_ORDER_MODAL: {
       return {
         ...state,
         orderDetailVisible: true,
-      }
+      };
     }
     case HIDE_ORDER_MODAL: {
       return {
         ...state,
         orderDetailVisible: false,
-      }
+      };
     }
     case SET_CHECKOUT_BUTTON_ACTIVE: {
       return {
         ...state,
         buttonDisabled: false,
-      }
+      };
     }
     case SET_CHECKOUT_BUTTON_DISABLED: {
       return {
         ...state,
         buttonDisabled: true,
-      }
+      };
     }
 
     default: return state;
   }
-}
+};

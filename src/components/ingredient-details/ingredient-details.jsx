@@ -3,7 +3,7 @@ import styles from './ingredient-details.module.css';
 
 export default function IngredientDetails() {
 
-  const ingredient = useSelector(state => state.currentIngredient.ingredient)
+  const ingredient = useSelector(state => state.currentIngredient.ingredient);
 
   return (
     <div className={styles.popup}>

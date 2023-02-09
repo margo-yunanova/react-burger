@@ -13,13 +13,13 @@ export const draggedIngredients = (state = initialState, action) => {
         return {
           ...state,
           bun: ingredient,
-        }
+        };
       }
       else {
         return {
           ...state,
-          bunFilling: [...state.bunFilling, {...ingredient, code: code}]
-        }
+          bunFilling: [...state.bunFilling, { ...ingredient, code: code }]
+        };
       }
     }
     case REMOVE_INGREDIENT_FROM_CONSTRUCTOR: {
@@ -27,19 +27,19 @@ export const draggedIngredients = (state = initialState, action) => {
       return {
         ...state,
         bunFilling: state.bunFilling.filter((item) => item.code !== ingredient.code)
-      }
+      };
     }
 
     case MOVE_INGREDIENT_IN_CONSTRUCTOR: {
       const { dragIndex, hoverIndex, } = action.payload;
-      const newFil = [...state.bunFilling]
+      const newFil = [...state.bunFilling];
       const ingredient = newFil[dragIndex];
       newFil[dragIndex] = newFil[hoverIndex];
-      newFil[hoverIndex] = ingredient
+      newFil[hoverIndex] = ingredient;
       return {
-         ...state,
-         bunFilling: newFil
-    }
+        ...state,
+        bunFilling: newFil
+      };
     }
 
     default: return state;

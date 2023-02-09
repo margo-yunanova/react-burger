@@ -11,7 +11,7 @@ const Ingredient = ({ ingredient }) => {
 
   const dispatch = useDispatch();
 
-  const { bun, bunFilling } = useSelector(state => state.draggedIngredients)
+  const { bun, bunFilling } = useSelector(state => state.draggedIngredients);
 
   const count = ingredient.type !== 'bun' ? bunFilling.reduce((sum, item) => item._id === ingredient._id ? sum + 1 : sum, 0)
     : bun?._id === ingredient._id ? 1 : 0;
@@ -22,10 +22,10 @@ const Ingredient = ({ ingredient }) => {
     collect: monitor => ({
       opacity: monitor.isDragging() ? 0.5 : 1
     })
-  })
+  });
 
-    return (
-    <div ref={dragRef} className={styles.cell} style={{opacity }} onClick={() => dispatch({ type: SHOW_INGREDIENT_MODAL, payload: ingredient })}>
+  return (
+    <div ref={dragRef} className={styles.cell} style={{ opacity }} onClick={() => dispatch({ type: SHOW_INGREDIENT_MODAL, payload: ingredient })}>
       <Counter count={count} size="default" extraClass="m-1" />
       <img src={ingredient.image} alt={ingredient.name} />
       <div className={`${styles.price} pt-1 pb-1`}>

@@ -6,31 +6,31 @@ import { useDrag, useDrop } from "react-dnd";
 import { MOVE_INGREDIENT_IN_CONSTRUCTOR, REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from '../../services/actions/constructor';
 import { useRef } from 'react';
 
-function BunFillingList ({ item, index }) {
+function BunFillingList({ item, index }) {
   const dispatch = useDispatch();
-  const ref = useRef(null)
+  const ref = useRef(null);
 
-  const [ { opacity }, drag, dragPreview ] = useDrag({
+  const [{ opacity }, drag, dragPreview] = useDrag({
     type: 'dragBunFillingList',
-    item: {item, index},
+    item: { item, index },
     collect: monitor => ({
       opacity: monitor.isDragging(),
     })
-  })
+  });
 
-  const [ , drop ] = useDrop({
+  const [, drop] = useDrop({
     accept: 'dragBunFillingList',
     hover: (item, monitor) => {
       if (!ref.current) return;
 
-      const dragIndex = item.index
-      const hoverIndex = index
+      const dragIndex = item.index;
+      const hoverIndex = index;
 
       if (dragIndex === hoverIndex) return;
 
-      const { height: heightHoveredIngredient, top: topHoveredIngredient } = ref.current?.getBoundingClientRect()
-      const clientOffset = monitor.getClientOffset()
-      const locationMouseOverHoverIngredient = clientOffset.y - topHoveredIngredient
+      const { height: heightHoveredIngredient, top: topHoveredIngredient } = ref.current?.getBoundingClientRect();
+      const clientOffset = monitor.getClientOffset();
+      const locationMouseOverHoverIngredient = clientOffset.y - topHoveredIngredient;
 
       if (dragIndex < hoverIndex && locationMouseOverHoverIngredient < heightHoveredIngredient / 2) return;
       if (dragIndex > hoverIndex && locationMouseOverHoverIngredient > heightHoveredIngredient / 2) return;
@@ -41,10 +41,10 @@ function BunFillingList ({ item, index }) {
           dragIndex,
           hoverIndex,
         }
-      })
-      item.index = hoverIndex
+      });
+      item.index = hoverIndex;
     }
-  })
+  });
 
   const handleClose = (ingredient) => {
     dispatch({
@@ -52,30 +52,30 @@ function BunFillingList ({ item, index }) {
       payload: {
         ingredient
       },
-    })
-  }
+    });
+  };
 
 
-  dragPreview(drop(ref))
+  dragPreview(drop(ref));
   return (
     <li ref={ref} className={`${styles.cell}${index === 0 ? '' : ' pt-4'}`} style={{ opacity: opacity ? 0 : 1 }} >
       <div ref={drag}>
-        <DragIcon  type="primary" />
+        <DragIcon type="primary" />
       </div>
-      <ConstructorElement thumbnail={item.image} text={item.name} price={item.price} handleClose={() => handleClose(item)}/>
+      <ConstructorElement thumbnail={item.image} text={item.name} price={item.price} handleClose={() => handleClose(item)} />
     </li>
-  )
+  );
 }
 
 export default function BurgerConstructor({ onDropHandler }) {
 
   const dispatch = useDispatch();
 
-  const { bun, bunFilling } = useSelector(state => state.draggedIngredients)
+  const { bun, bunFilling } = useSelector(state => state.draggedIngredients);
 
   const buttonDisabled = useSelector(store => store.orderDetails.buttonDisabled);
 
-  const orderTotal = bun ? bun.price * 2 + bunFilling.reduce((sum, item) => sum + item.price, 0) : null
+  const orderTotal = bun ? bun.price * 2 + bunFilling.reduce((sum, item) => sum + item.price, 0) : null;
 
   const makeOrder = () => {
     dispatch({ type: SET_CHECKOUT_BUTTON_DISABLED });
@@ -83,10 +83,10 @@ export default function BurgerConstructor({ onDropHandler }) {
     dispatch(getOrderDetails(ingredientsId));
   };
 
-  const [ , dropTargetRef ] = useDrop({
+  const [, dropTargetRef] = useDrop({
     accept: 'ingredient',
     drop: item => onDropHandler(item)
-  })
+  });
 
 
 
@@ -96,11 +96,11 @@ export default function BurgerConstructor({ onDropHandler }) {
         {bun && <li className='pl-8 pt-4 pb-4'>
           <ConstructorElement thumbnail={bun.image} text={bun.name + ' (верх)'} price={bun.price} type="top" isLocked={true} />
         </li>}
-        { bunFilling && <div className={styles.scroll}>
+        {bunFilling && <div className={styles.scroll}>
           {
             bunFilling.map((item, i) => <BunFillingList key={item.code} item={item} index={i} />)
           }
-        </div> }
+        </div>}
         {bun && <li className='pl-8 pt-4'>
           <ConstructorElement thumbnail={bun.image} text={bun.name + ' (низ)'} price={bun.price} type="bottom" isLocked={true} />
         </li>}

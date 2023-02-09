@@ -26,10 +26,10 @@ export const getOrderDetails = (ingredientsId) => {
       });
       dispatch({ type: SHOW_ORDER_MODAL });
     })
-    .catch(error => {
-      console.log(error);
-      dispatch({ type: GET_ORDER_DETAILS_FAILED});
-    })
-    .finally(() => dispatch({ type: SET_CHECKOUT_BUTTON_ACTIVE}))
-  }
-}
+      .catch(error => {
+        console.log(error);
+        dispatch({ type: GET_ORDER_DETAILS_FAILED });
+      })
+      .finally(() => dispatch({ type: SET_CHECKOUT_BUTTON_ACTIVE }));
+  };
+};
