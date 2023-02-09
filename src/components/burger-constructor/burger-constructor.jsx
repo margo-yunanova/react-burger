@@ -2,8 +2,70 @@ import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktiku
 import styles from './burger-constructor.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrderDetails, SET_CHECKOUT_BUTTON_DISABLED } from '../../services/actions/orderDetails';
-import { useDrop } from "react-dnd";
-import { REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from '../../services/actions/constructor';
+import { useDrag, useDrop } from "react-dnd";
+import { MOVE_INGREDIENT_IN_CONSTRUCTOR, REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from '../../services/actions/constructor';
+import { useRef } from 'react';
+
+function BunFillingList ({ item, index }) {
+  const dispatch = useDispatch();
+  const ref = useRef(null)
+
+  const [ { opacity }, drag, dragPreview ] = useDrag({
+    type: 'dragBunFillingList',
+    item: {item, index},
+    collect: monitor => ({
+      opacity: monitor.isDragging(),
+    })
+  })
+
+  const [ , drop ] = useDrop({
+    accept: 'dragBunFillingList',
+    hover: (item, monitor) => {
+      if (!ref.current) return;
+
+      const dragIndex = item.index
+      const hoverIndex = index
+
+      if (dragIndex === hoverIndex) return;
+
+      const { height: heightHoveredIngredient, top: topHoveredIngredient } = ref.current?.getBoundingClientRect()
+      const clientOffset = monitor.getClientOffset()
+      const locationMouseOverHoverIngredient = clientOffset.y - topHoveredIngredient
+
+      if (dragIndex < hoverIndex && locationMouseOverHoverIngredient < heightHoveredIngredient / 2) return;
+      if (dragIndex > hoverIndex && locationMouseOverHoverIngredient > heightHoveredIngredient / 2) return;
+
+      dispatch({
+        type: MOVE_INGREDIENT_IN_CONSTRUCTOR,
+        payload: {
+          dragIndex,
+          hoverIndex,
+        }
+      })
+      item.index = hoverIndex
+    }
+  })
+
+  const handleClose = (ingredient) => {
+    dispatch({
+      type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
+      payload: {
+        ingredient
+      },
+    })
+  }
+
+
+  dragPreview(drop(ref))
+  return (
+    <li ref={ref} className={`${styles.cell}${index === 0 ? '' : ' pt-4'}`} style={{ opacity: opacity ? 0 : 1 }} >
+      <div ref={drag}>
+        <DragIcon  type="primary" />
+      </div>
+      <ConstructorElement thumbnail={item.image} text={item.name} price={item.price} handleClose={() => handleClose(item)}/>
+    </li>
+  )
+}
 
 export default function BurgerConstructor({ onDropHandler }) {
 
@@ -21,19 +83,12 @@ export default function BurgerConstructor({ onDropHandler }) {
     dispatch(getOrderDetails(ingredientsId));
   };
 
-  const [{}, dropTargetRef ] = useDrop({
+  const [ , dropTargetRef ] = useDrop({
     accept: 'ingredient',
     drop: item => onDropHandler(item)
   })
 
-  const handleClose = (ingredient) => {
-    dispatch({
-      type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
-      payload: {
-        ingredient
-      },
-    })
-  }
+
 
   return (
     <section className={`${styles.section} pt-25`}>
@@ -43,12 +98,7 @@ export default function BurgerConstructor({ onDropHandler }) {
         </li>}
         { bunFilling && <div className={styles.scroll}>
           {
-            bunFilling.map((item, i) =>
-              <li className={`${styles.cell}${i === 0 ? '' : ' pt-4'}`} key={item.code} >
-                <DragIcon type="primary" />
-                <ConstructorElement thumbnail={item.image} text={item.name} price={item.price} handleClose={() => handleClose(item)}/>
-              </li>
-            )
+            bunFilling.map((item, i) => <BunFillingList key={item.code} item={item} index={i} />)
           }
         </div> }
         {bun && <li className='pl-8 pt-4'>

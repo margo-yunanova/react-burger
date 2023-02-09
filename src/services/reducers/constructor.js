@@ -1,4 +1,4 @@
-import { ADD_INGREDIENT_INTO_CONSTRUCTOR, REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from "../actions/constructor";
+import { ADD_INGREDIENT_INTO_CONSTRUCTOR, MOVE_INGREDIENT_IN_CONSTRUCTOR, REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from "../actions/constructor";
 
 const initialState = {
   bun: null,
@@ -30,7 +30,17 @@ export const draggedIngredients = (state = initialState, action) => {
       }
     }
 
-
+    case MOVE_INGREDIENT_IN_CONSTRUCTOR: {
+      const { dragIndex, hoverIndex, } = action.payload;
+      const newFil = [...state.bunFilling]
+      const ingredient = newFil[dragIndex];
+      newFil[dragIndex] = newFil[hoverIndex];
+      newFil[hoverIndex] = ingredient
+      return {
+         ...state,
+         bunFilling: newFil
+    }
+    }
 
     default: return state;
   }
