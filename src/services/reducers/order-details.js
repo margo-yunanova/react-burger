@@ -5,6 +5,7 @@ import {
   HIDE_ORDER_MODAL,
   SET_CHECKOUT_BUTTON_ACTIVE,
   SET_CHECKOUT_BUTTON_DISABLED,
+  GET_ORDER_DETAILS_REQUEST,
  } from "../actions/orderDetails";
 
 
@@ -20,6 +21,9 @@ const initialState = {
 
 export const orderDetails = (state = initialState, action) => {
   switch (action.type) {
+    case GET_ORDER_DETAILS_REQUEST: {
+      return state;
+    }
     case GET_ORDER_DETAILS_FAILED: {
       return state;
     }
