@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+import { ingredientType } from '../../utils/prop-types';
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,7 +8,7 @@ import { useDrag, useDrop } from "react-dnd";
 import { MOVE_INGREDIENT_IN_CONSTRUCTOR, REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from '../../services/actions/constructor';
 import { useRef } from 'react';
 
-function BunFillingList({ item, index }) {
+function BunFillingCard({ item, index }) {
   const dispatch = useDispatch();
   const ref = useRef(null);
 
@@ -55,7 +57,6 @@ function BunFillingList({ item, index }) {
     });
   };
 
-
   dragPreview(drop(ref));
   return (
     <li ref={ref} className={`${styles.cell}${index === 0 ? '' : ' pt-4'}`} style={{ opacity: opacity ? 0 : 1 }} >
@@ -66,6 +67,11 @@ function BunFillingList({ item, index }) {
     </li>
   );
 }
+
+BunFillingCard.propTypes = {
+  item: ingredientType.isRequired,
+  index: PropTypes.number.isRequired,
+};
 
 export default function BurgerConstructor({ onDropHandler }) {
 
@@ -88,8 +94,6 @@ export default function BurgerConstructor({ onDropHandler }) {
     drop: item => onDropHandler(item)
   });
 
-
-
   return (
     <section className={`${styles.section} pt-25`}>
       <ul ref={dropTargetRef} className={`${styles.lists} pb-10`}>
@@ -98,7 +102,7 @@ export default function BurgerConstructor({ onDropHandler }) {
         </li>}
         {bunFilling && <div className={styles.scroll}>
           {
-            bunFilling.map((item, i) => <BunFillingList key={item.code} item={item} index={i} />)
+            bunFilling.map((item, i) => <BunFillingCard key={item.code} item={item} index={i} />)
           }
         </div>}
         {bun && <li className='pl-8 pt-4'>
@@ -115,3 +119,7 @@ export default function BurgerConstructor({ onDropHandler }) {
     </section>
   );
 }
+
+BurgerConstructor.propTypes = {
+  onDropHandler: PropTypes.func.isRequired,
+};
