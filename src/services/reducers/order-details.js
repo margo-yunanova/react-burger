@@ -13,7 +13,7 @@ const initialState = {
     number: null,
   },
   success: true,
-  orderDetailsRequest: false,
+  request: false,
   orderDetailVisible: false,
 };
 
@@ -22,7 +22,7 @@ export const orderDetails = (state = initialState, action) => {
     case GET_ORDER_DETAILS_REQUEST: {
       return {
         ...state,
-        orderDetailsRequest: true,
+        request: true,
       };
     }
     case GET_ORDER_DETAILS_FAILED: {
@@ -31,9 +31,8 @@ export const orderDetails = (state = initialState, action) => {
         order: {
           number: null,
         },
-        buttonDisabled: false,
         orderDetailVisible: false,
-        orderDetailsRequest: false,
+        request: false,
 
       };
     }
@@ -44,7 +43,7 @@ export const orderDetails = (state = initialState, action) => {
         order: {
           number: number,
         },
-        orderDetailsRequest: false,
+        request: false,
         orderDetailsSuccess: true,
       };
     }

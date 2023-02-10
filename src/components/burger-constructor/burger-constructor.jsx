@@ -77,11 +77,11 @@ export default function BurgerConstructor({ onDropHandler }) {
 
   const dispatch = useDispatch();
 
-  const { bun, bunFilling, dropIngredientSuccess } = useSelector(state => state.draggedIngredients);
+  const { bun, bunFilling } = useSelector(state => state.orderIngredients);
 
-  const orderDetailsRequest = useSelector(store => store.orderDetails.orderDetailsRequest);
+  const orderDetailsRequest = useSelector(store => store.orderDetails.request);
 
-  const orderTotal = dropIngredientSuccess ? bun.price * 2 + bunFilling.reduce((sum, item) => sum + item.price, 0) : null;
+  const orderTotal = bun ? bun.price * 2 : 0 + bunFilling.reduce((sum, item) => sum + item.price, 0);
 
   const makeOrder = () => {
     const ingredientsId = [bun._id, ...bunFilling.map(item => item._id), bun._id];

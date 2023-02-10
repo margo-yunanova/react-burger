@@ -11,7 +11,7 @@ const Ingredient = ({ ingredient }) => {
 
   const dispatch = useDispatch();
 
-  const { bun, bunFilling } = useSelector(state => state.draggedIngredients);
+  const { bun, bunFilling } = useSelector(state => state.orderIngredients);
 
   const count = ingredient.type !== 'bun' ? bunFilling.reduce((sum, item) => item._id === ingredient._id ? sum + 1 : sum, 0)
     : bun?._id === ingredient._id ? 1 : 0;
