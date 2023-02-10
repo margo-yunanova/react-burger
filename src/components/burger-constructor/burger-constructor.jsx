@@ -3,7 +3,7 @@ import { ingredientType } from '../../utils/prop-types';
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getOrderDetails, SET_CHECKOUT_BUTTON_DISABLED } from '../../services/actions/orderDetails';
+import { getOrderDetails } from '../../services/actions/orderDetails';
 import { useDrag, useDrop } from "react-dnd";
 import { MOVE_INGREDIENT_IN_CONSTRUCTOR, REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from '../../services/actions/constructor';
 import { useRef } from 'react';
@@ -77,14 +77,13 @@ export default function BurgerConstructor({ onDropHandler }) {
 
   const dispatch = useDispatch();
 
-  const { bun, bunFilling } = useSelector(state => state.draggedIngredients);
+  const { bun, bunFilling, dropIngredientSuccess } = useSelector(state => state.draggedIngredients);
 
-  const buttonDisabled = useSelector(store => store.orderDetails.buttonDisabled);
+  const orderDetailsRequest = useSelector(store => store.orderDetails.orderDetailsRequest);
 
-  const orderTotal = bun ? bun.price * 2 + bunFilling.reduce((sum, item) => sum + item.price, 0) : null;
+  const orderTotal = dropIngredientSuccess ? bun.price * 2 + bunFilling.reduce((sum, item) => sum + item.price, 0) : null;
 
   const makeOrder = () => {
-    dispatch({ type: SET_CHECKOUT_BUTTON_DISABLED });
     const ingredientsId = [bun._id, ...bunFilling.map(item => item._id), bun._id];
     dispatch(getOrderDetails(ingredientsId));
   };
@@ -111,10 +110,10 @@ export default function BurgerConstructor({ onDropHandler }) {
       </ul>
       <div className={styles.total}>
         <div className={styles.price}>
-          {orderTotal && <p className="text text_type_digits-medium">{orderTotal}</p>}
+          <p className="text text_type_digits-medium">{orderTotal}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button disabled={buttonDisabled} htmlType="button" type="primary" size="large" onClick={makeOrder}>Оформить заказ</Button>
+        <Button disabled={!bun || orderDetailsRequest} htmlType="button" type="primary" size="large" onClick={makeOrder}>Оформить заказ</Button>
       </div>
     </section>
   );

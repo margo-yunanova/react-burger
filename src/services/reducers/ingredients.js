@@ -9,9 +9,6 @@ const initialState = {
     success: null,
     ingredients: [],
   },
-  listBurgerСonstructor: null,
-  currentIngredient: null,
-  createdOrder: null,
 };
 
 export const ingredients = (state = initialState, action) => {
@@ -25,6 +22,7 @@ export const ingredients = (state = initialState, action) => {
     case GET_INGREDIENTS_FAILED: {
       return {
         ...state,
+        listBurgerIngredients: [],
       };
     }
     case GET_INGREDIENTS_SUCCESS: {
@@ -35,7 +33,6 @@ export const ingredients = (state = initialState, action) => {
           success: success,
           ingredients: ingredients,
         }
-
       };
     }
 

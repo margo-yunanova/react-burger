@@ -3,8 +3,6 @@ import {
   GET_ORDER_DETAILS_SUCCESS,
   SHOW_ORDER_MODAL,
   HIDE_ORDER_MODAL,
-  SET_CHECKOUT_BUTTON_ACTIVE,
-  SET_CHECKOUT_BUTTON_DISABLED,
   GET_ORDER_DETAILS_REQUEST,
 } from "../actions/orderDetails";
 
@@ -15,17 +13,29 @@ const initialState = {
     number: null,
   },
   success: true,
-  buttonDisabled: false,
+  orderDetailsRequest: false,
   orderDetailVisible: false,
 };
 
 export const orderDetails = (state = initialState, action) => {
   switch (action.type) {
     case GET_ORDER_DETAILS_REQUEST: {
-      return state;
+      return {
+        ...state,
+        orderDetailsRequest: true,
+      };
     }
     case GET_ORDER_DETAILS_FAILED: {
-      return state;
+      return {
+        ...state,
+        order: {
+          number: null,
+        },
+        buttonDisabled: false,
+        orderDetailVisible: false,
+        orderDetailsRequest: false,
+
+      };
     }
     case GET_ORDER_DETAILS_SUCCESS: {
       const { order: { number } } = action.payload;
@@ -34,6 +44,8 @@ export const orderDetails = (state = initialState, action) => {
         order: {
           number: number,
         },
+        orderDetailsRequest: false,
+        orderDetailsSuccess: true,
       };
     }
     case SHOW_ORDER_MODAL: {
@@ -46,18 +58,6 @@ export const orderDetails = (state = initialState, action) => {
       return {
         ...state,
         orderDetailVisible: false,
-      };
-    }
-    case SET_CHECKOUT_BUTTON_ACTIVE: {
-      return {
-        ...state,
-        buttonDisabled: false,
-      };
-    }
-    case SET_CHECKOUT_BUTTON_DISABLED: {
-      return {
-        ...state,
-        buttonDisabled: true,
       };
     }
 

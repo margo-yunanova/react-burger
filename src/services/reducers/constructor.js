@@ -3,6 +3,7 @@ import { ADD_INGREDIENT_INTO_CONSTRUCTOR, MOVE_INGREDIENT_IN_CONSTRUCTOR, REMOVE
 const initialState = {
   bun: null,
   bunFilling: [],
+  dropIngredientSuccess: false,
 };
 
 export const draggedIngredients = (state = initialState, action) => {
@@ -13,12 +14,14 @@ export const draggedIngredients = (state = initialState, action) => {
         return {
           ...state,
           bun: ingredient,
+          dropIngredientSuccess: true,
         };
       }
       else {
         return {
           ...state,
-          bunFilling: [...state.bunFilling, { ...ingredient, code: code }]
+          bunFilling: state.bun?.type === 'bun' ? [...state.bunFilling, { ...ingredient, code: code }] : state.bunFilling,
+          dropIngredientSuccess: state.bun?.type === 'bun' ? true : (() => { alert('Выберите булку'); return false})()
         };
       }
     }
@@ -32,13 +35,13 @@ export const draggedIngredients = (state = initialState, action) => {
 
     case MOVE_INGREDIENT_IN_CONSTRUCTOR: {
       const { dragIndex, hoverIndex, } = action.payload;
-      const newFil = [...state.bunFilling];
-      const ingredient = newFil[dragIndex];
-      newFil[dragIndex] = newFil[hoverIndex];
-      newFil[hoverIndex] = ingredient;
+      const newBunFilling = [...state.bunFilling];
+      const ingredient = newBunFilling[dragIndex];
+      newBunFilling[dragIndex] = newBunFilling[hoverIndex];
+      newBunFilling[hoverIndex] = ingredient;
       return {
         ...state,
-        bunFilling: newFil
+        bunFilling: newBunFilling
       };
     }
 
