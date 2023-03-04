@@ -1,0 +1,22 @@
+.section {
+  margin: auto;
+  margin-top: 180px;
+  width: 480px;
+  min-height: 430px;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  padding-bottom: 80px;
+  align-items: center;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  color: #8585AD;
+  align-items: center;
+}
