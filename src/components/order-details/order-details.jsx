@@ -1,7 +1,10 @@
-import { orderType } from '../../utils/prop-types';
+import { useSelector } from 'react-redux';
 import styles from './order-details.module.css';
 
-export default function OrderDetails({ orderDetails: {order: { number }} }) {
+export default function OrderDetails() {
+
+  const number = useSelector(store => store.orderDetails.order.number);
+
   return (
     <div className={styles.popup}>
       <p className="text text_type_digits-large pt-30 pb-8">{number}</p>
@@ -12,7 +15,3 @@ export default function OrderDetails({ orderDetails: {order: { number }} }) {
     </div>
   );
 }
-
-OrderDetails.propTypes = {
-  orderDetails: orderType.isRequired,
-};

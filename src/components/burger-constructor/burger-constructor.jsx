@@ -1,61 +1,124 @@
 import PropTypes from 'prop-types';
+import { ingredientType } from '../../utils/prop-types';
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
-import { useContext, useState } from 'react';
-import { IngredientsContext } from '../../services/ingredientsContext';
-import { getOrderDetails } from '../../utils/burger-api';
+import { useDispatch, useSelector } from 'react-redux';
+import { getOrderDetails } from '../../services/actions/orderDetails';
+import { useDrag, useDrop } from "react-dnd";
+import { MOVE_INGREDIENT_IN_CONSTRUCTOR, REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from '../../services/actions/constructor';
+import { useRef } from 'react';
 
-export default function BurgerConstructor({ setOrderDetails, setOrderDetailVisible }) {
+function BunFillingCard({ item, index }) {
+  const dispatch = useDispatch();
+  const ref = useRef(null);
 
-  const { bun, bunFilling } = useContext(IngredientsContext);
-  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [{ opacity }, drag, dragPreview] = useDrag({
+    type: 'dragBunFillingList',
+    item: { item, index },
+    collect: monitor => ({
+      opacity: monitor.isDragging(),
+    })
+  });
 
-  const orderTotal = bun.price * 2 + bunFilling.reduce((sum, item) => sum + item.price, 0);
+  const [, drop] = useDrop({
+    accept: 'dragBunFillingList',
+    hover: (item, monitor) => {
+      if (!ref.current) return;
+
+      const dragIndex = item.index;
+      const hoverIndex = index;
+
+      if (dragIndex === hoverIndex) return;
+
+      const { height: heightHoveredIngredient, top: topHoveredIngredient } = ref.current?.getBoundingClientRect();
+      const clientOffset = monitor.getClientOffset();
+      const locationMouseOverHoverIngredient = clientOffset.y - topHoveredIngredient;
+
+      if (dragIndex < hoverIndex && locationMouseOverHoverIngredient < heightHoveredIngredient / 2) return;
+      if (dragIndex > hoverIndex && locationMouseOverHoverIngredient > heightHoveredIngredient / 2) return;
+
+      dispatch({
+        type: MOVE_INGREDIENT_IN_CONSTRUCTOR,
+        payload: {
+          dragIndex,
+          hoverIndex,
+        }
+      });
+      item.index = hoverIndex;
+    }
+  });
+
+  const handleClose = (ingredient) => {
+    dispatch({
+      type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
+      payload: {
+        ingredient
+      },
+    });
+  };
+
+  dragPreview(drop(ref));
+  return (
+    <li ref={ref} className={`${styles.cell}${index === 0 ? '' : ' pt-4'}`} style={{ opacity: opacity ? 0 : 1 }} >
+      <div ref={drag}>
+        <DragIcon type="primary" />
+      </div>
+      <ConstructorElement thumbnail={item.image} text={item.name} price={item.price} handleClose={() => handleClose(item)} />
+    </li>
+  );
+}
+
+BunFillingCard.propTypes = {
+  item: ingredientType.isRequired,
+  index: PropTypes.number.isRequired,
+};
+
+export default function BurgerConstructor({ onDropHandler }) {
+
+  const dispatch = useDispatch();
+
+  const { bun, bunFilling } = useSelector(state => state.orderIngredients);
+
+  const orderDetailsRequest = useSelector(store => store.orderDetails.request);
+
+  const orderTotal = bun ? bun.price * 2 : 0 + bunFilling.reduce((sum, item) => sum + item.price, 0);
 
   const makeOrder = () => {
-    setButtonDisabled(true);
     const ingredientsId = [bun._id, ...bunFilling.map(item => item._id), bun._id];
-    getOrderDetails(ingredientsId)
-      .then((data) => {
-        setOrderDetails(data);
-        setOrderDetailVisible(true);
-      })
-      .catch(e => console.log(e))
-      .finally(() => setButtonDisabled(false));
+    dispatch(getOrderDetails(ingredientsId));
   };
+
+  const [, dropTargetRef] = useDrop({
+    accept: 'ingredient',
+    drop: item => onDropHandler(item)
+  });
 
   return (
     <section className={`${styles.section} pt-25`}>
-      <ul className={`${styles.lists} pb-10`}>
-        <li className='pl-8 pt-4 pb-4'>
+      <ul ref={dropTargetRef} className={`${styles.lists} pb-10`}>
+        {bun && <li className='pl-8 pt-4 pb-4'>
           <ConstructorElement thumbnail={bun.image} text={bun.name + ' (верх)'} price={bun.price} type="top" isLocked={true} />
-        </li>
-        <div className={styles.scroll}>
+        </li>}
+        {bunFilling && <div className={styles.scroll}>
           {
-            bunFilling.map((item, i) =>
-              <li className={`${styles.cell}${i === 0 ? '' : ' pt-4'}`} key={item._id}>
-                <DragIcon type="primary" />
-                <ConstructorElement thumbnail={item.image} text={item.name} price={item.price} />
-              </li>
-            )
+            bunFilling.map((item, i) => <BunFillingCard key={item.code} item={item} index={i} />)
           }
-        </div>
-        <li className='pl-8 pt-4'>
+        </div>}
+        {bun && <li className='pl-8 pt-4'>
           <ConstructorElement thumbnail={bun.image} text={bun.name + ' (низ)'} price={bun.price} type="bottom" isLocked={true} />
-        </li>
+        </li>}
       </ul>
       <div className={styles.total}>
         <div className={styles.price}>
           <p className="text text_type_digits-medium">{orderTotal}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button disabled={buttonDisabled} htmlType="button" type="primary" size="large" onClick={makeOrder}>Оформить заказ</Button>
+        <Button disabled={!bun || orderDetailsRequest} htmlType="button" type="primary" size="large" onClick={makeOrder}>Оформить заказ</Button>
       </div>
     </section>
   );
 }
 
 BurgerConstructor.propTypes = {
-  setOrderDetails: PropTypes.func.isRequired,
-  setOrderDetailVisible: PropTypes.func.isRequired,
+  onDropHandler: PropTypes.func.isRequired,
 };

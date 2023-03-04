@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
@@ -6,50 +6,52 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
-import { IngredientsContext } from '../../services/ingredientsContext';
-import { getIngredients } from "../../utils/burger-api";
+import { useDispatch, useSelector } from 'react-redux';
+import { getIngredients } from '../../services/actions/ingredients';
+import { HIDE_ORDER_MODAL } from '../../services/actions/orderDetails';
+import { HIDE_INGREDIENT_MODAL } from '../../services/actions/current-ingredient';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { ADD_INGREDIENT_INTO_CONSTRUCTOR } from '../../services/actions/constructor';
+import { v4 as uuidv4 } from 'uuid';
 
 function App() {
 
-  const [menu, setMenu] = useState({
-    success: true,
-    data: []
-  });
+  const dispatch = useDispatch();
 
-  const [orderDetailVisible, setOrderDetailVisible] = useState(false);
-  const [orderDetails, setOrderDetails] = useState(null);
-  const [currentIngredient, setCurrentIngredient] = useState(null);
+  const ingredients = useSelector(state => state.ingredients.listBurgerIngredients.ingredients);
+  const orderDetailVisible = useSelector(state => state.orderDetails.orderDetailVisible);
+  const currentIngredientVisible = useSelector(state => state.currentIngredient.currentIngredientVisible);
 
-  useEffect(() => {
-    getIngredients()
-      .then(obj => {
-        setMenu((prev) => ({ ...prev, data: obj.data }));
-      })
-      .catch(e => console.log(e));
-  }, []);
+  useEffect(() => dispatch(getIngredients()), [dispatch]);
 
-  const { data: ingredients } = menu;
-
-  const bun = ingredients.findLast(item => item.type === 'bun');
-  const bunFilling = ingredients.filter(item => item.type !== 'bun');
+  const handleDrop = (ingredient) => {
+    dispatch({
+      type: ADD_INGREDIENT_INTO_CONSTRUCTOR,
+      payload: {
+        ingredient,
+        code: uuidv4(),
+      }
+    });
+  };
 
   return (
     <>
       <AppHeader />
       <main className={styles.menu}>
-        <BurgerIngredients ingredients={ingredients} setCurrentIngredient={setCurrentIngredient} />
-        <IngredientsContext.Provider value={{ bun, bunFilling }}>
-          {bun && <BurgerConstructor setOrderDetails={setOrderDetails} setOrderDetailVisible={setOrderDetailVisible} />}
-        </IngredientsContext.Provider>
+        <DndProvider backend={HTML5Backend}>
+          <BurgerIngredients ingredients={ingredients} />
+          {ingredients.length > 0 && <BurgerConstructor onDropHandler={handleDrop} />}
+        </DndProvider>
       </main>
 
-      {currentIngredient &&
-        <Modal close={() => setCurrentIngredient(null)} title='Детали ингридиента'>
-          <IngredientDetails ingredient={currentIngredient} />
+      {currentIngredientVisible &&
+        <Modal close={() => dispatch({ type: HIDE_INGREDIENT_MODAL })} title='Детали ингридиента'>
+          <IngredientDetails />
         </Modal>}
       {orderDetailVisible &&
-        <Modal close={() => setOrderDetailVisible(false)}>
-          <OrderDetails orderDetails={orderDetails} />
+        <Modal close={() => dispatch({ type: HIDE_ORDER_MODAL })}>
+          <OrderDetails />
         </Modal>}
     </>
   );
