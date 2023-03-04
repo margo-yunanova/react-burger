@@ -5,14 +5,16 @@ import styles from './burger-constructor.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrderDetails } from '../../services/actions/orderDetails';
 import { useDrag, useDrop } from "react-dnd";
-import { MOVE_INGREDIENT_IN_CONSTRUCTOR, REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from '../../services/actions/constructor';
+import { MOVE_INGREDIENT_IN_CONSTRUCTOR, REMOVE_INGREDIENT_FROM_CONSTRUCTOR, SPLICE_INGREDIENT_IN_CONSTRUCTOR } from '../../services/actions/constructor';
 import { useRef } from 'react';
+import { ADD_INGREDIENT_INTO_CONSTRUCTOR } from '../../services/actions/constructor';
+import { v4 as uuidv4 } from 'uuid';
 
 function BunFillingCard({ item, index }) {
   const dispatch = useDispatch();
   const ref = useRef(null);
 
-  const [{ opacity }, drag, dragPreview] = useDrag({
+  const [{ opacity }, dragRef, dragPreview] = useDrag({
     type: 'dragBunFillingList',
     item: { item, index },
     collect: monitor => ({
@@ -20,9 +22,11 @@ function BunFillingCard({ item, index }) {
     })
   });
 
-  const [, drop] = useDrop({
-    accept: 'dragBunFillingList',
+  const [ {isOver, getItem, isCanDrop}, dropRef] = useDrop({
+    accept: ['dragBunFillingList', 'ingredient'],
     hover: (item, monitor) => {
+      if (monitor.getItemType() !== 'dragBunFillingList') return;
+
       if (!ref.current) return;
 
       const dragIndex = item.index;
@@ -45,7 +49,34 @@ function BunFillingCard({ item, index }) {
         }
       });
       item.index = hoverIndex;
-    }
+    },
+
+    drop: (item, monitor) => {
+      if (monitor.getItemType() !== 'ingredient') return;
+
+      const { height: heightHoveredIngredient, top: topHoveredIngredient } = ref.current?.getBoundingClientRect();
+      const clientOffset = monitor.getClientOffset();
+      const locationMouseOverHoverIngredient = clientOffset.y - topHoveredIngredient;
+      const isFirstHalfIngredient = locationMouseOverHoverIngredient < heightHoveredIngredient / 2;
+
+      dispatch({
+        type: SPLICE_INGREDIENT_IN_CONSTRUCTOR,
+        payload: {
+          item: {
+            ...item,
+            code: uuidv4(),
+          },
+          index,
+          isFirstHalfIngredient,
+        }
+      });
+    },
+
+    collect: monitor => ({
+      isOver: monitor.getItemType() === 'ingredient' && monitor.isOver(),
+      getItem: monitor.getItemType() === 'ingredient' && monitor.getItem(),
+      isCanDrop: monitor.getItemType() === 'ingredient' && monitor.canDrop(),
+    })
   });
 
   const handleClose = (ingredient) => {
@@ -57,14 +88,33 @@ function BunFillingCard({ item, index }) {
     });
   };
 
-  dragPreview(drop(ref));
+  dragPreview(dropRef(ref));
+
+  const style = {
+    height: '5px',
+    backgroundColor: '#4c4cff',
+    maxWidth: '450px',
+    margin: 'auto',
+    borderRadius: '5px',
+    marginTop: index === 0 ? '' : '16px',
+    marginBottom: index === 0 ? '16px' : '',
+  }
+
   return (
-    <li ref={ref} className={`${styles.cell}${index === 0 ? '' : ' pt-4'}`} style={{ opacity: opacity ? 0 : 1 }} >
-      <div ref={drag}>
+    <>
+    {isOver && <div style={style}></div>}
+    {/* {isOver && isCanDrop && <li className={`${styles.cell}${index === 0 ? '' : ' pt-4'}`} >
+      <DragIcon type="primary" />
+      <ConstructorElement thumbnail={getItem.image} text={getItem.name} price={getItem.price} />
+    </li>} */}
+
+    <li ref={ref} className={`${styles.cell}${index === 0 ? '' : ' pt-4'}`}  style={{ opacity: opacity ? 0 : 1 }}>
+      <div ref={dragRef}>
         <DragIcon type="primary" />
       </div>
       <ConstructorElement thumbnail={item.image} text={item.name} price={item.price} handleClose={() => handleClose(item)} />
     </li>
+    </>
   );
 }
 
@@ -73,7 +123,7 @@ BunFillingCard.propTypes = {
   index: PropTypes.number.isRequired,
 };
 
-export default function BurgerConstructor({ onDropHandler }) {
+export default function BurgerConstructor() {
 
   const dispatch = useDispatch();
 
@@ -88,9 +138,22 @@ export default function BurgerConstructor({ onDropHandler }) {
     dispatch(getOrderDetails(ingredientsId));
   };
 
-  const [, dropTargetRef] = useDrop({
+  const [ {isOverCurrent}, dropTargetRef] = useDrop({
     accept: 'ingredient',
-    drop: item => onDropHandler(item)
+    collect: (monitor) => ({
+      isOverCurrent: monitor.isOver({ shallow: true }),
+    }),
+    drop: (item) => {
+      if (isOverCurrent) {
+        dispatch({
+          type: ADD_INGREDIENT_INTO_CONSTRUCTOR,
+          payload: {
+            item,
+            code: uuidv4(),
+          }
+        });
+      }
+    }
   });
 
   return (
@@ -118,7 +181,3 @@ export default function BurgerConstructor({ onDropHandler }) {
     </section>
   );
 }
-
-BurgerConstructor.propTypes = {
-  onDropHandler: PropTypes.func.isRequired,
-};

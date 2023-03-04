@@ -1,4 +1,8 @@
-import { ADD_INGREDIENT_INTO_CONSTRUCTOR, MOVE_INGREDIENT_IN_CONSTRUCTOR, REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from "../actions/constructor";
+import {
+  ADD_INGREDIENT_INTO_CONSTRUCTOR,
+  MOVE_INGREDIENT_IN_CONSTRUCTOR,
+  REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
+  SPLICE_INGREDIENT_IN_CONSTRUCTOR } from "../actions/constructor";
 
 const initialState = {
   bun: null,
@@ -8,17 +12,17 @@ const initialState = {
 export const orderIngredients = (state = initialState, action) => {
   switch (action.type) {
     case ADD_INGREDIENT_INTO_CONSTRUCTOR: {
-      const { ingredient, code } = action.payload;
-      if (ingredient.type === 'bun') {
+      const { item, code } = action.payload;
+      if (item.type === 'bun') {
         return {
           ...state,
-          bun: ingredient,
+          bun: item,
         };
       }
       else {
         return {
           ...state,
-          bunFilling: [...state.bunFilling, { ...ingredient, code: code }]
+          bunFilling: [...state.bunFilling, { ...item, code }]
         };
       }
     }
@@ -40,6 +44,16 @@ export const orderIngredients = (state = initialState, action) => {
         ...state,
         bunFilling: newBunFilling
       };
+    }
+
+    case SPLICE_INGREDIENT_IN_CONSTRUCTOR: {
+      const { item, index, isFirstHalfIngredient } = action.payload;
+      const newBunFilling = [...state.bunFilling]
+      newBunFilling.splice(isFirstHalfIngredient ? index : index + 1, 0, item) ;
+      return {
+        ...state,
+        bunFilling: newBunFilling,
+      }
     }
 
     default: return state;
