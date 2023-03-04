@@ -10,6 +10,7 @@ import { HIDE_ORDER_MODAL } from '../../services/actions/orderDetails';
 import { HIDE_INGREDIENT_MODAL } from '../../services/actions/current-ingredient';
 import Login from "../../pages/login";
 import HomePage from '../../pages/home';
+import RegisterPage from '../../pages/register';
 
 function App() {
 
@@ -27,9 +28,8 @@ function App() {
         <Routes>
           <Route path='/' element={<HomePage />}></Route>
           <Route path='/login' element={<Login />}></Route>
-          {/*
-          <Route path='/register' element={}></Route>
-          <Route path='/forgot-password' element={}></Route>
+          <Route path='/register' element={<RegisterPage />}></Route>
+          {/*<Route path='/forgot-password' element={}></Route>
           <Route path='/reset-password' element={}></Route>
           <Route path='/profile' element={}></Route>
           <Route path='/ingredients/:id' element={}></Route> */}
