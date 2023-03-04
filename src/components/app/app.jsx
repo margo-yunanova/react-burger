@@ -11,6 +11,7 @@ import { HIDE_INGREDIENT_MODAL } from '../../services/actions/current-ingredient
 import Login from "../../pages/login";
 import HomePage from '../../pages/home';
 import RegisterPage from '../../pages/register';
+import ForgotPasswordPage from '../../pages/forgot-password';
 
 function App() {
 
@@ -29,8 +30,8 @@ function App() {
           <Route path='/' element={<HomePage />}></Route>
           <Route path='/login' element={<Login />}></Route>
           <Route path='/register' element={<RegisterPage />}></Route>
-          {/*<Route path='/forgot-password' element={}></Route>
-          <Route path='/reset-password' element={}></Route>
+          <Route path='/forgot-password' element={<ForgotPasswordPage />}></Route>
+          {/*<Route path='/reset-password' element={}></Route>
           <Route path='/profile' element={}></Route>
           <Route path='/ingredients/:id' element={}></Route> */}
         </Routes>
