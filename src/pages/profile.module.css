@@ -1,0 +1,27 @@
+.grid {
+  padding-top: 120px;
+  width: 1240px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 320px 860px;
+  column-gap: 60px;
+  align-items: center;
+}
+
+.login {
+  display: grid;
+  row-gap: 16px;
+  align-self: start;
+  /* flex-direction: column;
+  row-gap: 16px;
+  align-items: start; */
+}
+
+.menu {
+  display: grid;
+  grid-template-rows: repeat(3, 64px);
+}
+
+.info {
+  color: #8585AD;
+}
