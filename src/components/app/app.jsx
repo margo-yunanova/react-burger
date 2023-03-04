@@ -12,6 +12,7 @@ import Login from "../../pages/login";
 import HomePage from '../../pages/home';
 import RegisterPage from '../../pages/register';
 import ForgotPasswordPage from '../../pages/forgot-password';
+import ResetPasswordPage from '../../pages/reset-password';
 
 function App() {
 
@@ -31,8 +32,8 @@ function App() {
           <Route path='/login' element={<Login />}></Route>
           <Route path='/register' element={<RegisterPage />}></Route>
           <Route path='/forgot-password' element={<ForgotPasswordPage />}></Route>
-          {/*<Route path='/reset-password' element={}></Route>
-          <Route path='/profile' element={}></Route>
+          <Route path='/reset-password' element={<ResetPasswordPage />}></Route>
+          {/*<Route path='/profile' element={}></Route>
           <Route path='/ingredients/:id' element={}></Route> */}
         </Routes>
       </BrowserRouter>
