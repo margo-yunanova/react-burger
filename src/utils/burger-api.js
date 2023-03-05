@@ -16,7 +16,7 @@ export const makeOrderDetailsRequest = (ingredientsId) => fetch(`${BURGER_API_UR
 })
   .then(checkResponse);
 
-export const restorePasswordRequest = (email) => fetch(`${BURGER_API_URL}/password-reset`, { //TODO: проверить адрес
+export const restorePasswordRequest = ({email}) => fetch(`${BURGER_API_URL}/password-reset`, { //TODO: проверить адрес
   method: 'POST',
   headers: {
     'Content-Type': 'application/json;charset=utf-8'
@@ -27,7 +27,7 @@ export const restorePasswordRequest = (email) => fetch(`${BURGER_API_URL}/passwo
 })
 .then(checkResponse);
 
-export const resetPasswordRequest = (password, token) => fetch(`${BURGER_API_URL}/password-reset`, {
+export const resetPasswordRequest = ({password, token}) => fetch(`${BURGER_API_URL}/password-reset`, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json;charset=utf-8'
@@ -39,7 +39,7 @@ export const resetPasswordRequest = (password, token) => fetch(`${BURGER_API_URL
 })
 .then(checkResponse);
 
-export const createUserRequest = (email, password, name) => fetch(`${BURGER_API_URL}/auth/register`, {
+export const createUserRequest = ({email, password, name}) => fetch(`${BURGER_API_URL}/auth/register`, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json;charset=utf-8'
@@ -52,7 +52,7 @@ export const createUserRequest = (email, password, name) => fetch(`${BURGER_API_
 })
   .then(checkResponse);
 
-export const loginUserRequest = ({ email, password }) => fetch(`${BURGER_API_URL}/auth/login`, {
+export const loginUserRequest = ({email, password}) => fetch(`${BURGER_API_URL}/auth/login`, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json;charset=utf-8'

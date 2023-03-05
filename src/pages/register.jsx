@@ -7,24 +7,21 @@ import styles from './register.module.css';
 
 
 const RegisterPage = () => {
-  const [userName, setUserName] = useState('');
-  const [userEmail, setUserEmail] = useState('');
-  const [userPassword, setUserPassword] = useState('');
-
+  const [form, setForm] = useState({})
   const dispatch = useDispatch()
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(registerUser(userEmail, userPassword, userName));
+    dispatch(registerUser(form));
   }
 
   return (
     <section className={styles.section}>
       <form className={styles.login} onSubmit={handleSubmit}>
         <h2 className="text text_type_main-medium">Регистрация</h2>
-        <Input type={'text'} placeholder={'Имя'} value={userName} onChange={(e) => setUserName(e.target.value)}/>
-        <EmailInput value={userEmail} onChange={(e) => setUserEmail(e.target.value)}/>
-        <PasswordInput value={userPassword} onChange={(e) => setUserPassword(e.target.value)}/>
+        <Input name='name' type={'text'} placeholder={'Имя'} value={form.name ?? ''} onChange={(e) => setForm({...form, [e.target.name]: e.target.value})}/>
+        <EmailInput name='email' value={form.email ?? ''} onChange={(e) => setForm({...form, [e.target.name]: e.target.value})}/>
+        <PasswordInput name='password' value={form.password ?? ''} onChange={(e) => setForm({...form, [e.target.name]: e.target.value})}/>
         <Button htmlType="submit" type='primary' size='large'>Зарегистрироваться</Button>
       </form>
       <div className={styles.info}>

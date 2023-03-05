@@ -6,27 +6,18 @@ import { restorePasswordRequest } from "../utils/burger-api";
 
 
 const ForgotPasswordPage = () => {
-  const [emailInput, setEmailInput] = useState('');
+  const [form, setForm] = useState({})
 
-  const submitRestoreForm = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    restorePasswordRequest(emailInput)
-    // .then(({success}) => {
-    //   if (success) {
-    //     return (<Navigate to={'/reset-password'} replace={true} />)
-    //   }
-    // })
-    // .catch(error => {
-    //   console.log(error);
-    // })
-    // .finally(() => {});
+    restorePasswordRequest(form);
 };
 
   return (
     <section className={styles.section}>
-      <form className={styles.login} onSubmit={submitRestoreForm}>
+      <form className={styles.login} onSubmit={handleSubmit}>
         <h2 className="text text_type_main-medium">Восстановление пароля</h2>
-        <EmailInput placeholder='Укажите e-mail' value={emailInput} onChange={(e) => setEmailInput(e.target.value)}/>
+        <EmailInput name='email' placeholder='Укажите e-mail' value={form.email ?? ''} onChange={(e) => setForm({...form, [e.target.name]: e.target.value})}/>
         <Button htmlType="submit" type='primary' size='large'>Восстановить</Button>
       </form>
       <div className={styles.info}>
