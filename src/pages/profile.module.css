@@ -31,6 +31,6 @@
   text-decoration: none;
 }
 
-.active:active {
+.active {
   color: #F2F2F3;
 }

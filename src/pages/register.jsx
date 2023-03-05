@@ -16,7 +16,7 @@ const RegisterPage = () => {
       <div className={styles.info}>
         <div>
           <span className="text text_type_main-default pr-2" >Уже зарегистрированы?</span>
-          <Link className={`${styles.link} ${styles.active} text text_type_main-default`}>Войти</Link>
+          <Link to={'/login'} className={`${styles.link} ${styles.active} text text_type_main-default`}>Войти</Link>
         </div>
       </div>
     </section>

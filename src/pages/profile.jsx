@@ -1,15 +1,17 @@
 import { PasswordInput, Input, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styles from './profile.module.css';
 
 const Profile = () => {
+  const activeLink = ({isActive}) => `${(isActive ? styles.active : '')} + ${styles.link} + text text_type_main-medium`;
+
   return (
     <section className={styles.grid}>
       <div>
         <nav className={`${styles.menu} pb-10`}>
-          <Link className={`${styles.link} ${styles.active} text text_type_main-medium`}>Профиль</Link>
-          <Link className={`${styles.link} ${styles.active} text text_type_main-medium`}>История заказов</Link>
-          <Link className={`${styles.link} ${styles.active} text text_type_main-medium`}>Выход</Link>
+          <NavLink to='/profile' end className={activeLink}>Профиль</NavLink>
+          <NavLink to='/profile/orders' end className={activeLink}>История заказов</NavLink>
+          <NavLink to='/profile/orders:id' end className={activeLink}>Выход</NavLink>
         </nav>
         <span className={`${styles.info} text text_type_main-default`}>В этом разделе вы можете изменить свои персональные данные</span>
       </div>
