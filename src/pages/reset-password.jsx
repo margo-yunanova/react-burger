@@ -1,25 +1,26 @@
 import { PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './reset-password.module.css';
 import { resetPasswordRequest } from "../utils/burger-api";
 
 
 const ResetPasswordPage = () => {
-  const [password, setPassword] = useState('');
-  const [token, setToken] = useState('');
+  const [form, setForm] = useState({});
+  const navigate = useNavigate()
 
   const submitResetForm = (e) => {
     e.preventDefault();
-    resetPasswordRequest(password, token)
+    resetPasswordRequest(form)
+    .then(({success}) => success ? navigate('/login', {replace: true}) : null );
   }
 
   return (
     <section className={styles.section}>
       <form className={styles.login} onSubmit={submitResetForm}>
         <h2 className="text text_type_main-medium">Восстановление пароля</h2>
-        <PasswordInput placeholder={'Введите новый пароль'} value={password} onChange={(e) => setPassword(e.target.value)}/>
-        <Input type={'text'} placeholder={'Введите код из письма'} value={token} onChange={(e) => setToken(e.target.value)}/>
+        <PasswordInput name='password' placeholder={'Введите новый пароль'} value={form.password} onChange={(e) => setForm({[e.target.name]: e.target.value})}/>
+        <Input name='token' type={'text'} placeholder={'Введите код из письма'} value={form.token} onChange={(e) => setForm({[e.target.name]: e.target.value})}/>
         <Button htmlType="submit" type='primary' size='large' >Сохранить</Button>
       </form>
       <div className={styles.info}>
