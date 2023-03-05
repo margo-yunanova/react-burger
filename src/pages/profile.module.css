@@ -25,3 +25,12 @@
 .info {
   color: #8585AD;
 }
+
+.link {
+  color: #8585AD;
+  text-decoration: none;
+}
+
+.active:active {
+  color: #F2F2F3;
+}

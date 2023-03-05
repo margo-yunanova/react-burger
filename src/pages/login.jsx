@@ -1,4 +1,5 @@
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Link } from 'react-router-dom';
 import styles from './login.module.css';
 
 const Login = () => {
@@ -13,11 +14,11 @@ const Login = () => {
       <div className={styles.info}>
         <div>
           <span className="text text_type_main-default pr-2" >Вы — новый пользователь?</span>
-          <span>Зарегистрироваться</span>
+          <Link className={`${styles.link} ${styles.active} text text_type_main-default`}>Зарегистрироваться</Link>
         </div>
         <div>
           <span className="text text_type_main-default pr-2">Забыли пароль?</span>
-          <span>Восстановить пароль</span>
+          <Link className={`${styles.link} ${styles.active} text text_type_main-default`}>Восстановить пароль</Link>
         </div>
       </div>
     </section>
