@@ -26,3 +26,15 @@ export const restorePasswordRequest = (email) => fetch(`${BURGER_API_URL}/passwo
   })
 })
 .then(checkResponse);
+
+export const resetPasswordRequest = (password, token) => fetch(`${BURGER_API_URL}/password-reset`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json;charset=utf-8'
+  },
+  body: JSON.stringify({
+    'password': password,
+    'token': token,
+  })
+})
+.then(checkResponse);
