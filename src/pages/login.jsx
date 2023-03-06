@@ -1,18 +1,24 @@
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { authorizeUser } from '../services/actions/user';
 import styles from './login.module.css';
 
 const Login = () => {
   const [form, setForm] = useState({})
   const dispatch = useDispatch();
+  const success = useSelector(state => state.user.success);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(authorizeUser(form))
   }
+
+  if (success) {
+    navigate('/', {replace: true});
+  };
 
   return (
     <section className={styles.section}>
