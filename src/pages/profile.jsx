@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { getUser, updateUser } from '../services/actions/user';
 import styles from './profile.module.css';
-import { accessToken } from '../utils/constants';
 
 const Profile = () => {
 
   const activeLink = ({isActive}) => `${(isActive ? styles.active : '')} + ${styles.link} + text text_type_main-medium`;
+  const accessToken = localStorage.getItem('accessToken');
 
   const [form, setForm] = useState({
     name: '',
@@ -16,14 +16,11 @@ const Profile = () => {
   });
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getUser(accessToken));
-  })
+  useEffect(() => dispatch(getUser(accessToken)), [dispatch, accessToken]);
 
   const successRequest = useSelector(state => state.user.success);
   const name = useSelector(state => state.user.user?.name);
   const email = useSelector(state => state.user.user?.email);
-
 
   useEffect(() => {
     if (successRequest) {

@@ -11,7 +11,7 @@ import {
   UPDATE_USER_FAILED,
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
- } from "../actions/user";
+} from "../actions/user";
 
 const initialState = {
   success: false,
