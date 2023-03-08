@@ -11,6 +11,10 @@ import {
   UPDATE_USER_FAILED,
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
+  LOGOUT_USER_FAILED,
+  LOGOUT_USER_REQUEST,
+  LOGOUT_USER_SUCCESS,
+
 } from "../actions/user";
 
 const initialState = {
@@ -31,6 +35,7 @@ export const user = (state = initialState, action) => {
     case REGISTER_USER_FAILED: {
       return {
         ...state,
+        success: false,
         user: null,
         request: false,
       }
@@ -59,6 +64,7 @@ export const user = (state = initialState, action) => {
     case AUTHORIZATION_USER_FAILED: {
       return {
         ...state,
+        success: false,
         user: null,
         request: false,
       }
@@ -87,6 +93,7 @@ export const user = (state = initialState, action) => {
     case GET_USER_FAILED: {
       return {
         ...state,
+        success: false,
         user: null,
         request: false,
       }
@@ -115,6 +122,7 @@ export const user = (state = initialState, action) => {
     case UPDATE_USER_FAILED: {
       return {
         ...state,
+        success: false,
         user: null,
         request: false,
       }
@@ -129,6 +137,32 @@ export const user = (state = initialState, action) => {
           email: user.email,
           name: user.name,
         },
+        request: false,
+      }
+    }
+
+    case LOGOUT_USER_REQUEST: {
+      return {
+        ...state,
+        request: true,
+      }
+    }
+
+    case LOGOUT_USER_FAILED: {
+      return {
+        ...state,
+        success: false,
+        user: null,
+        request: false,
+      }
+    }
+
+    case LOGOUT_USER_SUCCESS: {
+      const { success } = action.payload;
+      return {
+        ...state,
+        success,
+        user: null,
         request: false,
       }
     }
