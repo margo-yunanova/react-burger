@@ -27,7 +27,7 @@ export const restorePasswordRequest = ({email}) => fetch(`${BURGER_API_URL}/pass
 })
 .then(checkResponse);
 
-export const resetPasswordRequest = ({password, token}) => fetch(`${BURGER_API_URL}/password-reset`, {
+export const resetPasswordRequest = ({password, token}) => fetch(`${BURGER_API_URL}/password-reset`, { //TODO: проверить адрес
   method: 'POST',
   headers: {
     'Content-Type': 'application/json;charset=utf-8'
@@ -82,6 +82,29 @@ export const updateTokenRequest = (token) => fetch(`${BURGER_API_URL}/auth/token
   },
   body: JSON.stringify({
     'token': token,
+  })
+})
+.then(checkResponse);
+
+export const getUserRequest = (token) => fetch(`${BURGER_API_URL}/auth/user`, {
+  method: 'GET',
+  headers: {
+    'Content-Type': 'application/json;charset=utf-8',
+    authorization: token
+  },
+})
+.then(checkResponse);
+
+export const updateUserRequest = ({name, email, password}, token) => fetch(`${BURGER_API_URL}/auth/user`, {
+  method: 'PATCH',
+  headers: {
+    'Content-Type': 'application/json;charset=utf-8',
+    authorization: token,
+  },
+  body: JSON.stringify({
+    'name': name,
+    'email': email,
+    'password': password,
   })
 })
 .then(checkResponse);

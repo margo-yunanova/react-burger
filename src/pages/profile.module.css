@@ -3,7 +3,7 @@
   width: 1240px;
   margin: auto;
   display: grid;
-  grid-template-columns: 320px 860px;
+  grid-template-columns: 320px 480px;
   column-gap: 60px;
   align-items: center;
 }
@@ -12,9 +12,7 @@
   display: grid;
   row-gap: 16px;
   align-self: start;
-  /* flex-direction: column;
-  row-gap: 16px;
-  align-items: start; */
+
 }
 
 .menu {
@@ -33,4 +31,8 @@
 
 .active {
   color: #F2F2F3;
+}
+
+.button {
+  margin-left: auto;
 }

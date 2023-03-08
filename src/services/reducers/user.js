@@ -5,12 +5,17 @@ import {
   AUTHORIZATION_USER_FAILED,
   AUTHORIZATION_USER_REQUEST,
   AUTHORIZATION_USER_SUCCESS,
+  GET_USER_FAILED,
+  GET_USER_SUCCESS,
+  GET_USER_REQUEST,
+  UPDATE_USER_FAILED,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
  } from "../actions/user";
 
 const initialState = {
   success: false,
   user: null,
-  accessToken: null,
   request: false,
 }
 
@@ -27,13 +32,12 @@ export const user = (state = initialState, action) => {
       return {
         ...state,
         user: null,
-        accessToken: null,
         request: false,
       }
     }
 
     case REGISTER_USER_SUCCESS: {
-      const { user, accessToken, success } = action.payload;
+      const { user, success } = action.payload;
       return {
         ...state,
         success,
@@ -41,7 +45,6 @@ export const user = (state = initialState, action) => {
           email: user.email,
           name: user.name,
         },
-        accessToken,
         request: false,
       }
     }
@@ -57,13 +60,12 @@ export const user = (state = initialState, action) => {
       return {
         ...state,
         user: null,
-        accessToken: null,
         request: false,
       }
     }
 
     case AUTHORIZATION_USER_SUCCESS: {
-      const { user, accessToken, success } = action.payload;
+      const { user, success } = action.payload;
       return {
         ...state,
         success,
@@ -71,7 +73,62 @@ export const user = (state = initialState, action) => {
           email: user.email,
           name: user.name,
         },
-        accessToken,
+        request: false,
+      }
+    }
+
+    case GET_USER_REQUEST: {
+      return {
+        ...state,
+        request: true,
+      }
+    }
+
+    case GET_USER_FAILED: {
+      return {
+        ...state,
+        user: null,
+        request: false,
+      }
+    }
+
+    case GET_USER_SUCCESS: {
+      const { user, success } = action.payload;
+      return {
+        ...state,
+        success,
+        user: {
+          email: user.email,
+          name: user.name,
+        },
+        request: false,
+      }
+    }
+
+    case UPDATE_USER_REQUEST: {
+      return {
+        ...state,
+        request: true,
+      }
+    }
+
+    case UPDATE_USER_FAILED: {
+      return {
+        ...state,
+        user: null,
+        request: false,
+      }
+    }
+
+    case UPDATE_USER_SUCCESS: {
+      const { user, success } = action.payload;
+      return {
+        ...state,
+        success,
+        user: {
+          email: user.email,
+          name: user.name,
+        },
         request: false,
       }
     }

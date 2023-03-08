@@ -1,5 +1,5 @@
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { authorizeUser } from '../services/actions/user';
@@ -16,9 +16,12 @@ const Login = () => {
     dispatch(authorizeUser(form))
   }
 
-  if (success) {
-    navigate('/', {replace: true});
-  };
+  useEffect(() => {
+    if (success) {
+      navigate('/', {replace: true});
+    };
+  }, [success, navigate]);
+
 
   return (
     <section className={styles.section}>
