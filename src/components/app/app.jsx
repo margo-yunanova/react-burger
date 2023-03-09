@@ -14,6 +14,7 @@ import RegisterPage from "../../pages/register";
 import ForgotPasswordPage from "../../pages/forgot-password";
 import ResetPasswordPage from "../../pages/reset-password";
 import Profile from "../../pages/profile";
+import { ProtectedRouteElement } from "../protected-route-element/protected-route-element";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,16 +33,16 @@ function App() {
       <BrowserRouter>
         <AppHeader />
         <Routes>
-          <Route path="/" element={<HomePage />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/register" element={<RegisterPage />}></Route>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route
             path="/forgot-password"
             element={<ForgotPasswordPage />}
-          ></Route>
-          <Route path="/reset-password" element={<ResetPasswordPage />}></Route>
-          <Route path="/profile" element={<Profile />}></Route>
-          {/*<Route path='/ingredients/:id' element={}></Route> */}
+          />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/profile" element={<ProtectedRouteElement element={<Profile />}/>} />
+          {/*<Route path='/ingredients/:id' element={} /> */}
         </Routes>
       </BrowserRouter>
 
