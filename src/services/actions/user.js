@@ -170,7 +170,8 @@ export const logoutUser = (refreshToken) => {
         payload: {
           'success': response.success, //TODO message - нужно ли сохранять
         }
-      });
+      })
+      localStorage.removeItem('accessToken');
     })
       .catch(error => {
         console.log(error);

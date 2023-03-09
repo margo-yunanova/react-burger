@@ -12,7 +12,13 @@ const ForgotPasswordPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     restorePasswordRequest(form)
-    .then(({success}) => success ? navigate('/reset-password', {replace: true}) : null );
+    .then(({success}) => {
+      if (success) {
+        navigate('/reset-password', {replace: true});
+        localStorage.setItem('successResetPassword', success)
+      }
+      return null;
+    });
 };
 
   return (

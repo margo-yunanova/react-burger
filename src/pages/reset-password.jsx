@@ -1,18 +1,29 @@
 import { PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import styles from './reset-password.module.css';
 import { resetPasswordRequest } from "../utils/burger-api";
 
 
 const ResetPasswordPage = () => {
   const [form, setForm] = useState({});
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const successResetPassword = localStorage.getItem('successResetPassword');
+
+  if (!successResetPassword) {
+    return <Navigate to={'/forgot-password'} />
+  }
 
   const submitResetForm = (e) => {
     e.preventDefault();
     resetPasswordRequest(form)
-    .then(({success}) => success ? navigate('/login', {replace: true}) : null );
+    .then(({success}) => {
+      if (success) {
+        navigate('/login', {replace: true});
+        localStorage.removeItem('successResetPassword');
+      }
+      return null;
+    });
   }
 
   return (

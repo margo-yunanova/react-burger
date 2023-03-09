@@ -1,19 +1,26 @@
 import { EmailInput, PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, Navigate } from 'react-router-dom';
 import { registerUser } from '../services/actions/user';
 import styles from './register.module.css';
 
 
 const RegisterPage = () => {
-  const [form, setForm] = useState({})
+  const [form, setForm] = useState({});
+  const success = useSelector(state => state.user.success);
+  const accessToken = localStorage.getItem('accessToken');
+
   const dispatch = useDispatch()
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(registerUser(form));
   }
+
+  if (success || accessToken) {
+    return <Navigate to={'/'} />
+  };
 
   return (
     <section className={styles.section}>

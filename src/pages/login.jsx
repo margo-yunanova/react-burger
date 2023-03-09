@@ -1,7 +1,7 @@
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { authorizeUser } from '../services/actions/user';
 import styles from './login.module.css';
 
@@ -9,19 +9,16 @@ const Login = () => {
   const [form, setForm] = useState({})
   const dispatch = useDispatch();
   const success = useSelector(state => state.user.success);
-  const navigate = useNavigate();
+  const accessToken = localStorage.getItem('accessToken');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(authorizeUser(form))
   }
 
-  useEffect(() => {
-    if (success) {
-      navigate('/', {replace: true});
-    };
-  }, [success, navigate]);
-
+  if (success || accessToken) {
+    return <Navigate to={'/'} />
+  };
 
   return (
     <section className={styles.section}>
