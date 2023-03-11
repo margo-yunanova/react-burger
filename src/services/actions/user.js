@@ -85,98 +85,119 @@ export const authorizeUser = (form) => {
   };
 };
 
-export const getUser = (accessToken) => {
+export const getUser = () => {
+  const accessToken = localStorage.getItem("accessToken");
   return (dispatch) => {
     dispatch({
       type: GET_USER_REQUEST,
     });
-    getUserRequest(accessToken).then(response => {
+    getUserRequest(accessToken)
+      .catch(error => {
+        const refreshToken = localStorage.getItem('refreshToken');
+        console.log(error, 'обновляю токен');
+        return updateTokenRequest(refreshToken)
+          .catch(error => {
+            console.log(error);
+            return Promise.reject(error);
+          })
+          .then(token => {
+            localStorage.setItem('refreshToken', token.refreshToken);
+            localStorage.setItem('accessToken', token.accessToken);
+            return getUserRequest(token.accessToken)
+              .catch(error => {
+                console.log(error, 'данные юзера не получены');
+                return Promise.reject(error);
+              });
+          });
+      })
+      .then(response => {
+        console.log('обновлено')
+        dispatch({
+          type: 'GET_USER_SUCCESS',
+          payload: {
+            'success': response.success,
+            'user': {
+              'email': response.user.email,
+              'name': response.user.name,
+            },
+          }
+        });
+      })
+      .catch(error => {
+        dispatch({ type: ' GET_USER_FAILED' });
+        console.log(error, 'данные юзера не получены');
+      })
+      .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE })); //TODO кнопки
+  };
+}
+
+  export const updateUser = (form, accessToken) => {
+    return (dispatch) => {
       dispatch({
-        type: GET_USER_SUCCESS,
-        payload: {
-          'success': response.success,
-          'user': {
-            'email': response.user.email,
-            'name': response.user.name,
-          },
-        }
+        type: UPDATE_USER_REQUEST,
       });
-    })
-      .catch(error => {
-        console.log(error);
-        dispatch({ type: GET_USER_FAILED });
+      updateUserRequest(form, accessToken).then(response => {
+        dispatch({
+          type: UPDATE_USER_SUCCESS,
+          payload: {
+            'success': response.success,
+            'user': {
+              'email': response.user.email,
+              'name': response.user.name,
+            },
+          }
+        });
       })
-      .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE })); //TODO кнопки
+        .catch(error => {
+          console.log(error);
+          dispatch({ type: UPDATE_USER_FAILED });
+        })
+        .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE })); //TODO кнопки
+    };
   };
-};
 
-export const updateUser = (form, accessToken) => {
-  return (dispatch) => {
-    dispatch({
-      type: UPDATE_USER_REQUEST,
-    });
-    updateUserRequest(form, accessToken).then(response => {
+  export const updateToken = (refreshToken) => {
+    return (dispatch) => {
       dispatch({
-        type: UPDATE_USER_SUCCESS,
-        payload: {
-          'success': response.success,
-          'user': {
-            'email': response.user.email,
-            'name': response.user.name,
-          },
-        }
+        type: UPDATE_TOKEN_REQUEST,
       });
-    })
-      .catch(error => {
-        console.log(error);
-        dispatch({ type: UPDATE_USER_FAILED });
-      })
-      .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE })); //TODO кнопки
-  };
-};
-
-export const updateToken = (refreshToken) => {
-  return (dispatch) => {
-    dispatch({
-      type: UPDATE_TOKEN_REQUEST,
-    });
-    updateTokenRequest(refreshToken).then(response => {
-      dispatch({
-        type: UPDATE_TOKEN_SUCCESS,
-        payload: {
-          'success': response.success,
+      updateTokenRequest(refreshToken).then(response => {
+        dispatch({
+          type: UPDATE_TOKEN_SUCCESS,
+          payload: {
+            'success': response.success,
           },
         }
-      );
-      localStorage.setItem('refreshToken', response.refreshToken);
-      localStorage.setItem('accessToken', response.accessToken);
-    })
-      .catch(error => {
-        console.log(error);
-        dispatch({ type: UPDATE_TOKEN_FAILED });
+        );
+        localStorage.setItem('refreshToken', response.refreshToken);
+        localStorage.setItem('accessToken', response.accessToken);
       })
-      .finally(() => {}); //TODO кнопки, finally
+        .catch(error => {
+          console.log(error);
+          dispatch({ type: UPDATE_TOKEN_FAILED });
+        })
+        .finally(() => { }); //TODO кнопки, finally
+    };
   };
-};
 
-export const logoutUser = (refreshToken) => {
-  return (dispatch) => {
-    dispatch({
-      type: LOGOUT_USER_REQUEST,
-    });
-    logoutUserRequest(refreshToken).then(response => {
+  export const logoutUser = (refreshToken) => {
+    return (dispatch) => {
       dispatch({
-        type: LOGOUT_USER_SUCCESS,
-        payload: {
-          'success': response.success, //TODO message - нужно ли сохранять
-        }
+        type: LOGOUT_USER_REQUEST,
+      });
+      logoutUserRequest(refreshToken).then(response => {
+        dispatch({
+          type: LOGOUT_USER_SUCCESS,
+          payload: {
+            'success': response.success, //TODO message - нужно ли сохранять
+          }
+        });
+        localStorage.removeItem('accessToken');
       })
-      localStorage.removeItem('accessToken');
-    })
-      .catch(error => {
-        console.log(error);
-        dispatch({ type: LOGOUT_USER_FAILED });
-      })
-      .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE })); //TODO кнопки
+        .catch(error => {
+          console.log(error);
+          dispatch({ type: LOGOUT_USER_FAILED });
+        })
+        .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE })); //TODO кнопки
+    };
   };
-};
