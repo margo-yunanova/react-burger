@@ -3,7 +3,6 @@ import {
   loginUserRequest,
   getUserRequest,
   updateUserRequest,
-  updateTokenRequest,
   logoutUserRequest,
 } from "../../utils/burger-api";
 import { localStorage } from "../../utils/constants";
@@ -86,30 +85,11 @@ export const authorizeUser = (form) => {
 };
 
 export const getUser = () => {
-  const accessToken = localStorage.getItem("accessToken");
   return (dispatch) => {
     dispatch({
       type: GET_USER_REQUEST,
     });
-    getUserRequest(accessToken)
-      .catch(error => {
-        const refreshToken = localStorage.getItem('refreshToken');
-        console.log(error, 'обновляю токен');
-        return updateTokenRequest(refreshToken)
-          .catch(error => {
-            console.log(error);
-            return Promise.reject(error);
-          })
-          .then(token => {
-            localStorage.setItem('refreshToken', token.refreshToken);
-            localStorage.setItem('accessToken', token.accessToken);
-            return getUserRequest(token.accessToken)
-              .catch(error => {
-                console.log(error, 'данные юзера не получены');
-                return Promise.reject(error);
-              });
-          });
-      })
+      getUserRequest()
       .then(response => {
         console.log('обновлено')
         dispatch({
@@ -124,19 +104,20 @@ export const getUser = () => {
         });
       })
       .catch(error => {
-        dispatch({ type: ' GET_USER_FAILED' });
+        dispatch({ type: GET_USER_FAILED });
         console.log(error, 'данные юзера не получены');
       })
       .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE })); //TODO кнопки
   };
 }
 
-  export const updateUser = (form, accessToken) => {
+  export const updateUser = (form) => {
     return (dispatch) => {
       dispatch({
         type: UPDATE_USER_REQUEST,
       });
-      updateUserRequest(form, accessToken).then(response => {
+      updateUserRequest(form)
+      .then(response => {
         dispatch({
           type: UPDATE_USER_SUCCESS,
           payload: {
@@ -153,30 +134,6 @@ export const getUser = () => {
           dispatch({ type: UPDATE_USER_FAILED });
         })
         .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE })); //TODO кнопки
-    };
-  };
-
-  export const updateToken = (refreshToken) => {
-    return (dispatch) => {
-      dispatch({
-        type: UPDATE_TOKEN_REQUEST,
-      });
-      updateTokenRequest(refreshToken).then(response => {
-        dispatch({
-          type: UPDATE_TOKEN_SUCCESS,
-          payload: {
-            'success': response.success,
-          },
-        }
-        );
-        localStorage.setItem('refreshToken', response.refreshToken);
-        localStorage.setItem('accessToken', response.accessToken);
-      })
-        .catch(error => {
-          console.log(error);
-          dispatch({ type: UPDATE_TOKEN_FAILED });
-        })
-        .finally(() => { }); //TODO кнопки, finally
     };
   };
 

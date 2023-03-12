@@ -6,7 +6,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, Outlet, useLocation, Link } from "react-router-dom";
 import { getUser, updateUser } from "../services/actions/user";
 import styles from "./profile.module.css";
 
@@ -15,15 +15,19 @@ const Profile = () => {
     `${isActive ? styles.active : ""} + ${
       styles.link
     } + text text_type_main-medium`;
-  const accessToken = localStorage.getItem("accessToken");
 
   const [form, setForm] = useState({
     name: "",
     email: "",
   });
 
+  const location = useLocation()
+
   const dispatch = useDispatch();
-  useEffect(() => dispatch(getUser(accessToken)), [dispatch, accessToken]);
+
+  useEffect(() => {
+    dispatch(getUser())
+  }, [dispatch]);
 
   const successRequest = useSelector((state) => state.user.success);
   const name = useSelector((state) => state.user.user?.name);
@@ -37,7 +41,7 @@ const Profile = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateUser(form, accessToken));
+    dispatch(updateUser(form));
   };
 
   const handleReset = (e) => {
@@ -55,15 +59,15 @@ const Profile = () => {
           <NavLink to="/profile/orders" end className={activeLink}>
             История заказов
           </NavLink>
-          <NavLink to="/profile/orders:id" end className={activeLink}>
+          <Link className={`${styles.link} text text_type_main-medium`}>
             Выход
-          </NavLink>
+          </Link>
         </nav>
         <span className={`${styles.info} text text_type_main-default`}>
           В этом разделе вы можете изменить свои персональные данные
         </span>
       </div>
-      <form
+      {location.pathname === '/profile' ? (<form
         className={styles.login}
         onSubmit={handleSubmit}
         onReset={handleReset}
@@ -106,7 +110,7 @@ const Profile = () => {
             Сохранить
           </Button>
         </div>
-      </form>
+      </form>) : (<Outlet />)}
     </section>
   );
 };
