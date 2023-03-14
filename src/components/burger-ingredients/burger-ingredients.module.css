@@ -40,3 +40,8 @@
   background: #8585AD;
   border: 3px solid #8585AD;
 }
+
+.link {
+  text-decoration: none;
+  color: #F2F2F3;
+}

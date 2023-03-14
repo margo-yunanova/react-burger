@@ -1,9 +1,18 @@
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 import styles from './ingredient-details.module.css';
 
 export default function IngredientDetails() {
+  const { id } = useParams();
 
-  const ingredient = useSelector(state => state.currentIngredient.ingredient);
+  const ingredients = useSelector(state => state.ingredients.listBurgerIngredients.ingredients);
+  const success = useSelector(state => state.ingredients.listBurgerIngredients.success);
+  const ingredient = ingredients.find(item => item._id === id);
+
+
+  if (!success) {
+    return null;
+  }
 
   return (
     <div className={styles.popup}>
