@@ -7,10 +7,11 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Outlet, useLocation, Link } from "react-router-dom";
-import { getUser, updateUser } from "../services/actions/user";
+import { getUser, logoutUser, updateUser } from "../services/actions/user";
 import styles from "./profile.module.css";
 
 const Profile = () => {
+  document.title = 'Личный кабинет'
   const activeLink = ({ isActive }) =>
     `${isActive ? styles.active : ""} + ${
       styles.link
@@ -22,16 +23,17 @@ const Profile = () => {
   });
 
   const location = useLocation()
-
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getUser())
-  }, [dispatch]);
 
   const successRequest = useSelector((state) => state.user.success);
   const name = useSelector((state) => state.user.user?.name);
   const email = useSelector((state) => state.user.user?.email);
+
+  useEffect(() => {
+    if (!successRequest) {
+      dispatch(getUser())
+    }
+  }, [dispatch, successRequest]);
 
   useEffect(() => {
     if (successRequest) {
@@ -49,6 +51,11 @@ const Profile = () => {
     setForm({ name, email });
   };
 
+  const handleExit = (e) => {
+    e.preventDefault();
+    dispatch(logoutUser())
+  }
+
   return (
     <section className={styles.grid}>
       <div>
@@ -59,7 +66,7 @@ const Profile = () => {
           <NavLink to="/profile/orders" end className={activeLink}>
             История заказов
           </NavLink>
-          <Link className={`${styles.link} text text_type_main-medium`}>
+          <Link className={`${styles.link} text text_type_main-medium`} onClick={handleExit}>
             Выход
           </Link>
         </nav>
