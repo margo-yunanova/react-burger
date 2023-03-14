@@ -28,6 +28,7 @@ export const user = (state = initialState, action) => {
     case REGISTER_USER_REQUEST: {
       return {
         ...state,
+        success: false,
         request: true,
       }
     }
@@ -57,6 +58,7 @@ export const user = (state = initialState, action) => {
     case AUTHORIZATION_USER_REQUEST: {
       return {
         ...state,
+        success: false,
         request: true,
       }
     }
@@ -86,6 +88,7 @@ export const user = (state = initialState, action) => {
     case GET_USER_REQUEST: {
       return {
         ...state,
+        success: false,
         request: true,
       }
     }
@@ -115,6 +118,7 @@ export const user = (state = initialState, action) => {
     case UPDATE_USER_REQUEST: {
       return {
         ...state,
+        success: false,
         request: true,
       }
     }
@@ -144,6 +148,7 @@ export const user = (state = initialState, action) => {
     case LOGOUT_USER_REQUEST: {
       return {
         ...state,
+        success: false,
         request: true,
       }
     }
