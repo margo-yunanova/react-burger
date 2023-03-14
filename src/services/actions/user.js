@@ -137,12 +137,12 @@ export const getUser = () => {
     };
   };
 
-  export const logoutUser = (refreshToken) => {
+  export const logoutUser = () => {
     return (dispatch) => {
       dispatch({
         type: LOGOUT_USER_REQUEST,
       });
-      logoutUserRequest(refreshToken).then(response => {
+      logoutUserRequest(localStorage.getItem('refreshToken')).then(response => {
         dispatch({
           type: LOGOUT_USER_SUCCESS,
           payload: {
@@ -150,6 +150,7 @@ export const getUser = () => {
           }
         });
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
       })
         .catch(error => {
           console.log(error);
