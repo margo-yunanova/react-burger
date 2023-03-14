@@ -1,9 +1,9 @@
+import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import styles from "./modal.module.css";
-import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 export default function Modal({ children, close, title = "" }) {
   useEffect(() => {
