@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { useRef, useState } from "react";
 import { useDrag } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
 import { SHOW_INGREDIENT_MODAL } from "../../services/actions/current-ingredient";
 import { ingredientType } from "../../utils/prop-types";
 import styles from "./burger-ingredients.module.css";
@@ -57,6 +58,7 @@ Ingredient.propTypes = {
 };
 
 export default function BurgerIngredients({ ingredients }) {
+  const location = useLocation();
   const [activeTab, setActiveTab] = useState("Булки");
 
   const titleMealEl = useRef(null);
@@ -134,7 +136,9 @@ export default function BurgerIngredients({ ingredients }) {
         </h2>
         <div className={`${styles.table} pl-4`}>
           {buns.map((bun) => (
-            <Ingredient key={bun._id} ingredient={bun} />
+            <Link key={bun._id} to={`/ingredients/${bun._id}`} state={{backgroundLocation: location}} className={styles.link}>
+              <Ingredient ingredient={bun} />
+            </Link>
           ))}
         </div>
 
@@ -147,7 +151,9 @@ export default function BurgerIngredients({ ingredients }) {
         </h2>
         <div className={`${styles.table} pl-4`}>
           {sauces.map((sauce) => (
-            <Ingredient key={sauce._id} ingredient={sauce} />
+            <Link key={sauce._id} to={`/ingredients/${sauce._id}`} state={{backgroundLocation: location}} className={styles.link}>
+              <Ingredient ingredient={sauce} />
+            </Link>
           ))}
         </div>
 
@@ -160,7 +166,9 @@ export default function BurgerIngredients({ ingredients }) {
         </h2>
         <div className={`${styles.table} pl-4`}>
           {main.map((item) => (
-            <Ingredient key={item._id} ingredient={item} />
+            <Link key={item._id} to={`/ingredients/${item._id}`} state={{backgroundLocation: location}} className={styles.link}>
+              <Ingredient  ingredient={item} />
+            </Link>
           ))}
         </div>
       </div>
