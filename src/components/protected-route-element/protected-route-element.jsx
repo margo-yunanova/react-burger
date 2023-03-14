@@ -4,21 +4,19 @@ import { Navigate } from "react-router";
 import { getUser } from "../../services/actions/user";
 
 export const ProtectedRouteElement = ({ element }) => {
-  const accessToken = localStorage.getItem("accessToken");
-  const [isUserLoaded, setUserLoaded] = useState(false);
-
   const dispatch = useDispatch();
+  const successRequest = useSelector((state) => state.user.success);
+  const request = useSelector((state) => state.user.request);
+  const [isRequestSent, setRequestSent] = useState(false);
 
   useEffect(() => {
-    dispatch(getUser(accessToken));
-    setUserLoaded(true);
-  }, [dispatch, accessToken]);
+    dispatch(getUser());
+    setRequestSent(true)
+  }, [dispatch]);
 
-  const successRequest = useSelector((state) => state.user.success);
-
-  if (!isUserLoaded) {
+  if (!isRequestSent || request) {
     return null;
   }
 
   return successRequest ? element : <Navigate to="/login" />;
-}
+};
