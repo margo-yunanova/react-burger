@@ -5,7 +5,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useSearchParams } from "react-router-dom";
 import { authorizeUser, getUser } from "../services/actions/user";
 import styles from "./login.module.css";
 
@@ -15,6 +15,8 @@ const Login = () => {
   const successRequest = useSelector((state) => state.user.success);
   const request = useSelector((state) => state.user.request);
   const dispatch = useDispatch();
+
+  const [searchParams] = useSearchParams();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -31,9 +33,8 @@ const Login = () => {
   }
 
   if (successRequest && !request) {
-    const locationAfterLogin = JSON.parse(localStorage.getItem("locationAfterLogin"));
-    if (locationAfterLogin) {
-      return <Navigate to={locationAfterLogin.pathname} />;
+    if (searchParams.get("location")) {
+      return <Navigate to={`/${searchParams.get("location")}`} />;
     }
     return <Navigate to={"/"} />;
   }
