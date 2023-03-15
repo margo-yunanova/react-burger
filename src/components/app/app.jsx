@@ -1,21 +1,21 @@
 import { useEffect } from "react";
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import AppHeader from "../app-header/app-header";
-import OrderDetails from "../order-details/order-details";
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import Modal from "../modal/modal";
 import { useDispatch, useSelector } from "react-redux";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import ForgotPasswordPage from "../../pages/forgot-password";
+import HomePage from "../../pages/home";
+import Ingredient from "../../pages/ingredient";
+import Login from "../../pages/login";
+import Profile from "../../pages/profile";
+import ProfileOrders from "../../pages/profile-orders";
+import RegisterPage from "../../pages/register";
+import ResetPasswordPage from "../../pages/reset-password";
 import { getIngredients } from "../../services/actions/ingredients";
 import { HIDE_ORDER_MODAL } from "../../services/actions/orderDetails";
-import Login from "../../pages/login";
-import HomePage from "../../pages/home";
-import RegisterPage from "../../pages/register";
-import ForgotPasswordPage from "../../pages/forgot-password";
-import ResetPasswordPage from "../../pages/reset-password";
-import Profile from "../../pages/profile";
+import AppHeader from "../app-header/app-header";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
 import { ProtectedRouteElement } from "../protected-route-element/protected-route-element";
-import ProfileOrders from "../../pages/profile-orders";
-import Ingredient from "../../pages/ingredient";
 
 function App() {
   const dispatch = useDispatch();
@@ -55,11 +55,10 @@ function App() {
         <Route
           path="/ingredients/:id"
           element={
-            <Ingredient
-              title="Детали ингредиента"
-            >
+            <Ingredient title="Детали ингредиента">
               <IngredientDetails />
-            </Ingredient>}
+            </Ingredient>
+          }
         />
       </Routes>
 
@@ -68,10 +67,7 @@ function App() {
           <Route
             path="/ingredients/:id"
             element={
-              <Modal
-                close={() => navigate(-1)}
-                title="Детали ингредиента"
-              >
+              <Modal close={() => navigate(-1)} title="Детали ингредиента">
                 <IngredientDetails />
               </Modal>
             }

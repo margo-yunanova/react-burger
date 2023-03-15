@@ -1,12 +1,18 @@
 import {
-  PasswordInput,
-  Input,
-  EmailInput,
   Button,
+  EmailInput,
+  Input,
+  PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, Outlet, useLocation, Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  NavLink,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { getUser, logoutUser, updateUser } from "../services/actions/user";
 import styles from "./profile.module.css";
 
@@ -34,7 +40,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (!successRequest) {
-      dispatch(getUser())
+      dispatch(getUser());
     }
   }, [dispatch, successRequest]);
 
@@ -56,14 +62,14 @@ const Profile = () => {
 
   const handleExit = (e) => {
     e.preventDefault();
-    dispatch(logoutUser())
-  }
+    dispatch(logoutUser());
+  };
 
   useEffect(() => {
     if (isLogout) {
-      navigate('/login')
+      navigate("/login");
     }
-  })
+  });
 
   return (
     <section className={styles.grid}>
@@ -75,7 +81,10 @@ const Profile = () => {
           <NavLink to="/profile/orders" end className={activeLink}>
             История заказов
           </NavLink>
-          <Link className={`${styles.link} text text_type_main-medium`} onClick={handleExit}>
+          <Link
+            className={`${styles.link} text text_type_main-medium`}
+            onClick={handleExit}
+          >
             Выход
           </Link>
         </nav>
@@ -83,50 +92,54 @@ const Profile = () => {
           В этом разделе вы можете изменить свои персональные данные
         </span>
       </div>
-      {location.pathname === '/profile' ? (<form
-        className={styles.login}
-        onSubmit={handleSubmit}
-        onReset={handleReset}
-      >
-        <Input
-          type={"text"}
-          name={"name"}
-          placeholder="Имя"
-          icon="EditIcon"
-          onChange={(e) =>
-            setForm({ ...form, [e.target.name]: e.target.value })
-          }
-          value={form.name}
-        />
-        <EmailInput
-          type={"email"}
-          name={"email"}
-          placeholder="Логин"
-          isIcon={true}
-          onChange={(e) =>
-            setForm({ ...form, [e.target.name]: e.target.value })
-          }
-          value={form.email}
-        />
-        <PasswordInput
-          type={"password"}
-          name={"password"}
-          placeholder={"Пароль"}
-          icon="EditIcon"
-          onChange={(e) =>
-            setForm({ ...form, [e.target.name]: e.target.value })
-          }
-          value={"*".repeat(10)}
-        />
-        <div className={styles.button}>
-          <Button htmlType="reset" type="secondary" size="large">
-            Отмена
-          </Button>
-          <Button htmlType="submit" type="primary" size="large">
-            Сохранить
-          </Button>
-        </div>
-      </form>) : (<Outlet />)}
+      {location.pathname === "/profile" ? (
+        <form
+          className={styles.login}
+          onSubmit={handleSubmit}
+          onReset={handleReset}
+        >
+          <Input
+            type={"text"}
+            name={"name"}
+            placeholder="Имя"
+            icon="EditIcon"
+            onChange={(e) =>
+              setForm({ ...form, [e.target.name]: e.target.value })
+            }
+            value={form.name}
+          />
+          <EmailInput
+            type={"email"}
+            name={"email"}
+            placeholder="Логин"
+            isIcon={true}
+            onChange={(e) =>
+              setForm({ ...form, [e.target.name]: e.target.value })
+            }
+            value={form.email}
+          />
+          <PasswordInput
+            type={"password"}
+            name={"password"}
+            placeholder={"Пароль"}
+            icon="EditIcon"
+            onChange={(e) =>
+              setForm({ ...form, [e.target.name]: e.target.value })
+            }
+            value={"*".repeat(10)}
+          />
+          <div className={styles.button}>
+            <Button htmlType="reset" type="secondary" size="large">
+              Отмена
+            </Button>
+            <Button htmlType="submit" type="primary" size="large">
+              Сохранить
+            </Button>
+          </div>
+        </form>
+      ) : (
+        <Outlet />
+      )}
     </section>
   );
 };

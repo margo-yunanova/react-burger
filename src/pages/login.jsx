@@ -1,9 +1,9 @@
 import {
+  Button,
   EmailInput,
   PasswordInput,
-  Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { authorizeUser, getUser } from "../services/actions/user";
@@ -23,7 +23,7 @@ const Login = () => {
 
   useEffect(() => {
     dispatch(getUser());
-    setRequestSent(true)
+    setRequestSent(true);
   }, [dispatch]);
 
   if (!isRequestSent && request) {
@@ -31,12 +31,12 @@ const Login = () => {
   }
 
   if (successRequest && !request) {
-    const location = JSON.parse(localStorage.getItem('location'))
+    const location = JSON.parse(localStorage.getItem("location"));
     if (location) {
-      return <Navigate to={location.pathname} />
+      return <Navigate to={location.pathname} />;
     }
-    return <Navigate to={'/'} />
-  };
+    return <Navigate to={"/"} />;
+  }
 
   return (
     <section className={styles.section}>

@@ -1,18 +1,17 @@
 import {
-  Counter, CurrencyIcon, Tab
+  Counter,
+  CurrencyIcon,
+  Tab,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import { useRef, useState } from "react";
 import { useDrag } from "react-dnd";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { SHOW_INGREDIENT_MODAL } from "../../services/actions/current-ingredient";
 import { ingredientType } from "../../utils/prop-types";
 import styles from "./burger-ingredients.module.css";
 
 const Ingredient = ({ ingredient }) => {
-  const dispatch = useDispatch();
-
   const { bun, bunFilling } = useSelector((state) => state.orderIngredients);
 
   const count =
@@ -38,9 +37,6 @@ const Ingredient = ({ ingredient }) => {
       ref={dragRef}
       className={styles.cell}
       style={{ opacity }}
-      onClick={() =>
-        dispatch({ type: SHOW_INGREDIENT_MODAL, payload: ingredient })
-      }
     >
       <Counter count={count} size="default" extraClass="m-1" />
       <img src={ingredient.image} alt={ingredient.name} />
@@ -136,7 +132,12 @@ export default function BurgerIngredients({ ingredients }) {
         </h2>
         <div className={`${styles.table} pl-4`}>
           {buns.map((bun) => (
-            <Link key={bun._id} to={`/ingredients/${bun._id}`} state={{backgroundLocation: location}} className={styles.link}>
+            <Link
+              key={bun._id}
+              to={`/ingredients/${bun._id}`}
+              state={{ backgroundLocation: location }}
+              className={styles.link}
+            >
               <Ingredient ingredient={bun} />
             </Link>
           ))}
@@ -151,7 +152,12 @@ export default function BurgerIngredients({ ingredients }) {
         </h2>
         <div className={`${styles.table} pl-4`}>
           {sauces.map((sauce) => (
-            <Link key={sauce._id} to={`/ingredients/${sauce._id}`} state={{backgroundLocation: location}} className={styles.link}>
+            <Link
+              key={sauce._id}
+              to={`/ingredients/${sauce._id}`}
+              state={{ backgroundLocation: location }}
+              className={styles.link}
+            >
               <Ingredient ingredient={sauce} />
             </Link>
           ))}
@@ -166,8 +172,13 @@ export default function BurgerIngredients({ ingredients }) {
         </h2>
         <div className={`${styles.table} pl-4`}>
           {main.map((item) => (
-            <Link key={item._id} to={`/ingredients/${item._id}`} state={{backgroundLocation: location}} className={styles.link}>
-              <Ingredient  ingredient={item} />
+            <Link
+              key={item._id}
+              to={`/ingredients/${item._id}`}
+              state={{ backgroundLocation: location }}
+              className={styles.link}
+            >
+              <Ingredient ingredient={item} />
             </Link>
           ))}
         </div>

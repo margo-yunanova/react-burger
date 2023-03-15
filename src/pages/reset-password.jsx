@@ -1,5 +1,7 @@
 import {
-  Button, Input, PasswordInput
+  Button,
+  Input,
+  PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
@@ -53,7 +55,7 @@ const ResetPasswordPage = () => {
             Вспомнили пароль?
           </span>
           <Link
-            to={'/login'}
+            to={"/login"}
             className={`${styles.link} ${styles.active} text text_type_main-default`}
           >
             Войти

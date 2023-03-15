@@ -1,8 +1,8 @@
+import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router";
 import { getUser } from "../../services/actions/user";
-import PropTypes from "prop-types";
 
 export const ProtectedRouteElement = ({ element }) => {
   const dispatch = useDispatch();
@@ -10,25 +10,25 @@ export const ProtectedRouteElement = ({ element }) => {
   const request = useSelector((state) => state.user.request);
   const [isRequestSent, setRequestSent] = useState(false);
 
-  const location = useLocation()
+  const location = useLocation();
 
   useEffect(() => {
     dispatch(getUser());
-    setRequestSent(true)
+    setRequestSent(true);
   }, [dispatch]);
 
   if (!isRequestSent || request) {
     return null;
   }
 
-  if(!successRequest) {
-    localStorage.setItem('location', JSON.stringify(location))
-    return <Navigate to='/login' />
+  if (!successRequest) {
+    localStorage.setItem("location", JSON.stringify(location));
+    return <Navigate to="/login" />;
   }
 
-  return element
+  return element;
 };
 
 ProtectedRouteElement.propTypes = {
   children: PropTypes.node.isRequired,
-}
+};

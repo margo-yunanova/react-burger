@@ -1,7 +1,8 @@
 import {
-  Button, EmailInput
+  Button,
+  EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { getUser } from "../services/actions/user";
@@ -18,7 +19,7 @@ const ForgotPasswordPage = () => {
 
   useEffect(() => {
     dispatch(getUser());
-    setRequestSent(true)
+    setRequestSent(true);
   }, [dispatch]);
 
   if (!isRequestSent && request) {
@@ -26,8 +27,8 @@ const ForgotPasswordPage = () => {
   }
 
   if (successRequest && !request) {
-    return <Navigate to={'/'} />
-  };
+    return <Navigate to={"/"} />;
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,8 +40,6 @@ const ForgotPasswordPage = () => {
       return null;
     });
   };
-
-
 
   return (
     <section className={styles.section}>
@@ -64,7 +63,7 @@ const ForgotPasswordPage = () => {
             Вспомнили пароль?
           </span>
           <Link
-            to={'/login'}
+            to={"/login"}
             className={`${styles.link} ${styles.active} text text_type_main-default`}
           >
             Войти

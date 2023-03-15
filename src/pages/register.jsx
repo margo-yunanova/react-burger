@@ -1,8 +1,8 @@
 import {
-  EmailInput,
-  PasswordInput,
-  Input,
   Button,
+  EmailInput,
+  Input,
+  PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
