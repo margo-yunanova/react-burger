@@ -22,11 +22,11 @@ const ForgotPasswordPage = () => {
     setRequestSent(true);
   }, [dispatch]);
 
-  if (!isRequestSent && request) {
+  if (!isRequestSent || request) {
     return null;
   }
 
-  if (successRequest && !request) {
+  if (successRequest) {
     return <Navigate to={"/"} />;
   }
 

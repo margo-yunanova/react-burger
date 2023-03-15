@@ -26,7 +26,7 @@ const Login = () => {
     setRequestSent(true);
   }, [dispatch]);
 
-  if (!isRequestSent && request) {
+  if (!isRequestSent || request) {
     return null;
   }
 
