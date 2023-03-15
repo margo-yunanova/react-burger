@@ -21,6 +21,7 @@ const initialState = {
   success: false,
   user: null,
   request: false,
+  isLogout: false,
 }
 
 export const user = (state = initialState, action) => {
@@ -30,6 +31,7 @@ export const user = (state = initialState, action) => {
         ...state,
         success: false,
         request: true,
+        isLogout: false,
       }
     }
 
@@ -39,6 +41,7 @@ export const user = (state = initialState, action) => {
         success: false,
         user: null,
         request: false,
+        isLogout: false,
       }
     }
 
@@ -52,6 +55,7 @@ export const user = (state = initialState, action) => {
           name: user.name,
         },
         request: false,
+        isLogout: false,
       }
     }
 
@@ -60,6 +64,7 @@ export const user = (state = initialState, action) => {
         ...state,
         success: false,
         request: true,
+        isLogout: false,
       }
     }
 
@@ -69,6 +74,7 @@ export const user = (state = initialState, action) => {
         success: false,
         user: null,
         request: false,
+        isLogout: false,
       }
     }
 
@@ -82,6 +88,7 @@ export const user = (state = initialState, action) => {
           name: user.name,
         },
         request: false,
+        isLogout: false,
       }
     }
 
@@ -90,6 +97,7 @@ export const user = (state = initialState, action) => {
         ...state,
         success: false,
         request: true,
+        isLogout: false,
       }
     }
 
@@ -99,6 +107,7 @@ export const user = (state = initialState, action) => {
         success: false,
         user: null,
         request: false,
+        isLogout: false,
       }
     }
 
@@ -112,6 +121,7 @@ export const user = (state = initialState, action) => {
           name: user.name,
         },
         request: false,
+        isLogout: false,
       }
     }
 
@@ -120,6 +130,7 @@ export const user = (state = initialState, action) => {
         ...state,
         success: false,
         request: true,
+        isLogout: false,
       }
     }
 
@@ -129,6 +140,7 @@ export const user = (state = initialState, action) => {
         success: false,
         user: null,
         request: false,
+        isLogout: false,
       }
     }
 
@@ -142,6 +154,7 @@ export const user = (state = initialState, action) => {
           name: user.name,
         },
         request: false,
+        isLogout: false,
       }
     }
 
@@ -150,6 +163,7 @@ export const user = (state = initialState, action) => {
         ...state,
         success: false,
         request: true,
+        isLogout: false,
       }
     }
 
@@ -159,6 +173,7 @@ export const user = (state = initialState, action) => {
         success: false,
         user: null,
         request: false,
+        isLogout: false,
       }
     }
 
@@ -169,6 +184,7 @@ export const user = (state = initialState, action) => {
         success,
         user: null,
         request: false,
+        isLogout: true,
       }
     }
 

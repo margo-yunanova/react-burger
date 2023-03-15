@@ -6,12 +6,11 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, Outlet, useLocation, Link } from "react-router-dom";
+import { NavLink, Outlet, useLocation, Link, useNavigate } from "react-router-dom";
 import { getUser, logoutUser, updateUser } from "../services/actions/user";
 import styles from "./profile.module.css";
 
 const Profile = () => {
-  document.title = 'Личный кабинет'
   const activeLink = ({ isActive }) =>
     `${isActive ? styles.active : ""} + ${
       styles.link
@@ -22,12 +21,16 @@ const Profile = () => {
     email: "",
   });
 
-  const location = useLocation()
+  const isLogout = useSelector((state) => state.user.isLogout);
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const successRequest = useSelector((state) => state.user.success);
   const name = useSelector((state) => state.user.user?.name);
   const email = useSelector((state) => state.user.user?.email);
+
+  const location = useLocation();
 
   useEffect(() => {
     if (!successRequest) {
@@ -55,6 +58,12 @@ const Profile = () => {
     e.preventDefault();
     dispatch(logoutUser())
   }
+
+  useEffect(() => {
+    if (isLogout) {
+      navigate('/login')
+    }
+  })
 
   return (
     <section className={styles.grid}>

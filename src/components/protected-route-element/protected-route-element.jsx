@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router";
+import { Navigate, useLocation } from "react-router";
 import { getUser } from "../../services/actions/user";
 
 export const ProtectedRouteElement = ({ element }) => {
@@ -8,6 +8,8 @@ export const ProtectedRouteElement = ({ element }) => {
   const successRequest = useSelector((state) => state.user.success);
   const request = useSelector((state) => state.user.request);
   const [isRequestSent, setRequestSent] = useState(false);
+
+  const location = useLocation()
 
   useEffect(() => {
     dispatch(getUser());
@@ -18,5 +20,10 @@ export const ProtectedRouteElement = ({ element }) => {
     return null;
   }
 
-  return successRequest ? element : <Navigate to="/login" />;
+  if(!successRequest) {
+    localStorage.setItem('protectLocation', JSON.stringify(location))
+    return <Navigate to='/login' />
+  }
+
+  return element
 };

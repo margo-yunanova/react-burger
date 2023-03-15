@@ -3,10 +3,10 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { authorizeUser } from "../services/actions/user";
+import { Link, Navigate } from "react-router-dom";
+import { authorizeUser, getUser } from "../services/actions/user";
 import styles from "./login.module.css";
 
 const Login = () => {
@@ -15,22 +15,28 @@ const Login = () => {
   const successRequest = useSelector((state) => state.user.success);
   const request = useSelector((state) => state.user.request);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(authorizeUser(form));
-    setRequestSent(true);
   };
 
-  if (successRequest && !request) {
-    navigate(-1);
-    //return <Navigate to={'/'} replace={true}/>
-  }
+  useEffect(() => {
+    dispatch(getUser());
+    setRequestSent(true)
+  }, [dispatch]);
 
   if (!isRequestSent && request) {
     return null;
   }
+
+  if (successRequest && !request) {
+    const protectLocation = JSON.parse(localStorage.getItem('protectLocation'))
+    if (protectLocation) {
+      return <Navigate to={'/profile'} />
+    }
+    return <Navigate to={'/'} />
+  };
 
   return (
     <section className={styles.section}>

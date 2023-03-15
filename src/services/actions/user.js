@@ -50,7 +50,7 @@ export const registerUser = (form) => {
       localStorage.setItem('accessToken', response.accessToken);
     })
       .catch(error => {
-        console.log(error);
+        //console.log(error);
         dispatch({ type: REGISTER_USER_FAILED });
       })
       .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE }));//TODO кнопки
@@ -77,7 +77,7 @@ export const authorizeUser = (form) => {
       localStorage.setItem('accessToken', response.accessToken);
     })
       .catch(error => {
-        console.log(error);
+        //console.log(error);
         dispatch({ type: AUTHORIZATION_USER_FAILED });
       })
       .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE })); //TODO кнопки
@@ -91,7 +91,6 @@ export const getUser = () => {
     });
       getUserRequest()
       .then(response => {
-        console.log('обновлено')
         dispatch({
           type: 'GET_USER_SUCCESS',
           payload: {
@@ -105,7 +104,7 @@ export const getUser = () => {
       })
       .catch(error => {
         dispatch({ type: GET_USER_FAILED });
-        console.log(error, 'данные юзера не получены');
+        //console.log(error, 'данные юзера не получены');
       })
       .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE })); //TODO кнопки
   };
@@ -130,7 +129,7 @@ export const getUser = () => {
         });
       })
         .catch(error => {
-          console.log(error);
+          //console.log(error);
           dispatch({ type: UPDATE_USER_FAILED });
         })
         .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE })); //TODO кнопки
@@ -153,7 +152,7 @@ export const getUser = () => {
         localStorage.removeItem('refreshToken');
       })
         .catch(error => {
-          console.log(error);
+          //console.log(error);
           dispatch({ type: LOGOUT_USER_FAILED });
         })
         .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE })); //TODO кнопки

@@ -22,7 +22,7 @@ export const fetchWithToken = (url, param) => {
       }
       return updateTokenRequest(localStorage.getItem('refreshToken'))
         .catch(error => {
-          console.log(error, 'не удалось обновить токен');
+          //console.log(error, 'не удалось обновить токен');
           return Promise.reject(error);
         })
         .then(token => {
@@ -33,7 +33,7 @@ export const fetchWithToken = (url, param) => {
         });
     })
     .catch(error => {
-      console.log(error);
+      //console.log(error);
       return Promise.reject(error);
   });
 };

@@ -43,6 +43,7 @@ const ForgotPasswordPage = () => {
             Вспомнили пароль?
           </span>
           <Link
+            to={'/login'}
             className={`${styles.link} ${styles.active} text text_type_main-default`}
           >
             Войти
