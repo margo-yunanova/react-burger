@@ -131,7 +131,7 @@ export default function BurgerConstructor({ onDropHandler }) {
       ];
       dispatch(getOrderDetails(ingredientsId));
     } else {
-      localStorage.setItem("location", JSON.stringify(location));
+      localStorage.setItem("locationAfterLogin", JSON.stringify(location));
       navigate("/login");
     }
   };

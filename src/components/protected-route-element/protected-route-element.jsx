@@ -22,7 +22,7 @@ export const ProtectedRouteElement = ({ element }) => {
   }
 
   if (!successRequest) {
-    localStorage.setItem("location", JSON.stringify(location));
+    localStorage.setItem("locationAfterLogin", JSON.stringify(location));
     return <Navigate to="/login" />;
   }
 

@@ -31,9 +31,9 @@ const Login = () => {
   }
 
   if (successRequest && !request) {
-    const location = JSON.parse(localStorage.getItem("location"));
-    if (location) {
-      return <Navigate to={location.pathname} />;
+    const locationAfterLogin = JSON.parse(localStorage.getItem("locationAfterLogin"));
+    if (locationAfterLogin) {
+      return <Navigate to={locationAfterLogin.pathname} />;
     }
     return <Navigate to={"/"} />;
   }
