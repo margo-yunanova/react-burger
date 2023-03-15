@@ -31,9 +31,9 @@ const Login = () => {
   }
 
   if (successRequest && !request) {
-    const protectLocation = JSON.parse(localStorage.getItem('protectLocation'))
-    if (protectLocation) {
-      return <Navigate to={'/profile'} />
+    const location = JSON.parse(localStorage.getItem('location'))
+    if (location) {
+      return <Navigate to={location.pathname} />
     }
     return <Navigate to={'/'} />
   };

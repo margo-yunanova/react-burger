@@ -1,4 +1,5 @@
 import styles from "./ingredient.module.css";
+import PropTypes from "prop-types";
 
 const Ingredient = ({ children, title }) => {
   return (
@@ -10,3 +11,8 @@ const Ingredient = ({ children, title }) => {
 };
 
 export default Ingredient;
+
+Ingredient.propTypes = {
+  children: PropTypes.node.isRequired,
+  title: PropTypes.node,
+}

@@ -6,7 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getOrderDetails } from '../../services/actions/orderDetails';
 import { useDrag, useDrop } from "react-dnd";
 import { MOVE_INGREDIENT_IN_CONSTRUCTOR, REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from '../../services/actions/constructor';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import { getUser } from '../../services/actions/user';
+import { useLocation, useNavigate } from 'react-router';
 
 function BunFillingCard({ item, index }) {
   const dispatch = useDispatch();
@@ -76,17 +78,29 @@ BunFillingCard.propTypes = {
 export default function BurgerConstructor({ onDropHandler }) {
 
   const dispatch = useDispatch();
-
+  const location = useLocation();
   const { bun, bunFilling } = useSelector(state => state.orderIngredients);
 
   const orderDetailsRequest = useSelector(store => store.orderDetails.request);
 
   const orderTotal = bun ? bun.price * 2 : 0 + bunFilling.reduce((sum, item) => sum + item.price, 0);
 
+  const successRequest = useSelector((state) => state.user.success);
+  const navigate = useNavigate()
+
+
+  useEffect(() => {
+    dispatch(getUser());
+  }, [dispatch]);
+
   const makeOrder = () => {
-    const ingredientsId = [bun._id, ...bunFilling.map(item => item._id), bun._id];
-    dispatch(getOrderDetails(ingredientsId));
-  };
+    if (successRequest) {
+      const ingredientsId = [bun._id, ...bunFilling.map(item => item._id), bun._id];
+      dispatch(getOrderDetails(ingredientsId));
+    } else {
+      localStorage.setItem('location', JSON.stringify(location))
+      navigate('/login')
+  }};
 
   const [, dropTargetRef] = useDrop({
     accept: 'ingredient',

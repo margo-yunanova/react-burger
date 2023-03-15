@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router";
 import { getUser } from "../../services/actions/user";
+import PropTypes from "prop-types";
 
 export const ProtectedRouteElement = ({ element }) => {
   const dispatch = useDispatch();
@@ -21,9 +22,13 @@ export const ProtectedRouteElement = ({ element }) => {
   }
 
   if(!successRequest) {
-    localStorage.setItem('protectLocation', JSON.stringify(location))
+    localStorage.setItem('location', JSON.stringify(location))
     return <Navigate to='/login' />
   }
 
   return element
 };
+
+ProtectedRouteElement.propTypes = {
+  children: PropTypes.node.isRequired,
+}

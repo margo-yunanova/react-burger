@@ -1,14 +1,33 @@
 import {
   Button, EmailInput
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { getUser } from "../services/actions/user";
 import { restorePasswordRequest } from "../utils/burger-api";
 import styles from "./forgot-password.module.css";
 
 const ForgotPasswordPage = () => {
   const [form, setForm] = useState({});
+  const [isRequestSent, setRequestSent] = useState(false);
+  const successRequest = useSelector((state) => state.user.success);
+  const request = useSelector((state) => state.user.request);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUser());
+    setRequestSent(true)
+  }, [dispatch]);
+
+  if (!isRequestSent && request) {
+    return null;
+  }
+
+  if (successRequest && !request) {
+    return <Navigate to={'/'} />
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,6 +39,8 @@ const ForgotPasswordPage = () => {
       return null;
     });
   };
+
+
 
   return (
     <section className={styles.section}>
