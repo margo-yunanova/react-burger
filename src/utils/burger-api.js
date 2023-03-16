@@ -10,9 +10,9 @@ const request = (endpoint, options) => {
       'Content-Type': 'application/json;charset=utf-8',
       ...options?.headers,
     }
-  }
-  return fetch(url, params).then(checkResponse)
-}
+  };
+  return fetch(url, params).then(checkResponse);
+};
 
 const updateTokenRequest = (token) => request('auth/token', {
   method: 'POST',
@@ -22,7 +22,7 @@ const updateTokenRequest = (token) => request('auth/token', {
 });
 
 const requestWithToken = (endpoint, options) => {
-  const url = `${BURGER_API_URL}/${endpoint}`
+  const url = `${BURGER_API_URL}/${endpoint}`;
   const params = {
     ...options,
     headers: {
@@ -52,26 +52,26 @@ const requestWithToken = (endpoint, options) => {
       //console.log(error);
       return Promise.reject(error);
     })
-    .then(checkResponse)
+    .then(checkResponse);
 };
 
-export const getIngredientsRequest = () => request('ingredients')
+export const getIngredientsRequest = () => request('ingredients');
 
 export const makeOrderDetailsRequest = (ingredientsId) => request('orders', {
   method: 'POST',
   body: JSON.stringify({
     'ingredients': ingredientsId,
   })
-})
+});
 
-export const restorePasswordRequest = ({email}) => request('password-reset', {
+export const restorePasswordRequest = ({ email }) => request('password-reset', {
   method: 'POST',
   body: JSON.stringify({
     'email': email,
   })
-})
+});
 
-export const resetPasswordRequest = ({password, token}) => request(`password-reset/reset`, {
+export const resetPasswordRequest = ({ password, token }) => request(`password-reset/reset`, {
   method: 'POST',
   body: JSON.stringify({
     'password': password,
@@ -79,7 +79,7 @@ export const resetPasswordRequest = ({password, token}) => request(`password-res
   })
 });
 
-export const createUserRequest = ({email, password, name}) => request(`auth/register`, {
+export const createUserRequest = ({ email, password, name }) => request(`auth/register`, {
   method: 'POST',
   body: JSON.stringify({
     'email': email,
@@ -88,7 +88,7 @@ export const createUserRequest = ({email, password, name}) => request(`auth/regi
   })
 });
 
-export const loginUserRequest = ({email, password}) => request(`auth/login`, {
+export const loginUserRequest = ({ email, password }) => request(`auth/login`, {
   method: 'POST',
   body: JSON.stringify({
     'email': email,
@@ -101,15 +101,15 @@ export const logoutUserRequest = (token) => request(`auth/logout`, {
   body: JSON.stringify({
     'token': token,
   })
-})
+});
 
-export const getUserRequest = () => requestWithToken(`auth/user`)
+export const getUserRequest = () => requestWithToken(`auth/user`);
 
-export const updateUserRequest = ({name, email, password}) => requestWithToken(`auth/user`, {
+export const updateUserRequest = ({ name, email, password }) => requestWithToken(`auth/user`, {
   method: 'PATCH',
   body: JSON.stringify({
     'name': name,
     'email': email,
     'password': password,
   })
-})
+});
