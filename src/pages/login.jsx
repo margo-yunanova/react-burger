@@ -34,7 +34,7 @@ const Login = () => {
 
   if (successRequest && !request) {
     if (searchParams.get("location")) {
-      return <Navigate to={`/${searchParams.get("location")}`} />;
+      return <Navigate to={JSON.parse(searchParams.get("location"))} />;
     }
     return <Navigate to={"/"} />;
   }

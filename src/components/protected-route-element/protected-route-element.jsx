@@ -22,7 +22,8 @@ export const ProtectedRouteElement = ({ element }) => {
   }
 
   if (!successRequest) {
-    return <Navigate to={`/login?location=${location.pathname.slice(1)}`} />;
+    const searchParams = new URLSearchParams({location: JSON.stringify(location)})
+    return <Navigate to={`/login?${searchParams.toString()}`} />;
   }
   return element;
 };
