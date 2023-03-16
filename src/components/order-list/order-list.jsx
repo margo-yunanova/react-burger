@@ -3,6 +3,7 @@ import {
   CurrencyIcon,
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Link } from "react-router-dom";
 
 const OrderItem = () => {
   return (
@@ -31,9 +32,15 @@ const OrderItem = () => {
 const OrderList = () => {
   return (
     <section className={styles.scroll}>
-      <OrderItem />
-      <OrderItem />
-      <OrderItem />
+      <Link className={styles.link}>
+        <OrderItem />
+      </Link>
+      <Link className={styles.link}>
+        <OrderItem />
+      </Link>
+      <Link className={styles.link}>
+        <OrderItem />
+      </Link>
     </section>
   );
 };

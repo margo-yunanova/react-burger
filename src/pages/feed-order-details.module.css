@@ -1,0 +1,56 @@
+.section {
+  width: 640px;
+  margin: auto;
+  padding-top: 120px;
+}
+
+.orderNumber {
+  text-align: center;
+}
+
+.orderNumberDone {
+  color: #00cccc;
+}
+
+.ingredient {
+  display: grid;
+  grid-template-columns: 64px 1fr 98px;
+  column-gap: 16px;
+  align-items: center;
+}
+
+.ingredientIcon {
+  width: 64px;
+  height: 64px;
+  border: 2px solid #801ab3;
+  border-image: linear-gradient(#801ab3, #4c4cff);
+  border-image-slice: 1;
+}
+
+.total {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.price {
+  display: grid;
+  grid-template-columns: repeat(2, min-content);
+  justify-self: end;
+}
+
+.scroll {
+  height: 312px;
+  padding-bottom: 40px;
+  padding-right: 30px;
+  overflow-y: scroll;
+}
+
+.scroll::-webkit-scrollbar {
+  width: 8px;
+  background: #2f2f37;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background: #8585ad;
+  border: 3px solid #8585ad;
+}

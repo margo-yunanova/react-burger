@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Feed from "../../pages/feed";
+import FeedOrderDetails from "../../pages/feed-order-details";
 import ForgotPasswordPage from "../../pages/forgot-password";
 import HomePage from "../../pages/home";
 import Ingredient from "../../pages/ingredient";
@@ -75,12 +76,11 @@ function App() {
               }
             />
           }
-        >
-          <Route
-            path="/feed/:id"
-            element={<ProtectedRouteElement element={<ProfileOrders />} />}
-          />
-        </Route>
+        ></Route>
+        <Route
+          path="/feedorder"
+          element={<ProtectedRouteElement element={<FeedOrderDetails />} />}
+        />
       </Routes>
 
       {state?.backgroundLocation && (
