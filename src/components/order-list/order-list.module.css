@@ -1,0 +1,42 @@
+.scroll {
+  width: 600px;
+}
+
+.cell {
+  width: 536px;
+  margin: auto;
+  display: grid;
+  grid-template-rows: auto;
+  row-gap: 24px;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.total {
+  display: grid;
+  grid-template-columns: 436px 76px;
+  column-gap: 24px;
+}
+
+.price {
+  display: grid;
+  grid-auto-flow: column;
+}
+
+.scroll {
+  height: 650px;
+  overflow-y: scroll;
+}
+
+.scroll::-webkit-scrollbar {
+  width: 8px;
+  background: #2f2f37;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background: #8585ad;
+  border: 3px solid #8585ad;
+}

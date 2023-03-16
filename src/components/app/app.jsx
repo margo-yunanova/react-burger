@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import Feed from "../../pages/feed";
 import ForgotPasswordPage from "../../pages/forgot-password";
 import HomePage from "../../pages/home";
 import Ingredient from "../../pages/ingredient";
@@ -15,6 +16,8 @@ import AppHeader from "../app-header/app-header";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
+import OrderList from "../order-list/order-list";
+import OrderStats from "../order-stats/order--stats";
 import { ProtectedRouteElement } from "../protected-route-element/protected-route-element";
 
 function App() {
@@ -48,7 +51,7 @@ function App() {
             element={<ProtectedRouteElement element={<ProfileOrders />} />}
           />
           <Route
-            path="/profile/orders:id"
+            path="/profile/orders/:id"
             element={<ProtectedRouteElement element={<Profile />} />}
           />
         </Route>
@@ -60,6 +63,24 @@ function App() {
             </Ingredient>
           }
         />
+        <Route
+          path="/feed"
+          element={
+            <ProtectedRouteElement
+              element={
+                <Feed>
+                  <OrderList />
+                  <OrderStats />
+                </Feed>
+              }
+            />
+          }
+        >
+          <Route
+            path="/feed/:id"
+            element={<ProtectedRouteElement element={<ProfileOrders />} />}
+          />
+        </Route>
       </Routes>
 
       {state?.backgroundLocation && (

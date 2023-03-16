@@ -1,0 +1,26 @@
+.section {
+  width: 580px;
+  display: grid;
+  row-gap: 60px;
+}
+
+.table {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 36px;
+}
+
+.orderNumber {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(5, 24px);
+  grid-auto-flow: column;
+}
+
+.orderNumberDone {
+  color: #00cccc;
+}
+
+.total {
+  display: grid;
+}
