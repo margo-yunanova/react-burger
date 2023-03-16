@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import { useEffect, useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import {
   MOVE_INGREDIENT_IN_CONSTRUCTOR,
   REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
@@ -104,6 +104,7 @@ BunFillingCard.propTypes = {
 
 export default function BurgerConstructor({ onDropHandler }) {
   const dispatch = useDispatch();
+  const location = useLocation();
   const { bun, bunFilling } = useSelector((state) => state.orderIngredients);
 
   const orderDetailsRequest = useSelector(
@@ -130,7 +131,7 @@ export default function BurgerConstructor({ onDropHandler }) {
       ];
       dispatch(getOrderDetails(ingredientsId));
     } else {
-      navigate(`/login`);
+      navigate(`/login`, {state: {from: location}});
     }
   };
 

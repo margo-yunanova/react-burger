@@ -1,21 +1,37 @@
 import { BURGER_API_URL } from './constants';
 
-export const checkResponse = (res) => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
+const checkResponse = (res) => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 
-export const updateTokenRequest = (token) => fetch(`${BURGER_API_URL}/auth/token`, {
+const request = (endpoint, options) => {
+  const url = `${BURGER_API_URL}/${endpoint}`;
+  const params = {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      ...options?.headers,
+    }
+  }
+  return fetch(url, params).then(checkResponse)
+}
+
+const updateTokenRequest = (token) => request('auth/token', {
   method: 'POST',
-  headers: {
-    'Content-Type': 'application/json;charset=utf-8'
-  },
   body: JSON.stringify({
     'token': token,
   })
-})
-.then(checkResponse);
+});
 
-export const fetchWithToken = (url, param) => {
-  param = { ...param, headers: { ...param.headers, authorization: localStorage.getItem("accessToken") }, };
-  return fetch(url, param)
+const requestWithToken = (endpoint, options) => {
+  const url = `${BURGER_API_URL}/${endpoint}`
+  const params = {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      authorization: localStorage.getItem("accessToken"),
+      ...options?.headers,
+    },
+  };
+  return fetch(url, params)
     .then((response) => {
       if (response.status !== 401 && response.status !== 403) {
         return response;
@@ -28,108 +44,72 @@ export const fetchWithToken = (url, param) => {
         .then(token => {
           localStorage.setItem('refreshToken', token.refreshToken);
           localStorage.setItem('accessToken', token.accessToken);
-          param.headers.authorization = token.accessToken;
-          return fetch(url, param);
+          params.headers.authorization = token.accessToken;
+          return fetch(url, params);
         });
     })
     .catch(error => {
       //console.log(error);
       return Promise.reject(error);
-  });
+    })
+    .then(checkResponse)
 };
 
-export const getIngredientsRequest = () => fetch(`${BURGER_API_URL}/ingredients`)
-  .then(checkResponse);
+export const getIngredientsRequest = () => request('ingredients')
 
-export const makeOrderDetailsRequest = (ingredientsId) => fetch(`${BURGER_API_URL}/orders`, {
+export const makeOrderDetailsRequest = (ingredientsId) => request('orders', {
   method: 'POST',
-  headers: {
-    'Content-Type': 'application/json;charset=utf-8'
-  },
   body: JSON.stringify({
     'ingredients': ingredientsId,
   })
 })
-  .then(checkResponse);
 
-export const restorePasswordRequest = ({email}) => fetch(`${BURGER_API_URL}/password-reset`, { //TODO: проверить адрес
+export const restorePasswordRequest = ({email}) => request('password-reset', {
   method: 'POST',
-  headers: {
-    'Content-Type': 'application/json;charset=utf-8'
-  },
   body: JSON.stringify({
     'email': email,
   })
 })
-.then(checkResponse);
 
-export const resetPasswordRequest = ({password, token}) => fetch(`${BURGER_API_URL}/password-reset/reset`, {
+export const resetPasswordRequest = ({password, token}) => request(`password-reset/reset`, {
   method: 'POST',
-  headers: {
-    'Content-Type': 'application/json;charset=utf-8'
-  },
   body: JSON.stringify({
     'password': password,
     'token': token,
   })
-})
-.then(checkResponse);
+});
 
-export const createUserRequest = ({email, password, name}) => fetch(`${BURGER_API_URL}/auth/register`, {
+export const createUserRequest = ({email, password, name}) => request(`auth/register`, {
   method: 'POST',
-  headers: {
-    'Content-Type': 'application/json;charset=utf-8'
-  },
   body: JSON.stringify({
     'email': email,
     'password': password,
     'name': name,
   })
-})
-  .then(checkResponse);
+});
 
-export const loginUserRequest = ({email, password}) => fetch(`${BURGER_API_URL}/auth/login`, {
+export const loginUserRequest = ({email, password}) => request(`auth/login`, {
   method: 'POST',
-  headers: {
-    'Content-Type': 'application/json;charset=utf-8'
-  },
   body: JSON.stringify({
     'email': email,
     'password': password,
   })
-})
-.then(checkResponse);
+});
 
-export const logoutUserRequest = (token) => fetch(`${BURGER_API_URL}/auth/logout`, {
+export const logoutUserRequest = (token) => request(`auth/logout`, {
   method: 'POST',
-  headers: {
-    'Content-Type': 'application/json;charset=utf-8'
-  },
   body: JSON.stringify({
     'token': token,
   })
 })
-.then(checkResponse);
 
+export const getUserRequest = () => requestWithToken(`auth/user`)
 
-
-export const getUserRequest = () => fetchWithToken(`${BURGER_API_URL}/auth/user`, {
-  method: 'GET',
-  headers: {
-    'Content-Type': 'application/json;charset=utf-8',
-  },
-})
-.then(checkResponse);
-
-export const updateUserRequest = ({name, email, password}) => fetchWithToken(`${BURGER_API_URL}/auth/user`, {
+export const updateUserRequest = ({name, email, password}) => requestWithToken(`auth/user`, {
   method: 'PATCH',
-  headers: {
-    'Content-Type': 'application/json;charset=utf-8',
-  },
   body: JSON.stringify({
     'name': name,
     'email': email,
     'password': password,
   })
 })
-.then(checkResponse);
