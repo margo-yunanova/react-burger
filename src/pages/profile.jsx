@@ -18,9 +18,9 @@ import styles from "./profile.module.css";
 
 const Profile = () => {
   const activeLink = ({ isActive }) =>
-    `${isActive ? styles.active : ""} + ${
+    `${isActive ? styles.active : ""} ${
       styles.link
-    } + text text_type_main-medium`;
+    } text text_type_main-medium`;
 
   const [form, setForm] = useState({
     name: "",

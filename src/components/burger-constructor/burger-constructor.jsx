@@ -8,8 +8,10 @@ import PropTypes from "prop-types";
 import { useEffect, useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
 import { useLocation, useNavigate } from "react-router";
 import {
+  ADD_INGREDIENT_INTO_CONSTRUCTOR,
   MOVE_INGREDIENT_IN_CONSTRUCTOR,
   REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
 } from "../../services/actions/constructor";
@@ -102,7 +104,7 @@ BunFillingCard.propTypes = {
   index: PropTypes.number.isRequired,
 };
 
-export default function BurgerConstructor({ onDropHandler }) {
+export default function BurgerConstructor() {
   const dispatch = useDispatch();
   const location = useLocation();
   const { bun, bunFilling } = useSelector((state) => state.orderIngredients);
@@ -131,13 +133,23 @@ export default function BurgerConstructor({ onDropHandler }) {
       ];
       dispatch(getOrderDetails(ingredientsId));
     } else {
-      navigate(`/login`, {state: {from: location}});
+      navigate(`/login`, { state: { from: location } });
     }
+  };
+
+  const handleDrop = (ingredient) => {
+    dispatch({
+      type: ADD_INGREDIENT_INTO_CONSTRUCTOR,
+      payload: {
+        ingredient,
+        code: uuidv4(),
+      },
+    });
   };
 
   const [, dropTargetRef] = useDrop({
     accept: "ingredient",
-    drop: (item) => onDropHandler(item),
+    drop: (item) => handleDrop(item),
   });
 
   return (
@@ -191,7 +203,3 @@ export default function BurgerConstructor({ onDropHandler }) {
     </section>
   );
 }
-
-BurgerConstructor.propTypes = {
-  onDropHandler: PropTypes.func.isRequired,
-};

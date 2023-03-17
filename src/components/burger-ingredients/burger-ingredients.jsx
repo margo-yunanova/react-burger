@@ -3,7 +3,6 @@ import {
   CurrencyIcon,
   Tab,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
 import { useRef, useState } from "react";
 import { useDrag } from "react-dnd";
 import { useSelector } from "react-redux";
@@ -33,11 +32,7 @@ const Ingredient = ({ ingredient }) => {
   });
 
   return (
-    <div
-      ref={dragRef}
-      className={styles.cell}
-      style={{ opacity }}
-    >
+    <div ref={dragRef} className={styles.cell} style={{ opacity }}>
       <Counter count={count} size="default" extraClass="m-1" />
       <img src={ingredient.image} alt={ingredient.name} />
       <div className={`${styles.price} pt-1 pb-1`}>
@@ -53,13 +48,17 @@ Ingredient.propTypes = {
   ingredient: ingredientType.isRequired,
 };
 
-export default function BurgerIngredients({ ingredients }) {
+export default function BurgerIngredients() {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState("Булки");
 
   const titleMealEl = useRef(null);
   const titleSauceEl = useRef(null);
   const titleBunEl = useRef(null);
+
+  const ingredients = useSelector(
+    (state) => state.ingredients.listBurgerIngredients.ingredients
+  );
 
   const scrollToTitle = (activeTab) => {
     setActiveTab(activeTab);
@@ -186,7 +185,3 @@ export default function BurgerIngredients({ ingredients }) {
     </section>
   );
 }
-
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientType).isRequired,
-};

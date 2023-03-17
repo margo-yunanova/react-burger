@@ -35,14 +35,14 @@ const ResetPasswordPage = () => {
         <PasswordInput
           name="password"
           placeholder={"Введите новый пароль"}
-          value={form.password}
+          value={form.password || ''}
           onChange={(e) => setForm({ [e.target.name]: e.target.value })}
         />
         <Input
           name="token"
           type={"text"}
           placeholder={"Введите код из письма"}
-          value={form.token}
+          value={form.token || ''}
           onChange={(e) => setForm({ [e.target.name]: e.target.value })}
         />
         <Button htmlType="submit" type="primary" size="large">
