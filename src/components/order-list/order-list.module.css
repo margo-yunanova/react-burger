@@ -1,29 +1,5 @@
 .scroll {
-  width: 600px;
-}
-
-.cell {
-  width: 536px;
-  margin: auto;
-  display: grid;
-  grid-template-rows: auto;
-  row-gap: 24px;
-}
-
-.title {
-  display: flex;
-  justify-content: space-between;
-}
-
-.total {
-  display: grid;
-  grid-template-columns: 436px 76px;
-  column-gap: 24px;
-}
-
-.price {
-  display: grid;
-  grid-auto-flow: column;
+  width: 608px;
 }
 
 .scroll {
