@@ -16,6 +16,15 @@
   gap: 8px;
 }
 
+.link {
+  color: #8585AD;
+  text-decoration: none;
+}
+
+.active {
+  color: #F2F2F3;
+}
+
 .rightnav {
   justify-self: end;
 }

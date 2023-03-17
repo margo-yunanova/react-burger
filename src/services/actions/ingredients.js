@@ -20,7 +20,7 @@ export const getIngredients = () => {
         });
       })
       .catch(error => {
-        console.log(error);
+        //console.log(error);
         dispatch({
           type: GET_INGREDIENTS_FAILED,
         });

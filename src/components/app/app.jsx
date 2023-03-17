@@ -1,58 +1,85 @@
-import { useEffect } from 'react';
-import styles from './app.module.css';
-import AppHeader from '../app-header/app-header';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
-import OrderDetails from '../order-details/order-details';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import Modal from '../modal/modal';
-import { useDispatch, useSelector } from 'react-redux';
-import { getIngredients } from '../../services/actions/ingredients';
-import { HIDE_ORDER_MODAL } from '../../services/actions/orderDetails';
-import { HIDE_INGREDIENT_MODAL } from '../../services/actions/current-ingredient';
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { ADD_INGREDIENT_INTO_CONSTRUCTOR } from '../../services/actions/constructor';
-import { v4 as uuidv4 } from 'uuid';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import ForgotPasswordPage from "../../pages/forgot-password";
+import HomePage from "../../pages/home";
+import Ingredient from "../../pages/ingredient";
+import Login from "../../pages/login";
+import Profile from "../../pages/profile";
+import ProfileOrders from "../../pages/profile-orders";
+import RegisterPage from "../../pages/register";
+import ResetPasswordPage from "../../pages/reset-password";
+import { getIngredients } from "../../services/actions/ingredients";
+import { HIDE_ORDER_MODAL } from "../../services/actions/orderDetails";
+import AppHeader from "../app-header/app-header";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
+import { ProtectedRouteElement } from "../protected-route-element/protected-route-element";
 
 function App() {
-
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const ingredients = useSelector(state => state.ingredients.listBurgerIngredients.ingredients);
-  const orderDetailVisible = useSelector(state => state.orderDetails.orderDetailVisible);
-  const currentIngredientVisible = useSelector(state => state.currentIngredient.currentIngredientVisible);
+  const orderDetailVisible = useSelector(
+    (state) => state.orderDetails.orderDetailVisible
+  );
 
   useEffect(() => dispatch(getIngredients()), [dispatch]);
 
-  const handleDrop = (ingredient) => {
-    dispatch({
-      type: ADD_INGREDIENT_INTO_CONSTRUCTOR,
-      payload: {
-        ingredient,
-        code: uuidv4(),
-      }
-    });
-  };
+  const location = useLocation();
+  const state = location.state;
 
   return (
     <>
       <AppHeader />
-      <main className={styles.menu}>
-        <DndProvider backend={HTML5Backend}>
-          <BurgerIngredients ingredients={ingredients} />
-          {ingredients.length > 0 && <BurgerConstructor onDropHandler={handleDrop} />}
-        </DndProvider>
-      </main>
+      <Routes location={state?.backgroundLocation || location}>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route
+          path="/profile"
+          element={<ProtectedRouteElement element={<Profile />} />}
+        >
+          <Route
+            path="/profile/orders"
+            element={<ProtectedRouteElement element={<ProfileOrders />} />}
+          />
+          <Route
+            path="/profile/orders:id"
+            element={<ProtectedRouteElement element={<Profile />} />}
+          />
+        </Route>
+        <Route
+          path="/ingredients/:id"
+          element={
+            <Ingredient title="Детали ингредиента">
+              <IngredientDetails />
+            </Ingredient>
+          }
+        />
+      </Routes>
 
-      {currentIngredientVisible &&
-        <Modal close={() => dispatch({ type: HIDE_INGREDIENT_MODAL })} title='Детали ингридиента'>
-          <IngredientDetails />
-        </Modal>}
-      {orderDetailVisible &&
+      {state?.backgroundLocation && (
+        <Routes>
+          <Route
+            path="/ingredients/:id"
+            element={
+              <Modal close={() => navigate(-1)} title="Детали ингредиента">
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
+
+      {orderDetailVisible && (
         <Modal close={() => dispatch({ type: HIDE_ORDER_MODAL })}>
           <OrderDetails />
-        </Modal>}
+        </Modal>
+      )}
     </>
   );
 }

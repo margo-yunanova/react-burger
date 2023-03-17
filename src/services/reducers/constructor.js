@@ -1,4 +1,4 @@
-import { ADD_INGREDIENT_INTO_CONSTRUCTOR, MOVE_INGREDIENT_IN_CONSTRUCTOR, REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from "../actions/constructor";
+import { ADD_INGREDIENT_INTO_CONSTRUCTOR, EMPTY_CONSTRUCTOR, MOVE_INGREDIENT_IN_CONSTRUCTOR, REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from "../actions/constructor";
 
 const initialState = {
   bun: null,
@@ -39,6 +39,13 @@ export const orderIngredients = (state = initialState, action) => {
       return {
         ...state,
         bunFilling: newBunFilling
+      };
+    }
+
+    case EMPTY_CONSTRUCTOR: {
+      return {
+        bun: null,
+        bunFilling: [],
       };
     }
 
