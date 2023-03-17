@@ -1,38 +1,28 @@
 .grid {
-  padding-top: 120px;
+  padding-top: 40px;
   width: 1240px;
   margin: auto;
   display: grid;
-  grid-template-columns: 320px 480px;
+  grid-template-columns: 320px 1fr;
   column-gap: 60px;
-  align-items: center;
-}
-
-.login {
-  display: grid;
-  row-gap: 16px;
-  align-self: start;
-
+  align-items: start;
 }
 
 .menu {
   display: grid;
   grid-template-rows: repeat(3, 64px);
+  padding-top: 80px;
 }
 
 .info {
-  color: #8585AD;
+  color: #8585ad;
 }
 
 .link {
-  color: #8585AD;
+  color: #8585ad;
   text-decoration: none;
 }
 
 .active {
-  color: #F2F2F3;
-}
-
-.button {
-  margin-left: auto;
+  color: #f2f2f3;
 }
