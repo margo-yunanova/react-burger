@@ -19,6 +19,7 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import OrderList from "../order-list/order-list";
 import OrderStats from "../order-stats/order--stats";
+import ProfileForm from "../profile-form/profile-form";
 import { ProtectedRouteElement } from "../protected-route-element/protected-route-element";
 
 function App() {
@@ -34,6 +35,8 @@ function App() {
   const location = useLocation();
   const state = location.state;
 
+  const orderStatus = 'Создан'
+
   return (
     <>
       <AppHeader />
@@ -44,17 +47,12 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route
-          path="/profile"
+          path="/profile/"
           element={<ProtectedRouteElement element={<Profile />} />}
         >
-          <Route
-            path="/profile/orders"
-            element={<ProtectedRouteElement element={<ProfileOrders />} />}
-          />
-          <Route
-            path="/profile/orders/:id"
-            element={<ProtectedRouteElement element={<Profile />} />}
-          />
+          <Route index element={<ProfileForm />} />
+          <Route path="orders" element={<ProfileOrders status={orderStatus}/>} />
+          <Route path="orders/:id" element={<Profile />} />
         </Route>
         <Route
           path="/ingredients/:id"
@@ -66,21 +64,8 @@ function App() {
         />
         <Route
           path="/feed"
-          element={
-            <ProtectedRouteElement
-              element={
-                <Feed>
-                  <OrderList />
-                  <OrderStats />
-                </Feed>
-              }
-            />
-          }
-        ></Route>
-        <Route
-          path="/feedorder"
-          element={<ProtectedRouteElement element={<FeedOrderDetails />} />}
-        />
+          element={<Feed><OrderList /><OrderStats /></Feed>}/>
+        <Route path="feed/order" element={<FeedOrderDetails />} />
       </Routes>
 
       {state?.backgroundLocation && (
