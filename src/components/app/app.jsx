@@ -35,7 +35,7 @@ function App() {
   const location = useLocation();
   const state = location.state;
 
-  const orderStatus = 'Создан'
+  const orderStatus = "Создан";
 
   return (
     <>
@@ -51,7 +51,10 @@ function App() {
           element={<ProtectedRouteElement element={<Profile />} />}
         >
           <Route index element={<ProfileForm />} />
-          <Route path="orders" element={<ProfileOrders status={orderStatus}/>} />
+          <Route
+            path="orders"
+            element={<ProfileOrders status={orderStatus} />}
+          />
           <Route path="orders/:id" element={<Profile />} />
         </Route>
         <Route
@@ -64,7 +67,13 @@ function App() {
         />
         <Route
           path="/feed"
-          element={<Feed><OrderList /><OrderStats /></Feed>}/>
+          element={
+            <Feed>
+              <OrderList />
+              <OrderStats />
+            </Feed>
+          }
+        />
         <Route path="feed/order" element={<FeedOrderDetails />} />
       </Routes>
 
