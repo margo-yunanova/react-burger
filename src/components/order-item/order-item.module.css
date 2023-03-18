@@ -24,3 +24,8 @@
 .orderDone {
   color: #00cccc;
 }
+
+.ingredientsImage {
+  display: grid;
+  grid-template-columns: repeat(6, 48px);
+}
