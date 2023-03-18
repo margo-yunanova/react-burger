@@ -3,11 +3,13 @@ import {
   CurrencyIcon,
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useSelector } from "react-redux";
+import IngredientImageRoundBorder from "../components/ingredient-image-round-border/ingredient-image-round-border";
 
-const Ingredient = () => {
+const Ingredient = ({ pinkBun }) => {
   return (
     <div className={styles.ingredient}>
-      <div className={styles.ingredientIcon} />
+      <IngredientImageRoundBorder pinkBun={pinkBun} />
       <p className="text text_type_main-medium">Флюоресцентная булка R2-D3</p>
       <div className={styles.price}>
         <p className="text text_type_digits-default">2x480</p>
@@ -18,6 +20,11 @@ const Ingredient = () => {
 };
 
 const FeedOrderDetails = () => {
+  const pinkBun = useSelector((state) =>
+    state.ingredients.listBurgerIngredients.ingredients.find(
+      (item) => item._id === "60d3b41abdacab0026a733c7"
+    )
+  );
   return (
     <section className={styles.section}>
       <p
@@ -35,7 +42,7 @@ const FeedOrderDetails = () => {
       </p>
       <p className="text text_type_main-medium pb-6">Состав:</p>
       <div className={styles.scroll}>
-        <Ingredient />
+        <Ingredient pinkBun={pinkBun} />
       </div>
       <div className={`${styles.total} pt-6`}>
         <FormattedDate

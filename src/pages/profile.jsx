@@ -12,8 +12,6 @@ const Profile = () => {
       [styles.active]: isActive,
     });
 
-  console.log(activeLink);
-
   const isLogout = useSelector((state) => state.user.isLogout);
 
   const dispatch = useDispatch();

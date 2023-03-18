@@ -19,14 +19,6 @@
   align-items: center;
 }
 
-.ingredientIcon {
-  width: 64px;
-  height: 64px;
-  border: 2px solid #801ab3;
-  border-image: linear-gradient(#801ab3, #4c4cff);
-  border-image-slice: 1;
-}
-
 .total {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

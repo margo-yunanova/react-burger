@@ -1,0 +1,26 @@
+.ingredientIcon {
+  position: relative;
+  width: 64px;
+  height: 64px;
+}
+
+.image {
+  position: absolute;
+  top: 3px;
+  left: -23px;
+  width: 112px;
+}
+
+.ingredientIcon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(#801ab3, #4c4cff);
+  mask: linear-gradient(#1c1c21 0 0) content-box, linear-gradient(#1c1c21 0 0);
+  -webkit-mask: linear-gradient(#1c1c21 0 0) content-box,
+    linear-gradient(#1c1c21 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+}
