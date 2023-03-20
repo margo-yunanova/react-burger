@@ -75,7 +75,14 @@ function App() {
             </Feed>
           }
         />
-        <Route path=":id" element={<FeedOrder><FeedOrderDetails/></FeedOrder>} />
+        <Route
+          path=":id"
+          element={
+            <FeedOrder>
+              <FeedOrderDetails />
+            </FeedOrder>
+          }
+        />
       </Routes>
 
       {state?.backgroundLocation && (
