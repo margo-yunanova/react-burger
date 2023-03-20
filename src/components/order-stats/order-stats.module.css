@@ -14,7 +14,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(5, 24px);
-  grid-auto-flow: column;
+  grid-auto-flow: row;
 }
 
 .orderNumberDone {
