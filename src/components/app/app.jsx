@@ -14,6 +14,7 @@ import ResetPasswordPage from "../../pages/reset-password";
 import { getIngredients } from "../../services/actions/ingredients";
 import { HIDE_ORDER_MODAL } from "../../services/actions/orderDetails";
 import AppHeader from "../app-header/app-header";
+import FeedOrder from "../feed-order/feed-order";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
@@ -66,7 +67,7 @@ function App() {
           }
         />
         <Route
-          path="/feed"
+          path="/feed/"
           element={
             <Feed>
               <OrderList />
@@ -74,8 +75,21 @@ function App() {
             </Feed>
           }
         />
-        <Route path="feed/order" element={<FeedOrderDetails />} />
+        <Route path=":id" element={<FeedOrder><FeedOrderDetails/></FeedOrder>} />
       </Routes>
+
+      {state?.backgroundLocation && (
+        <Routes>
+          <Route
+            path="/feed/:id"
+            element={
+              <Modal close={() => navigate(-1)} title="">
+                <FeedOrderDetails />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
 
       {state?.backgroundLocation && (
         <Routes>

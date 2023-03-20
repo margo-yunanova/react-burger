@@ -1,7 +1,7 @@
 .section {
   width: 640px;
   margin: auto;
-  padding-top: 120px;
+  padding: 40px;
 }
 
 .orderNumber {
@@ -14,7 +14,7 @@
 
 .ingredient {
   display: grid;
-  grid-template-columns: 64px 1fr 98px;
+  grid-template-columns: 64px 1fr 130px;
   column-gap: 16px;
   align-items: center;
 }
@@ -26,13 +26,12 @@
 
 .price {
   display: grid;
-  grid-template-columns: repeat(2, min-content);
+  grid-template-columns: repeat(2, auto);
   justify-self: end;
 }
 
 .scroll {
   height: 312px;
-  padding-bottom: 40px;
   padding-right: 30px;
   overflow-y: scroll;
 }

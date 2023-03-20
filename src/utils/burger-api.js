@@ -57,7 +57,7 @@ const requestWithToken = (endpoint, options) => {
 
 export const getIngredientsRequest = () => request('ingredients');
 
-export const makeOrderDetailsRequest = (ingredientsId) => request('orders', {
+export const makeOrderDetailsRequest = (ingredientsId) => requestWithToken('orders', {
   method: 'POST',
   body: JSON.stringify({
     'ingredients': ingredientsId,
