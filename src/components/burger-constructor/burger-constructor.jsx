@@ -111,10 +111,9 @@ export default function BurgerConstructor({ onDropHandler }) {
     (store) => store.orderDetails.request
   );
 
-  const orderTotal = bun
-    ? bun.price * 2
-    : 0 + bunFilling.reduce((sum, item) => sum + item.price, 0);
-
+  const orderTotal =
+    (bun ? bun.price * 2 : 0) +
+    bunFilling.reduce((sum, item) => sum + item.price, 0);
   const successRequest = useSelector((state) => state.user.success);
   const navigate = useNavigate();
 
@@ -131,7 +130,7 @@ export default function BurgerConstructor({ onDropHandler }) {
       ];
       dispatch(getOrderDetails(ingredientsId));
     } else {
-      navigate(`/login`, {state: {from: location}});
+      navigate(`/login`, { state: { from: location } });
     }
   };
 
