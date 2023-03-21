@@ -2,7 +2,8 @@ import {
   WS_CONNECTION_SUCCESS,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSED,
-  WS_GET_MESSAGE
+  WS_GET_MESSAGE,
+  WS_CONNECTION_STOP
 } from '../actions/webSocket';
 
 const initialState = {
@@ -11,7 +12,7 @@ const initialState = {
     success: false,
     totalOrdersAllTime: null,
     totalOrdersToday: null,
-    orders: [],
+    orders: null,
   }
 };
 
@@ -35,9 +36,19 @@ export const wsReducer = (state = initialState, action) => {
         wsConnected: false
       };
 
+    case WS_CONNECTION_STOP: {
+      return {
+        ...state,
+        wsConnected: false,
+        messages: {
+          success: false,
+          orders: null,
+        },
+      }
+    }
+
     case WS_GET_MESSAGE:
       const {success, total, totalToday, orders} = action.payload
-      //console.log(orders)
       return {
         ...state,
         messages: {

@@ -1,40 +1,54 @@
-export const socketMiddleware = (wsUrl, wsActions) => {
-  return store => {
+export const socketMiddleware = (wsActions) => {
+  return (store) => {
     let socket = null;
 
-    return next => action => {
+    return (next) => (action) => {
       const { dispatch } = store;
       const { type, payload } = action;
-      const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;
+      const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage, wsStop } =
+        wsActions;
 
       if (type === wsInit) {
-        socket = new WebSocket(`${wsUrl}?token=${localStorage.getItem('accessToken')}`);
+        socket?.close();
+        const url =
+          payload.url +
+          (payload.url.includes("all")
+            ? ""
+            : `?token=${localStorage.getItem("accessToken").slice(7)}`);
+        socket = new WebSocket(url);
       }
+
       if (socket) {
-        socket.onopen = event => {
+        socket.onopen = (event) => {
           dispatch({ type: onOpen, payload: event });
         };
 
-        socket.onerror = event => {
+        socket.onerror = (event) => {
           dispatch({ type: onError, payload: event });
         };
 
-        socket.onmessage = event => {
-          const { data } = event;
-          const parsedData = JSON.parse(data);
-          const { success, ...restParsedData } = parsedData;
+        socket.onmessage = (event) => {
+          dispatch({ type: onMessage, payload: JSON.parse(event.data) });
 
-          dispatch({ type: onMessage, payload: restParsedData });
         };
 
-        socket.onclose = event => {
+        socket.onclose = (event) => {
+          console.log(event);
           dispatch({ type: onClose, payload: event });
         };
 
         if (type === wsSendMessage) {
-          const message = { ...payload, token: localStorage.getItem('accessToken') };
+          const message = {
+            ...payload,
+            token: localStorage.getItem("accessToken"),
+          };
           socket.send(JSON.stringify(message));
         }
+
+        if (type === wsStop) {
+          socket.close()
+        }
+
       }
 
       next(action);
