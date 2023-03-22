@@ -50,12 +50,20 @@ function App() {
           element={<ProtectedRouteElement element={<Profile />} />}
         >
           <Route index element={<ProfileForm />} />
-          <Route
-            path="orders"
-            element={<ProfileOrders />}
-          />
+          <Route path="orders" element={<ProfileOrders />} />
         </Route>
-        <Route path="profile/orders/:id" element={<Profile />} />
+        <Route
+          path="/profile/orders/:id"
+          element={
+            <ProtectedRouteElement
+              element={
+                <FeedOrder>
+                  <FeedOrderDetails />
+                </FeedOrder>
+              }
+            />
+          }
+        />
         <Route
           path="/ingredients/:id"
           element={
@@ -74,13 +82,13 @@ function App() {
           }
         />
         <Route
-            path="/feed/:id"
-            element={
-              <FeedOrder>
-                <FeedOrderDetails />
-              </FeedOrder>
-            }
-          />
+          path="/feed/:id"
+          element={
+            <FeedOrder>
+              <FeedOrderDetails requestUrl={'/all'}/>
+            </FeedOrder>
+          }
+        />
       </Routes>
 
       {state?.backgroundLocation && (
@@ -93,11 +101,14 @@ function App() {
               </Modal>
             }
           />
-        </Routes>
-      )}
-
-      {state?.backgroundLocation && (
-        <Routes>
+          <Route
+            path="/profile/orders/:id"
+            element={
+              <Modal close={() => navigate(-1)} title="">
+                <FeedOrderDetails />
+              </Modal>
+            }
+          />
           <Route
             path="/ingredients/:id"
             element={

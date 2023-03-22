@@ -29,7 +29,7 @@ const ProfileOrders = () => {
         orders.map((order, index) => (
           <Link
             key={order._id}
-            to={`/feed/${order._id}`}
+            to={`/profile/orders/${order._id}`}
             state={{ backgroundLocation: location }}
             className={`${styles.link} ${index > 0 && "pt-4"}`}
           >

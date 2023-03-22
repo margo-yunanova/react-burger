@@ -33,7 +33,6 @@ export const socketMiddleware = (wsActions) => {
         };
 
         socket.onclose = (event) => {
-          console.log(event);
           dispatch({ type: onClose, payload: event });
         };
 

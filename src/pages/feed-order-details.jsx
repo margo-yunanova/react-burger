@@ -30,7 +30,7 @@ const Ingredient = ({ id, index, quantity }) => {
 const FeedOrderDetails = () => {
   const { id } = useParams();
 
-  const orders = useSelector((state) => state.wsReducer.messages.orders);
+  const orders = useSelector((state) => state.wsReducer.messages.orders)
 
   const ingredients = useSelector(
     (state) => state.ingredients.listBurgerIngredients.ingredients
@@ -40,11 +40,11 @@ const FeedOrderDetails = () => {
     (state) => state.ingredients.listBurgerIngredients.success
   );
 
-  const order = orders.find((item) => item._id === id);
-
-  if (!success || !order) {
+  if (!success || !orders) {
     return null;
   }
+
+  const order = orders.find((item) => item._id === id);
 
   const commonQuantityUniqueIngredients = {}
 

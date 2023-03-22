@@ -13,9 +13,7 @@ export default function AppHeader() {
       isActive ? styles.active : ""
     }  pr-5 pb-4 pt-4`;
   const activeLinkRightNav = ({ isActive }) =>
-    `${styles.cell} ${styles.link} ${isActive ? styles.active : ""} ${
-      styles.rightnav
-    }`;
+    `${styles.cell} ${styles.link} ${isActive ? styles.active : ""}`;
 
   return (
     <header className={styles.header}>
@@ -40,7 +38,7 @@ export default function AppHeader() {
       <div className={`${styles.logo} mt-6 mb-6`}>
         <Logo />
       </div>
-      <nav>
+      <nav className={styles.rightnav}>
         <NavLink to={"/profile"} className={activeLinkRightNav}>
           {({ isActive }) => (
             <>

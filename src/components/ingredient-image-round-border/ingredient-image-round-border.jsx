@@ -15,8 +15,8 @@ const IngredientImageRoundBorder = ({ id, counter, index }) => {
   const styleText = classNames("text text_type_main-default", styles.counter)
 
   return (
-    <div className={styleIcon}>
-      <img className={styles.image} src={ingredient?.image} alt={ingredient?.name} title={ingredient?.name}/>
+    <div className={styleIcon} title={ingredient?.name}>
+      <img className={styles.image} src={ingredient?.image} alt={ingredient?.name}/>
       {counter > 0 && <div className={styles.shading} />}
       {counter > 0 && <p className={styleText}>+{counter}</p>}
     </div>
