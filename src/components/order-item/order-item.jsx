@@ -7,6 +7,7 @@ import classNames from "classnames";
 import IngredientImageRoundBorder from "../ingredient-image-round-border/ingredient-image-round-border";
 import { useSelector } from "react-redux";
 import { statusOrderName } from "../../utils/constants";
+import PropTypes from "prop-types";
 
 const OrderItem = ({ order, isStatusVisible }) => {
   const statusClass = classNames("text text_type_main-default", {
@@ -58,3 +59,8 @@ const OrderItem = ({ order, isStatusVisible }) => {
 };
 
 export default OrderItem;
+
+OrderItem.propTypes = {
+  order: PropTypes.object.isRequired,
+  isStatusVisible: PropTypes.bool,
+};

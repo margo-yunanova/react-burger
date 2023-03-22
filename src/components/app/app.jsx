@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Feed from "../../pages/feed";
-import FeedOrderDetails from "../../pages/feed-order-details";
+import OrderPlacedDetails from "../../pages/order-placed-details";
 import ForgotPasswordPage from "../../pages/forgot-password";
 import HomePage from "../../pages/home";
 import Ingredient from "../../pages/ingredient";
@@ -14,7 +14,7 @@ import ResetPasswordPage from "../../pages/reset-password";
 import { getIngredients } from "../../services/actions/ingredients";
 import { HIDE_ORDER_MODAL } from "../../services/actions/orderDetails";
 import AppHeader from "../app-header/app-header";
-import FeedOrder from "../feed-order/feed-order";
+import OrderPlaced from "../order-placed/order-placed";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
@@ -57,9 +57,9 @@ function App() {
           element={
             <ProtectedRouteElement
               element={
-                <FeedOrder>
-                  <FeedOrderDetails />
-                </FeedOrder>
+                <OrderPlaced>
+                  <OrderPlacedDetails />
+                </OrderPlaced>
               }
             />
           }
@@ -84,9 +84,9 @@ function App() {
         <Route
           path="/feed/:id"
           element={
-            <FeedOrder>
-              <FeedOrderDetails requestUrl={'/all'}/>
-            </FeedOrder>
+            <OrderPlaced>
+              <OrderPlacedDetails requestUrl={'/all'}/>
+            </OrderPlaced>
           }
         />
       </Routes>
@@ -97,7 +97,7 @@ function App() {
             path="/feed/:id"
             element={
               <Modal close={() => navigate(-1)} title="">
-                <FeedOrderDetails />
+                <OrderPlacedDetails />
               </Modal>
             }
           />
@@ -105,7 +105,7 @@ function App() {
             path="/profile/orders/:id"
             element={
               <Modal close={() => navigate(-1)} title="">
-                <FeedOrderDetails />
+                <OrderPlacedDetails />
               </Modal>
             }
           />

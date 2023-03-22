@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { WS_CONNECTION_START, WS_CONNECTION_STOP } from "../services/actions/webSocket";
 import { wsUrl } from "../utils/constants";
 import styles from "./feed.module.css";
+import PropTypes from "prop-types";
 
 const Feed = ({ children }) => {
   const dispatch = useDispatch();
@@ -21,3 +22,7 @@ const Feed = ({ children }) => {
 };
 
 export default Feed;
+
+Feed.propTypes = {
+  children: PropTypes.node.isRequired,
+};

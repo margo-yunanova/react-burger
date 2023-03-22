@@ -1,4 +1,4 @@
-import styles from "./feed-order-details.module.css";
+import styles from "./order-placed-details.module.css";
 import {
   CurrencyIcon,
   FormattedDate,
@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import IngredientImageRoundBorder from "../components/ingredient-image-round-border/ingredient-image-round-border";
 import { useParams } from "react-router";
 import { statusOrderName } from "../utils/constants";
+import PropTypes from "prop-types";
+
 
 const Ingredient = ({ id, index, quantity }) => {
   const ingredients = useSelector(
@@ -27,7 +29,13 @@ const Ingredient = ({ id, index, quantity }) => {
   );
 };
 
-const FeedOrderDetails = () => {
+Ingredient.propTypes = {
+  id: PropTypes.node.isRequired,
+  quantity: PropTypes.node.isRequired,
+  index: PropTypes.node.isRequired,
+};
+
+const OrderPlacedDetails = () => {
   const { id } = useParams();
 
   const orders = useSelector((state) => state.wsReducer.messages.orders)
@@ -92,4 +100,4 @@ const FeedOrderDetails = () => {
   );
 };
 
-export default FeedOrderDetails;
+export default OrderPlacedDetails;

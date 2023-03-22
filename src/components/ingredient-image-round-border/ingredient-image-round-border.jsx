@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { useSelector } from "react-redux";
 import styles from "./ingredient-image-round-border.module.css";
+import PropTypes from "prop-types";
 
 const IngredientImageRoundBorder = ({ id, counter, index }) => {
 
@@ -24,3 +25,9 @@ const IngredientImageRoundBorder = ({ id, counter, index }) => {
 };
 
 export default IngredientImageRoundBorder;
+
+IngredientImageRoundBorder.propTypes = {
+  id: PropTypes.node.isRequired,
+  counter: PropTypes.node,
+  index: PropTypes.node,
+};

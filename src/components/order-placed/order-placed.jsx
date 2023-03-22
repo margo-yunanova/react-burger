@@ -3,9 +3,9 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { WS_CONNECTION_START, WS_CONNECTION_STOP } from "../../services/actions/webSocket";
 import { wsUrl } from "../../utils/constants";
-import styles from "./feed-order.module.css";
+import styles from "./order-placed.module.css";
 
-const FeedOrder = ({ children, requestUrl = '' }) => {
+const OrderPlaced = ({ children, requestUrl = '' }) => {
   const dispatch = useDispatch()
 
     useEffect(() => {
@@ -20,8 +20,9 @@ const FeedOrder = ({ children, requestUrl = '' }) => {
   );
 };
 
-export default FeedOrder;
+export default OrderPlaced;
 
-FeedOrder.propTypes = {
+OrderPlaced.propTypes = {
   children: PropTypes.node.isRequired,
+  requestUrl: PropTypes.node,
 };
