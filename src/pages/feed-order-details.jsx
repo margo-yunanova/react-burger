@@ -32,20 +32,28 @@ const FeedOrderDetails = () => {
 
   const orders = useSelector((state) => state.wsReducer.messages.orders);
 
+  const ingredients = useSelector(
+    (state) => state.ingredients.listBurgerIngredients.ingredients
+  );
+
+  const success = useSelector(
+    (state) => state.ingredients.listBurgerIngredients.success
+  );
+
   const order = orders.find((item) => item._id === id);
+
+  if (!success || !order) {
+    return null;
+  }
 
   const commonQuantityUniqueIngredients = {}
 
-  for (const id of order.ingredients) {
+  for (const id of order?.ingredients) {
     commonQuantityUniqueIngredients[id] = (commonQuantityUniqueIngredients[id] ?? 0) + 1
   }
 
   const uniqueId = Object.keys(commonQuantityUniqueIngredients)
 
-
-  const ingredients = useSelector(
-    (state) => state.ingredients.listBurgerIngredients.ingredients
-  );
 
   const totalOrder = order.ingredients.reduce((sum, id) => {
     return sum + ingredients.find((item) => id === item._id).price;

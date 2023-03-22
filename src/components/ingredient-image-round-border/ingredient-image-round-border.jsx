@@ -16,7 +16,7 @@ const IngredientImageRoundBorder = ({ id, counter, index }) => {
 
   return (
     <div className={styleIcon}>
-      <img className={styles.image} src={ingredient?.image} alt={ingredient?.name} />
+      <img className={styles.image} src={ingredient?.image} alt={ingredient?.name} title={ingredient?.name}/>
       {counter > 0 && <div className={styles.shading} />}
       {counter > 0 && <p className={styleText}>+{counter}</p>}
     </div>

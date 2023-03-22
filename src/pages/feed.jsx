@@ -1,17 +1,16 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { WS_CONNECTION_START } from "../services/actions/webSocket";
+import { WS_CONNECTION_START, WS_CONNECTION_STOP } from "../services/actions/webSocket";
+import { wsUrl } from "../utils/constants";
 import styles from "./feed.module.css";
 
 const Feed = ({ children }) => {
   const dispatch = useDispatch();
 
-  useEffect(
-    () => {
-      dispatch({ type: WS_CONNECTION_START });
-    },
-    [dispatch]
-  );
+  useEffect(() => {
+    dispatch({ type: WS_CONNECTION_START, payload: {url: `${wsUrl}/all`} });
+    return () => dispatch({ type: WS_CONNECTION_STOP });
+  }, [dispatch]);
 
   return (
     <section className={styles.section}>

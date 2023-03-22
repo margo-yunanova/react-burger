@@ -36,8 +36,6 @@ function App() {
   const location = useLocation();
   const state = location.state;
 
-  const orderStatus = "Создан";
-
   return (
     <>
       <AppHeader />
@@ -48,16 +46,16 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route
-          path="/profile/"
+          path="/profile"
           element={<ProtectedRouteElement element={<Profile />} />}
         >
           <Route index element={<ProfileForm />} />
           <Route
             path="orders"
-            element={<ProfileOrders status={orderStatus} />}
+            element={<ProfileOrders />}
           />
-          <Route path="orders/:id" element={<Profile />} />
         </Route>
+        <Route path="profile/orders/:id" element={<Profile />} />
         <Route
           path="/ingredients/:id"
           element={
@@ -67,7 +65,7 @@ function App() {
           }
         />
         <Route
-          path="/feed/"
+          path="/feed"
           element={
             <Feed>
               <OrderList />
@@ -76,13 +74,13 @@ function App() {
           }
         />
         <Route
-          path=":id"
-          element={
-            <FeedOrder>
-              <FeedOrderDetails />
-            </FeedOrder>
-          }
-        />
+            path="/feed/:id"
+            element={
+              <FeedOrder>
+                <FeedOrderDetails />
+              </FeedOrder>
+            }
+          />
       </Routes>
 
       {state?.backgroundLocation && (
