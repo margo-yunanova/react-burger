@@ -21,6 +21,10 @@ const OrderItem = ({ order, isStatusVisible }) => {
   const counter = order.ingredients.length - 5;
 
   const totalOrder = order.ingredients.reduce((sum, id) => {
+    //TODO удалить когда яндекс пофиксит бэкэнд
+    if (ingredients.find((item) => id === item._id) === undefined) {
+      return sum;
+    }
     return sum + ingredients.find((item) => id === item._id).price;
   }, 0);
 
