@@ -1,14 +1,14 @@
-import styles from "./order-placed-details.module.css";
 import {
   CurrencyIcon,
-  FormattedDate,
+  FormattedDate
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector } from "react-redux";
-import IngredientImageRoundBorder from "../components/ingredient-image-round-border/ingredient-image-round-border";
-import { useParams } from "react-router";
-import { statusOrderName } from "../utils/constants";
+import classNames from "classnames";
 import PropTypes from "prop-types";
-
+import { useSelector } from "react-redux";
+import { useParams } from "react-router";
+import IngredientImageRoundBorder from "../components/ingredient-image-round-border/ingredient-image-round-border";
+import { statusOrderName } from "../utils/constants";
+import styles from "./order-placed-details.module.css";
 
 const Ingredient = ({ id, index, quantity }) => {
   const ingredients = useSelector(
@@ -38,7 +38,7 @@ Ingredient.propTypes = {
 const OrderPlacedDetails = () => {
   const { id } = useParams();
 
-  const orders = useSelector((state) => state.wsReducer.messages.orders)
+  const orders = useSelector((state) => state.wsReducer.messages.orders);
 
   const ingredients = useSelector(
     (state) => state.ingredients.listBurgerIngredients.ingredients
@@ -54,18 +54,22 @@ const OrderPlacedDetails = () => {
 
   const order = orders.find((item) => item._id === id);
 
-  const commonQuantityUniqueIngredients = {}
+  const commonQuantityUniqueIngredients = {};
 
   for (const id of order?.ingredients) {
-    commonQuantityUniqueIngredients[id] = (commonQuantityUniqueIngredients[id] ?? 0) + 1
+    commonQuantityUniqueIngredients[id] =
+      (commonQuantityUniqueIngredients[id] ?? 0) + 1;
   }
 
-  const uniqueId = Object.keys(commonQuantityUniqueIngredients)
-
+  const uniqueId = Object.keys(commonQuantityUniqueIngredients);
 
   const totalOrder = order.ingredients.reduce((sum, id) => {
     return sum + ingredients.find((item) => id === item._id).price;
   }, 0);
+
+  const statusClass = classNames("text text_type_main-default", {
+    [styles.orderDone]: order.status === "done",
+  });
 
   return (
     <section className={styles.section}>
@@ -75,15 +79,18 @@ const OrderPlacedDetails = () => {
         {`#${order?.number}`}
       </p>
       <p className="text text_type_main-medium pb-3">{order?.name}</p>
-      <p
-        className={`${styles.orderNumberDone} text text_type_main-default pb-15`}
-      >
+      <p className={`${statusClass} text text_type_main-default pb-15`}>
         {statusOrderName[order?.status]}
       </p>
       <p className="text text_type_main-medium pb-6">Состав:</p>
       <div className={styles.scroll}>
         {uniqueId.map((id, index) => (
-          <Ingredient key={index} id={id} index={index} quantity={commonQuantityUniqueIngredients[id]}/>
+          <Ingredient
+            key={index}
+            id={id}
+            index={index}
+            quantity={commonQuantityUniqueIngredients[id]}
+          />
         ))}
       </div>
       <div className={`${styles.total} pt-6`}>
