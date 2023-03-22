@@ -57,7 +57,7 @@ function App() {
           element={
             <ProtectedRouteElement
               element={
-                <OrderPlaced>
+                <OrderPlaced isAllOrders={false}>
                   <OrderPlacedDetails />
                 </OrderPlaced>
               }
@@ -84,8 +84,8 @@ function App() {
         <Route
           path="/feed/:id"
           element={
-            <OrderPlaced>
-              <OrderPlacedDetails requestUrl={'/all'}/>
+            <OrderPlaced isAllOrders={true}>
+              <OrderPlacedDetails />
             </OrderPlaced>
           }
         />

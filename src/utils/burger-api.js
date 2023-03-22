@@ -1,4 +1,8 @@
-import { BURGER_API_URL } from './constants';
+import { BURGER_API_URL, wsUrl } from './constants';
+
+export const getOrdersWsUrl = (isAllOrders) => isAllOrders
+  ? `${wsUrl}/all`
+  : `${wsUrl}?token=${localStorage.getItem("accessToken").slice(7)}`
 
 const checkResponse = (res) => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 

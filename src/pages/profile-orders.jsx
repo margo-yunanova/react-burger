@@ -4,7 +4,7 @@ import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import OrderItem from "../components/order-item/order-item";
 import { WS_CONNECTION_START, WS_CONNECTION_STOP } from "../services/actions/webSocket";
-import { wsUrl } from "../utils/constants";
+import { getOrdersWsUrl } from "../utils/burger-api";
 import styles from "./profile-orders.module.css";
 
 const ProfileOrders = () => {
@@ -15,7 +15,7 @@ const ProfileOrders = () => {
   const success = useSelector((state) => state.wsReducer.messages.success);
 
   useEffect(() => {
-    dispatch({ type: WS_CONNECTION_START, payload: { url: wsUrl }});
+    dispatch({ type: WS_CONNECTION_START, payload: { url: getOrdersWsUrl(false) }});
     return () => dispatch({ type: WS_CONNECTION_STOP });
   }, [dispatch]);
 

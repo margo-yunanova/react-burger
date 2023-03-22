@@ -10,12 +10,7 @@ export const socketMiddleware = (wsActions) => {
 
       if (type === wsInit) {
         socket?.close();
-        const url =
-          payload.url +
-          (payload.url.includes("all")
-            ? ""
-            : `?token=${localStorage.getItem("accessToken").slice(7)}`);
-        socket = new WebSocket(url);
+        socket = new WebSocket(`${payload.url}`);
       }
 
       if (socket) {

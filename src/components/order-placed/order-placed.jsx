@@ -2,16 +2,16 @@ import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { WS_CONNECTION_START, WS_CONNECTION_STOP } from "../../services/actions/webSocket";
-import { wsUrl } from "../../utils/constants";
+import { getOrdersWsUrl } from "../../utils/burger-api";
 import styles from "./order-placed.module.css";
 
-const OrderPlaced = ({ children, requestUrl = '' }) => {
+const OrderPlaced = ({ children, isAllOrders }) => {
   const dispatch = useDispatch()
 
     useEffect(() => {
-    dispatch({ type: WS_CONNECTION_START, payload: {url: `${wsUrl}${requestUrl}`} });
+    dispatch({ type: WS_CONNECTION_START, payload: { url: getOrdersWsUrl(isAllOrders) }});
     return () => dispatch({ type: WS_CONNECTION_STOP });
-  }, [dispatch, requestUrl]);
+  }, [dispatch, isAllOrders]);
 
   return (
     <div className={styles.section}>
@@ -24,5 +24,5 @@ export default OrderPlaced;
 
 OrderPlaced.propTypes = {
   children: PropTypes.node.isRequired,
-  requestUrl: PropTypes.node,
+  isAllOrders: PropTypes.bool.isRequired,
 };
