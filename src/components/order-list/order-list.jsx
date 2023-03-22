@@ -7,6 +7,10 @@ const OrderList = () => {
   const location = useLocation();
   const orders = useSelector((state) => state.wsReducer.messages.orders);
 
+  if(!orders) {
+    return null;
+  }
+
   return (
     <section className={styles.scroll}>
       {orders.length > 0 &&

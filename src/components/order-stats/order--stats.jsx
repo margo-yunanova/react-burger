@@ -2,14 +2,19 @@ import { useSelector } from "react-redux";
 import styles from "./order-stats.module.css";
 
 const OrderStats = () => {
-  const orders = useSelector((state) => state.wsReducer.messages);
-  const ordersDone = orders.orders.filter(
+  const messages = useSelector((state) => state.wsReducer.messages);
+
+  if (!messages.orders) {
+    return null;
+  }
+
+  const ordersDone = messages.orders.filter(
     (item) => item.status === "done"
   ).reverse();
 
-  const ordersInProcess = orders.orders.filter(
+  const ordersInProcess = messages.orders.filter(
     (item) => item.status !== "done"
-  ).reverse();;
+  ).reverse();
 
   return (
     <section className={styles.section}>
@@ -36,7 +41,7 @@ const OrderStats = () => {
           Выполнено за всё время:
         </span>
         <span className="text text_type_digits-large">
-          {orders.totalOrdersAllTime}
+          {messages.totalOrdersAllTime}
         </span>
       </div>
       <div className={styles.total}>
@@ -44,7 +49,7 @@ const OrderStats = () => {
           Выполнено за сегодня:
         </span>
         <span className="text text_type_digits-large">
-          {orders.totalOrdersToday}
+          {messages.totalOrdersToday}
         </span>
       </div>
     </section>
