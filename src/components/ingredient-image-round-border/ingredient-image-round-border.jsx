@@ -27,7 +27,7 @@ const IngredientImageRoundBorder = ({ id, counter, index }) => {
 export default IngredientImageRoundBorder;
 
 IngredientImageRoundBorder.propTypes = {
-  id: PropTypes.node.isRequired,
-  counter: PropTypes.node,
-  index: PropTypes.node,
+  id: PropTypes.string, //.isRequired, TODO добавить когда яндекс пофиксит бэкэнд
+  counter: PropTypes.number,
+  index: PropTypes.number,
 };

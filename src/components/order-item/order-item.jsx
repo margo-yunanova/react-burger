@@ -48,7 +48,7 @@ const OrderItem = ({ order, isStatusVisible }) => {
               key={index}
               id={id}
               index={index}
-              counter={index > 4 && counter}
+              counter={index <= 4 ? 0 : counter}
             />
           ))}
         </div>
