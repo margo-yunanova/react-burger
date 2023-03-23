@@ -1,0 +1,11 @@
+.login {
+  width: 480px;
+  display: grid;
+  row-gap: 16px;
+  align-self: start;
+  padding-top: 80px;
+}
+
+.button {
+  margin-left: auto;
+}

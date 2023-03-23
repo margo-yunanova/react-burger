@@ -1,0 +1,12 @@
+.section {
+  width: 1240px;
+  margin: auto;
+  padding-top: 40px;
+  padding-bottom: 20px;
+}
+
+.table {
+  display: flex;
+  flex-direction: row;
+  gap: 60px;
+}

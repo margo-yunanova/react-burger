@@ -1,4 +1,8 @@
-import { BURGER_API_URL } from './constants';
+import { BURGER_API_URL, wsUrl } from './constants';
+
+export const getOrdersWsUrl = (isAllOrders) => isAllOrders
+  ? `${wsUrl}/all`
+  : `${wsUrl}?token=${localStorage.getItem("accessToken").slice(7)}`
 
 const checkResponse = (res) => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 
@@ -57,7 +61,7 @@ const requestWithToken = (endpoint, options) => {
 
 export const getIngredientsRequest = () => request('ingredients');
 
-export const makeOrderDetailsRequest = (ingredientsId) => request('orders', {
+export const makeOrderDetailsRequest = (ingredientsId) => requestWithToken('orders', {
   method: 'POST',
   body: JSON.stringify({
     'ingredients': ingredientsId,

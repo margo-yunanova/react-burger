@@ -1,0 +1,23 @@
+.scroll {
+  width: 852px;
+}
+
+.scroll {
+  height: 750px;
+  overflow-y: scroll;
+}
+
+.scroll::-webkit-scrollbar {
+  width: 8px;
+  background: #2f2f37;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background: #8585ad;
+  border: 3px solid #8585ad;
+}
+
+.link {
+  text-decoration: none;
+  color: white;
+}

@@ -8,6 +8,7 @@ export default function IngredientDetails() {
   const ingredients = useSelector(
     (state) => state.ingredients.listBurgerIngredients.ingredients
   );
+
   const success = useSelector(
     (state) => state.ingredients.listBurgerIngredients.success
   );

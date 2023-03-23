@@ -1,0 +1,47 @@
+.section {
+  width: 640px;
+  margin: auto;
+  padding: 40px;
+}
+
+.orderNumber {
+  text-align: center;
+}
+
+.orderDone {
+  color: #00cccc;
+}
+
+.ingredient {
+  display: grid;
+  grid-template-columns: 64px 1fr 130px;
+  column-gap: 16px;
+  align-items: center;
+}
+
+.total {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.price {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  justify-self: end;
+}
+
+.scroll {
+  height: 312px;
+  padding-right: 30px;
+  overflow-y: scroll;
+}
+
+.scroll::-webkit-scrollbar {
+  width: 8px;
+  background: #2f2f37;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background: #8585ad;
+  border: 3px solid #8585ad;
+}

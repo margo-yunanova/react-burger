@@ -1,0 +1,31 @@
+.cell {
+  width: 536px;
+  display: grid;
+  grid-template-rows: auto;
+  row-gap: 24px;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.total {
+  display: grid;
+  grid-template-columns: 436px 76px;
+  column-gap: 24px;
+}
+
+.price {
+  display: grid;
+  grid-auto-flow: column;
+}
+
+.orderDone {
+  color: #00cccc;
+}
+
+.ingredientsImage {
+  display: grid;
+  grid-template-columns: repeat(6, 48px);
+}

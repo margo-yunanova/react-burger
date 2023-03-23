@@ -113,10 +113,9 @@ export default function BurgerConstructor() {
     (store) => store.orderDetails.request
   );
 
-  const orderTotal = bun
-    ? bun.price * 2
-    : 0 + bunFilling.reduce((sum, item) => sum + item.price, 0);
-
+  const orderTotal =
+    (bun ? bun.price * 2 : 0) +
+    bunFilling.reduce((sum, item) => sum + item.price, 0);
   const successRequest = useSelector((state) => state.user.success);
   const navigate = useNavigate();
 
