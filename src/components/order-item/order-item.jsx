@@ -1,21 +1,21 @@
 import {
   CurrencyIcon,
   FormattedDate,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./order-item.module.css";
-import classNames from "classnames";
-import IngredientImageRoundBorder from "../ingredient-image-round-border/ingredient-image-round-border";
-import { useSelector } from "react-redux";
-import { statusOrderName } from "../../utils/constants";
-import PropTypes from "prop-types";
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import styles from './order-item.module.css';
+import classNames from 'classnames';
+import IngredientImageRoundBorder from '../ingredient-image-round-border/ingredient-image-round-border';
+import { useSelector } from 'react-redux';
+import { statusOrderName } from '../../utils/constants';
+import PropTypes from 'prop-types';
 
 const OrderItem = ({ order, isStatusVisible }) => {
-  const statusClass = classNames("text text_type_main-default", {
-    [styles.orderDone]: order.status === "done",
+  const statusClass = classNames('text text_type_main-default', {
+    [styles.orderDone]: order.status === 'done',
   });
 
   const ingredients = useSelector(
-    (state) => state.ingredients.listBurgerIngredients.ingredients
+    (state) => state.ingredients.listBurgerIngredients.ingredients,
   );
 
   const counter = order.ingredients.length - 5;

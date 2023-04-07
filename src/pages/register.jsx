@@ -3,17 +3,17 @@ import {
   EmailInput,
   Input,
   PasswordInput,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate } from "react-router-dom";
-import { registerUser } from "../services/actions/user";
-import styles from "./register.module.css";
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, Navigate } from 'react-router-dom';
+import { registerUser } from '../services/actions/user';
+import styles from './register.module.css';
 
 const RegisterPage = () => {
   const [form, setForm] = useState({});
   const success = useSelector((state) => state.user.success);
-  const accessToken = localStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem('accessToken');
 
   const dispatch = useDispatch();
 
@@ -23,7 +23,7 @@ const RegisterPage = () => {
   };
 
   if (success || accessToken) {
-    return <Navigate to={"/"} />;
+    return <Navigate to={'/'} />;
   }
 
   return (
@@ -32,23 +32,23 @@ const RegisterPage = () => {
         <h2 className="text text_type_main-medium">Регистрация</h2>
         <Input
           name="name"
-          type={"text"}
-          placeholder={"Имя"}
-          value={form.name ?? ""}
+          type={'text'}
+          placeholder={'Имя'}
+          value={form.name ?? ''}
           onChange={(e) =>
             setForm({ ...form, [e.target.name]: e.target.value })
           }
         />
         <EmailInput
           name="email"
-          value={form.email ?? ""}
+          value={form.email ?? ''}
           onChange={(e) =>
             setForm({ ...form, [e.target.name]: e.target.value })
           }
         />
         <PasswordInput
           name="password"
-          value={form.password ?? ""}
+          value={form.password ?? ''}
           onChange={(e) =>
             setForm({ ...form, [e.target.name]: e.target.value })
           }
@@ -63,7 +63,7 @@ const RegisterPage = () => {
             Уже зарегистрированы?
           </span>
           <Link
-            to={"/login"}
+            to={'/login'}
             className={`${styles.link} ${styles.active} text text_type_main-default`}
           >
             Войти

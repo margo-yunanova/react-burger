@@ -1,5 +1,5 @@
-import { useSelector } from "react-redux";
-import styles from "./order-stats.module.css";
+import { useSelector } from 'react-redux';
+import styles from './order-stats.module.css';
 
 const OrderStats = () => {
   const messages = useSelector((state) => state.wsReducer.messages);
@@ -8,13 +8,13 @@ const OrderStats = () => {
     return null;
   }
 
-  const ordersDone = messages.orders.filter(
-    (item) => item.status === "done"
-  ).reverse();
+  const ordersDone = messages.orders
+    .filter((item) => item.status === 'done')
+    .reverse();
 
-  const ordersInProcess = messages.orders.filter(
-    (item) => item.status !== "done"
-  ).reverse();
+  const ordersInProcess = messages.orders
+    .filter((item) => item.status !== 'done')
+    .reverse();
 
   return (
     <section className={styles.section}>

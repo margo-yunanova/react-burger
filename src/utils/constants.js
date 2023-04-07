@@ -5,7 +5,7 @@ export const localStorage = window.localStorage;
 export const wsUrl = 'wss://norma.nomoreparties.space/orders';
 
 export const statusOrderName = {
-  done: "Выполнен",
-  pending: "В процессе",
-  created: "Создан"
+  done: 'Выполнен',
+  pending: 'В процессе',
+  created: 'Создан',
 };

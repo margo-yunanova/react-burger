@@ -2,7 +2,7 @@ import {
   GET_INGREDIENTS_FAILED,
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
-} from "../actions/ingredients";
+} from '../actions/ingredients';
 
 const initialState = {
   listBurgerIngredients: {
@@ -12,7 +12,6 @@ const initialState = {
 };
 
 export const ingredients = (state = initialState, action) => {
-
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {
@@ -32,10 +31,11 @@ export const ingredients = (state = initialState, action) => {
         listBurgerIngredients: {
           success: success,
           ingredients: ingredients,
-        }
+        },
       };
     }
 
-    default: return state;
+    default:
+      return state;
   }
 };

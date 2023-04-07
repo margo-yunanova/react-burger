@@ -1,13 +1,13 @@
 import {
   Button,
   EmailInput,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { getUser } from "../services/actions/user";
-import { restorePasswordRequest } from "../utils/burger-api";
-import styles from "./forgot-password.module.css";
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { getUser } from '../services/actions/user';
+import { restorePasswordRequest } from '../utils/burger-api';
+import styles from './forgot-password.module.css';
 
 const ForgotPasswordPage = () => {
   const [form, setForm] = useState({});
@@ -27,15 +27,15 @@ const ForgotPasswordPage = () => {
   }
 
   if (successRequest) {
-    return <Navigate to={"/"} />;
+    return <Navigate to={'/'} />;
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
     restorePasswordRequest(form).then(({ success }) => {
       if (success) {
-        navigate("/reset-password", { replace: true });
-        localStorage.setItem("successResetPassword", success);
+        navigate('/reset-password', { replace: true });
+        localStorage.setItem('successResetPassword', success);
       }
       return null;
     });
@@ -48,7 +48,7 @@ const ForgotPasswordPage = () => {
         <EmailInput
           name="email"
           placeholder="Укажите e-mail"
-          value={form.email ?? ""}
+          value={form.email ?? ''}
           onChange={(e) =>
             setForm({ ...form, [e.target.name]: e.target.value })
           }
@@ -63,7 +63,7 @@ const ForgotPasswordPage = () => {
             Вспомнили пароль?
           </span>
           <Link
-            to={"/login"}
+            to={'/login'}
             className={`${styles.link} ${styles.active} text text_type_main-default`}
           >
             Войти

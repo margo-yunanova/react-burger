@@ -1,10 +1,12 @@
 import { BURGER_API_URL, wsUrl } from './constants';
 
-export const getOrdersWsUrl = (isAllOrders) => isAllOrders
-  ? `${wsUrl}/all`
-  : `${wsUrl}?token=${localStorage.getItem("accessToken").slice(7)}`
+export const getOrdersWsUrl = (isAllOrders) =>
+  isAllOrders
+    ? `${wsUrl}/all`
+    : `${wsUrl}?token=${localStorage.getItem('accessToken').slice(7)}`;
 
-const checkResponse = (res) => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
+const checkResponse = (res) =>
+  res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 
 const request = (endpoint, options) => {
   const url = `${BURGER_API_URL}/${endpoint}`;
@@ -13,17 +15,18 @@ const request = (endpoint, options) => {
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
       ...options?.headers,
-    }
+    },
   };
   return fetch(url, params).then(checkResponse);
 };
 
-const updateTokenRequest = (token) => request('auth/token', {
-  method: 'POST',
-  body: JSON.stringify({
-    'token': token,
-  })
-});
+const updateTokenRequest = (token) =>
+  request('auth/token', {
+    method: 'POST',
+    body: JSON.stringify({
+      token: token,
+    }),
+  });
 
 const requestWithToken = (endpoint, options) => {
   const url = `${BURGER_API_URL}/${endpoint}`;
@@ -31,7 +34,7 @@ const requestWithToken = (endpoint, options) => {
     ...options,
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
-      authorization: localStorage.getItem("accessToken"),
+      authorization: localStorage.getItem('accessToken'),
       ...options?.headers,
     },
   };
@@ -41,18 +44,18 @@ const requestWithToken = (endpoint, options) => {
         return response;
       }
       return updateTokenRequest(localStorage.getItem('refreshToken'))
-        .catch(error => {
+        .catch((error) => {
           //console.log(error, 'не удалось обновить токен');
           return Promise.reject(error);
         })
-        .then(token => {
+        .then((token) => {
           localStorage.setItem('refreshToken', token.refreshToken);
           localStorage.setItem('accessToken', token.accessToken);
           params.headers.authorization = token.accessToken;
           return fetch(url, params);
         });
     })
-    .catch(error => {
+    .catch((error) => {
       //console.log(error);
       return Promise.reject(error);
     })
@@ -61,59 +64,66 @@ const requestWithToken = (endpoint, options) => {
 
 export const getIngredientsRequest = () => request('ingredients');
 
-export const makeOrderDetailsRequest = (ingredientsId) => requestWithToken('orders', {
-  method: 'POST',
-  body: JSON.stringify({
-    'ingredients': ingredientsId,
-  })
-});
+export const makeOrderDetailsRequest = (ingredientsId) =>
+  requestWithToken('orders', {
+    method: 'POST',
+    body: JSON.stringify({
+      ingredients: ingredientsId,
+    }),
+  });
 
-export const restorePasswordRequest = ({ email }) => request('password-reset', {
-  method: 'POST',
-  body: JSON.stringify({
-    'email': email,
-  })
-});
+export const restorePasswordRequest = ({ email }) =>
+  request('password-reset', {
+    method: 'POST',
+    body: JSON.stringify({
+      email: email,
+    }),
+  });
 
-export const resetPasswordRequest = ({ password, token }) => request(`password-reset/reset`, {
-  method: 'POST',
-  body: JSON.stringify({
-    'password': password,
-    'token': token,
-  })
-});
+export const resetPasswordRequest = ({ password, token }) =>
+  request(`password-reset/reset`, {
+    method: 'POST',
+    body: JSON.stringify({
+      password: password,
+      token: token,
+    }),
+  });
 
-export const createUserRequest = ({ email, password, name }) => request(`auth/register`, {
-  method: 'POST',
-  body: JSON.stringify({
-    'email': email,
-    'password': password,
-    'name': name,
-  })
-});
+export const createUserRequest = ({ email, password, name }) =>
+  request(`auth/register`, {
+    method: 'POST',
+    body: JSON.stringify({
+      email: email,
+      password: password,
+      name: name,
+    }),
+  });
 
-export const loginUserRequest = ({ email, password }) => request(`auth/login`, {
-  method: 'POST',
-  body: JSON.stringify({
-    'email': email,
-    'password': password,
-  })
-});
+export const loginUserRequest = ({ email, password }) =>
+  request(`auth/login`, {
+    method: 'POST',
+    body: JSON.stringify({
+      email: email,
+      password: password,
+    }),
+  });
 
-export const logoutUserRequest = (token) => request(`auth/logout`, {
-  method: 'POST',
-  body: JSON.stringify({
-    'token': token,
-  })
-});
+export const logoutUserRequest = (token) =>
+  request(`auth/logout`, {
+    method: 'POST',
+    body: JSON.stringify({
+      token: token,
+    }),
+  });
 
 export const getUserRequest = () => requestWithToken(`auth/user`);
 
-export const updateUserRequest = ({ name, email, password }) => requestWithToken(`auth/user`, {
-  method: 'PATCH',
-  body: JSON.stringify({
-    'name': name,
-    'email': email,
-    'password': password,
-  })
-});
+export const updateUserRequest = ({ name, email, password }) =>
+  requestWithToken(`auth/user`, {
+    method: 'PATCH',
+    body: JSON.stringify({
+      name: name,
+      email: email,
+      password: password,
+    }),
+  });

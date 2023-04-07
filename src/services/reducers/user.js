@@ -14,15 +14,14 @@ import {
   LOGOUT_USER_FAILED,
   LOGOUT_USER_REQUEST,
   LOGOUT_USER_SUCCESS,
-
-} from "../actions/user";
+} from '../actions/user';
 
 const initialState = {
   success: false,
   user: null,
   request: false,
   isLogout: false,
-}
+};
 
 export const user = (state = initialState, action) => {
   switch (action.type) {
@@ -32,7 +31,7 @@ export const user = (state = initialState, action) => {
         success: false,
         request: true,
         isLogout: false,
-      }
+      };
     }
 
     case REGISTER_USER_FAILED: {
@@ -42,7 +41,7 @@ export const user = (state = initialState, action) => {
         user: null,
         request: false,
         isLogout: false,
-      }
+      };
     }
 
     case REGISTER_USER_SUCCESS: {
@@ -56,7 +55,7 @@ export const user = (state = initialState, action) => {
         },
         request: false,
         isLogout: false,
-      }
+      };
     }
 
     case AUTHORIZATION_USER_REQUEST: {
@@ -65,7 +64,7 @@ export const user = (state = initialState, action) => {
         success: false,
         request: true,
         isLogout: false,
-      }
+      };
     }
 
     case AUTHORIZATION_USER_FAILED: {
@@ -75,7 +74,7 @@ export const user = (state = initialState, action) => {
         user: null,
         request: false,
         isLogout: false,
-      }
+      };
     }
 
     case AUTHORIZATION_USER_SUCCESS: {
@@ -89,7 +88,7 @@ export const user = (state = initialState, action) => {
         },
         request: false,
         isLogout: false,
-      }
+      };
     }
 
     case GET_USER_REQUEST: {
@@ -98,7 +97,7 @@ export const user = (state = initialState, action) => {
         success: false,
         request: true,
         isLogout: false,
-      }
+      };
     }
 
     case GET_USER_FAILED: {
@@ -108,7 +107,7 @@ export const user = (state = initialState, action) => {
         user: null,
         request: false,
         isLogout: false,
-      }
+      };
     }
 
     case GET_USER_SUCCESS: {
@@ -122,7 +121,7 @@ export const user = (state = initialState, action) => {
         },
         request: false,
         isLogout: false,
-      }
+      };
     }
 
     case UPDATE_USER_REQUEST: {
@@ -131,7 +130,7 @@ export const user = (state = initialState, action) => {
         success: false,
         request: true,
         isLogout: false,
-      }
+      };
     }
 
     case UPDATE_USER_FAILED: {
@@ -141,7 +140,7 @@ export const user = (state = initialState, action) => {
         user: null,
         request: false,
         isLogout: false,
-      }
+      };
     }
 
     case UPDATE_USER_SUCCESS: {
@@ -155,7 +154,7 @@ export const user = (state = initialState, action) => {
         },
         request: false,
         isLogout: false,
-      }
+      };
     }
 
     case LOGOUT_USER_REQUEST: {
@@ -164,7 +163,7 @@ export const user = (state = initialState, action) => {
         success: false,
         request: true,
         isLogout: false,
-      }
+      };
     }
 
     case LOGOUT_USER_FAILED: {
@@ -174,7 +173,7 @@ export const user = (state = initialState, action) => {
         user: null,
         request: false,
         isLogout: false,
-      }
+      };
     }
 
     case LOGOUT_USER_SUCCESS: {
@@ -185,9 +184,10 @@ export const user = (state = initialState, action) => {
         user: null,
         request: false,
         isLogout: true,
-      }
+      };
     }
 
-    default: return state;
+    default:
+      return state;
   }
-}
+};

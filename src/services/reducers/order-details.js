@@ -4,8 +4,7 @@ import {
   SHOW_ORDER_MODAL,
   HIDE_ORDER_MODAL,
   GET_ORDER_DETAILS_REQUEST,
-} from "../actions/orderDetails";
-
+} from '../actions/orderDetails';
 
 const initialState = {
   name: null,
@@ -33,11 +32,12 @@ export const orderDetails = (state = initialState, action) => {
         },
         orderDetailVisible: false,
         request: false,
-
       };
     }
     case GET_ORDER_DETAILS_SUCCESS: {
-      const { order: { number } } = action.payload;
+      const {
+        order: { number },
+      } = action.payload;
       return {
         ...state,
         order: {
@@ -60,6 +60,7 @@ export const orderDetails = (state = initialState, action) => {
       };
     }
 
-    default: return state;
+    default:
+      return state;
   }
 };

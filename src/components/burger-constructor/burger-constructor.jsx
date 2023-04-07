@@ -3,29 +3,29 @@ import {
   ConstructorElement,
   CurrencyIcon,
   DragIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
-import { useEffect, useRef } from "react";
-import { useDrag, useDrop } from "react-dnd";
-import { useDispatch, useSelector } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
-import { useLocation, useNavigate } from "react-router";
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
+import { useEffect, useRef } from 'react';
+import { useDrag, useDrop } from 'react-dnd';
+import { useDispatch, useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
+import { useLocation, useNavigate } from 'react-router';
 import {
   ADD_INGREDIENT_INTO_CONSTRUCTOR,
   MOVE_INGREDIENT_IN_CONSTRUCTOR,
   REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
-} from "../../services/actions/constructor";
-import { getOrderDetails } from "../../services/actions/orderDetails";
-import { getUser } from "../../services/actions/user";
-import { ingredientType } from "../../utils/prop-types";
-import styles from "./burger-constructor.module.css";
+} from '../../services/actions/constructor';
+import { getOrderDetails } from '../../services/actions/orderDetails';
+import { getUser } from '../../services/actions/user';
+import { ingredientType } from '../../utils/prop-types';
+import styles from './burger-constructor.module.css';
 
 function BunFillingCard({ item, index }) {
   const dispatch = useDispatch();
   const ref = useRef(null);
 
   const [{ opacity }, drag, dragPreview] = useDrag({
-    type: "dragBunFillingList",
+    type: 'dragBunFillingList',
     item: { item, index },
     collect: (monitor) => ({
       opacity: monitor.isDragging(),
@@ -33,7 +33,7 @@ function BunFillingCard({ item, index }) {
   });
 
   const [, drop] = useDrop({
-    accept: "dragBunFillingList",
+    accept: 'dragBunFillingList',
     hover: (item, monitor) => {
       if (!ref.current) return;
 
@@ -83,7 +83,7 @@ function BunFillingCard({ item, index }) {
   return (
     <li
       ref={ref}
-      className={`${styles.cell}${index === 0 ? "" : " pt-4"}`}
+      className={`${styles.cell}${index === 0 ? '' : ' pt-4'}`}
       style={{ opacity: opacity ? 0 : 1 }}
     >
       <div ref={drag}>
@@ -110,7 +110,7 @@ export default function BurgerConstructor() {
   const { bun, bunFilling } = useSelector((state) => state.orderIngredients);
 
   const orderDetailsRequest = useSelector(
-    (store) => store.orderDetails.request
+    (store) => store.orderDetails.request,
   );
 
   const orderTotal =
@@ -147,7 +147,7 @@ export default function BurgerConstructor() {
   };
 
   const [, dropTargetRef] = useDrop({
-    accept: "ingredient",
+    accept: 'ingredient',
     drop: (item) => handleDrop(item),
   });
 
@@ -158,7 +158,7 @@ export default function BurgerConstructor() {
           <li className="pl-8 pt-4 pb-4">
             <ConstructorElement
               thumbnail={bun.image}
-              text={bun.name + " (верх)"}
+              text={bun.name + ' (верх)'}
               price={bun.price}
               type="top"
               isLocked={true}
@@ -176,7 +176,7 @@ export default function BurgerConstructor() {
           <li className="pl-8 pt-4">
             <ConstructorElement
               thumbnail={bun.image}
-              text={bun.name + " (низ)"}
+              text={bun.name + ' (низ)'}
               price={bun.price}
               type="bottom"
               isLocked={true}

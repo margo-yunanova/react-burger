@@ -1,5 +1,5 @@
-import { makeOrderDetailsRequest } from "../../utils/burger-api";
-import { EMPTY_CONSTRUCTOR } from "./constructor";
+import { makeOrderDetailsRequest } from '../../utils/burger-api';
+import { EMPTY_CONSTRUCTOR } from './constructor';
 
 export const GET_ORDER_DETAILS_SUCCESS = 'GET_ORDER_DETAILS_SUCCESS';
 export const GET_ORDER_DETAILS_FAILED = 'GET_ORDER_DETAILS_FAILED';
@@ -14,21 +14,22 @@ export const getOrderDetails = (ingredientsId) => {
     dispatch({
       type: GET_ORDER_DETAILS_REQUEST,
     });
-    makeOrderDetailsRequest(ingredientsId).then(response => {
-      dispatch({
-        type: GET_ORDER_DETAILS_SUCCESS,
-        payload: {
-          name: response.name,
-          order: {
-            number: response.order.number,
+    makeOrderDetailsRequest(ingredientsId)
+      .then((response) => {
+        dispatch({
+          type: GET_ORDER_DETAILS_SUCCESS,
+          payload: {
+            name: response.name,
+            order: {
+              number: response.order.number,
+            },
+            success: response.success,
           },
-          success: response.success,
-        }
-      });
-      dispatch({ type: SHOW_ORDER_MODAL });
-      dispatch({ type: EMPTY_CONSTRUCTOR})
-    })
-      .catch(error => {
+        });
+        dispatch({ type: SHOW_ORDER_MODAL });
+        dispatch({ type: EMPTY_CONSTRUCTOR });
+      })
+      .catch((error) => {
         //console.log(error);
         dispatch({ type: GET_ORDER_DETAILS_FAILED });
       })

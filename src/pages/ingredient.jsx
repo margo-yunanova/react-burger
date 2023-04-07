@@ -1,5 +1,5 @@
-import PropTypes from "prop-types";
-import styles from "./ingredient.module.css";
+import PropTypes from 'prop-types';
+import styles from './ingredient.module.css';
 
 const Ingredient = ({ children, title }) => {
   return (

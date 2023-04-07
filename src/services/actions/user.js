@@ -4,8 +4,8 @@ import {
   getUserRequest,
   updateUserRequest,
   logoutUserRequest,
-} from "../../utils/burger-api";
-import { localStorage } from "../../utils/constants";
+} from '../../utils/burger-api';
+import { localStorage } from '../../utils/constants';
 
 export const REGISTER_USER_SUCCESS = 'REGISTER_USER_SUCCESS';
 export const REGISTER_USER_FAILED = 'REGISTER_USER_FAILED';
@@ -35,25 +35,26 @@ export const registerUser = (form) => {
     dispatch({
       type: REGISTER_USER_REQUEST,
     });
-    createUserRequest(form).then(response => {
-      dispatch({
-        type: REGISTER_USER_SUCCESS,
-        payload: {
-          'success': response.success,
-          'user': {
-            'email': response.user.email,
-            'name': response.user.name,
+    createUserRequest(form)
+      .then((response) => {
+        dispatch({
+          type: REGISTER_USER_SUCCESS,
+          payload: {
+            success: response.success,
+            user: {
+              email: response.user.email,
+              name: response.user.name,
+            },
           },
-        }
-      });
-      localStorage.setItem('refreshToken', response.refreshToken);
-      localStorage.setItem('accessToken', response.accessToken);
-    })
-      .catch(error => {
+        });
+        localStorage.setItem('refreshToken', response.refreshToken);
+        localStorage.setItem('accessToken', response.accessToken);
+      })
+      .catch((error) => {
         //console.log(error);
         dispatch({ type: REGISTER_USER_FAILED });
       })
-      .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE }));//TODO кнопки
+      .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE })); //TODO кнопки
   };
 };
 
@@ -62,21 +63,22 @@ export const authorizeUser = (form) => {
     dispatch({
       type: AUTHORIZATION_USER_REQUEST,
     });
-    loginUserRequest(form).then(response => {
-      dispatch({
-        type: AUTHORIZATION_USER_SUCCESS,
-        payload: {
-          'success': response.success,
-          'user': {
-            'email': response.user.email,
-            'name': response.user.name,
+    loginUserRequest(form)
+      .then((response) => {
+        dispatch({
+          type: AUTHORIZATION_USER_SUCCESS,
+          payload: {
+            success: response.success,
+            user: {
+              email: response.user.email,
+              name: response.user.name,
+            },
           },
-        }
-      });
-      localStorage.setItem('refreshToken', response.refreshToken);
-      localStorage.setItem('accessToken', response.accessToken);
-    })
-      .catch(error => {
+        });
+        localStorage.setItem('refreshToken', response.refreshToken);
+        localStorage.setItem('accessToken', response.accessToken);
+      })
+      .catch((error) => {
         //console.log(error);
         dispatch({ type: AUTHORIZATION_USER_FAILED });
       })
@@ -89,72 +91,73 @@ export const getUser = () => {
     dispatch({
       type: GET_USER_REQUEST,
     });
-      getUserRequest()
-      .then(response => {
+    getUserRequest()
+      .then((response) => {
         dispatch({
           type: 'GET_USER_SUCCESS',
           payload: {
-            'success': response.success,
-            'user': {
-              'email': response.user.email,
-              'name': response.user.name,
+            success: response.success,
+            user: {
+              email: response.user.email,
+              name: response.user.name,
             },
-          }
+          },
         });
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch({ type: GET_USER_FAILED });
         //console.log(error, 'данные юзера не получены');
       })
       .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE })); //TODO кнопки
   };
-}
+};
 
-  export const updateUser = (form) => {
-    return (dispatch) => {
-      dispatch({
-        type: UPDATE_USER_REQUEST,
-      });
-      updateUserRequest(form)
-      .then(response => {
+export const updateUser = (form) => {
+  return (dispatch) => {
+    dispatch({
+      type: UPDATE_USER_REQUEST,
+    });
+    updateUserRequest(form)
+      .then((response) => {
         dispatch({
           type: UPDATE_USER_SUCCESS,
           payload: {
-            'success': response.success,
-            'user': {
-              'email': response.user.email,
-              'name': response.user.name,
+            success: response.success,
+            user: {
+              email: response.user.email,
+              name: response.user.name,
             },
-          }
+          },
         });
       })
-        .catch(error => {
-          //console.log(error);
-          dispatch({ type: UPDATE_USER_FAILED });
-        })
-        .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE })); //TODO кнопки
-    };
+      .catch((error) => {
+        //console.log(error);
+        dispatch({ type: UPDATE_USER_FAILED });
+      })
+      .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE })); //TODO кнопки
   };
+};
 
-  export const logoutUser = () => {
-    return (dispatch) => {
-      dispatch({
-        type: LOGOUT_USER_REQUEST,
-      });
-      logoutUserRequest(localStorage.getItem('refreshToken')).then(response => {
+export const logoutUser = () => {
+  return (dispatch) => {
+    dispatch({
+      type: LOGOUT_USER_REQUEST,
+    });
+    logoutUserRequest(localStorage.getItem('refreshToken'))
+      .then((response) => {
         dispatch({
           type: LOGOUT_USER_SUCCESS,
           payload: {
-            'success': response.success, //TODO message - нужно ли сохранять
-          }
+            success: response.success, //TODO message - нужно ли сохранять
+          },
         });
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
       })
-        .catch(error => {
-          //console.log(error);
-          dispatch({ type: LOGOUT_USER_FAILED });
-        })
-        .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE })); //TODO кнопки
-    };
+      .catch((error) => {
+        //console.log(error);
+        dispatch({ type: LOGOUT_USER_FAILED });
+      })
+      .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE })); //TODO кнопки
   };
+};

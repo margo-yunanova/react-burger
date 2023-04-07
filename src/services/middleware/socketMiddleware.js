@@ -5,8 +5,15 @@ export const socketMiddleware = (wsActions) => {
     return (next) => (action) => {
       const { dispatch } = store;
       const { type, payload } = action;
-      const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage, wsStop } =
-        wsActions;
+      const {
+        wsInit,
+        wsSendMessage,
+        onOpen,
+        onClose,
+        onError,
+        onMessage,
+        wsStop,
+      } = wsActions;
 
       if (type === wsInit) {
         socket?.close();
@@ -24,7 +31,6 @@ export const socketMiddleware = (wsActions) => {
 
         socket.onmessage = (event) => {
           dispatch({ type: onMessage, payload: JSON.parse(event.data) });
-
         };
 
         socket.onclose = (event) => {
@@ -34,15 +40,14 @@ export const socketMiddleware = (wsActions) => {
         if (type === wsSendMessage) {
           const message = {
             ...payload,
-            token: localStorage.getItem("accessToken"),
+            token: localStorage.getItem('accessToken'),
           };
           socket.send(JSON.stringify(message));
         }
 
         if (type === wsStop) {
-          socket.close()
+          socket.close();
         }
-
       }
 
       next(action);

@@ -1,16 +1,16 @@
-import { useSelector } from "react-redux";
-import { useParams } from "react-router";
-import styles from "./ingredient-details.module.css";
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import styles from './ingredient-details.module.css';
 
 export default function IngredientDetails() {
   const { id } = useParams();
 
   const ingredients = useSelector(
-    (state) => state.ingredients.listBurgerIngredients.ingredients
+    (state) => state.ingredients.listBurgerIngredients.ingredients,
   );
 
   const success = useSelector(
-    (state) => state.ingredients.listBurgerIngredients.success
+    (state) => state.ingredients.listBurgerIngredients.success,
   );
   const ingredient = ingredients.find((item) => item._id === id);
 

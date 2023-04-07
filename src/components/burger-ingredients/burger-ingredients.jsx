@@ -2,29 +2,29 @@ import {
   Counter,
   CurrencyIcon,
   Tab,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { useRef, useState } from "react";
-import { useDrag } from "react-dnd";
-import { useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
-import { ingredientType } from "../../utils/prop-types";
-import styles from "./burger-ingredients.module.css";
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import { useRef, useState } from 'react';
+import { useDrag } from 'react-dnd';
+import { useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
+import { ingredientType } from '../../utils/prop-types';
+import styles from './burger-ingredients.module.css';
 
 const Ingredient = ({ ingredient }) => {
   const { bun, bunFilling } = useSelector((state) => state.orderIngredients);
 
   const count =
-    ingredient.type !== "bun"
+    ingredient.type !== 'bun'
       ? bunFilling.reduce(
           (sum, item) => (item._id === ingredient._id ? sum + 1 : sum),
-          0
+          0,
         )
       : bun?._id === ingredient._id
       ? 1
       : 0;
 
   const [{ opacity }, dragRef] = useDrag({
-    type: "ingredient",
+    type: 'ingredient',
     item: ingredient,
     collect: (monitor) => ({
       opacity: monitor.isDragging() ? 0.5 : 1,
@@ -50,14 +50,14 @@ Ingredient.propTypes = {
 
 export default function BurgerIngredients() {
   const location = useLocation();
-  const [activeTab, setActiveTab] = useState("Булки");
+  const [activeTab, setActiveTab] = useState('Булки');
 
   const titleMealEl = useRef(null);
   const titleSauceEl = useRef(null);
   const titleBunEl = useRef(null);
 
   const ingredients = useSelector(
-    (state) => state.ingredients.listBurgerIngredients.ingredients
+    (state) => state.ingredients.listBurgerIngredients.ingredients,
   );
 
   const scrollToTitle = (activeTab) => {
@@ -68,7 +68,7 @@ export default function BurgerIngredients() {
       Начинки: titleMealEl.current,
     };
     titlesIngredients[activeTab].scrollIntoView({
-      behavior: "smooth",
+      behavior: 'smooth',
     });
   };
 
@@ -79,20 +79,20 @@ export default function BurgerIngredients() {
     const topEdgeMeal = titleMealEl.current.offsetTop;
 
     if (numberPixelsScrollSectionMove < topEdgeSauce) {
-      setActiveTab("Булки");
+      setActiveTab('Булки');
     } else if (
       numberPixelsScrollSectionMove >= topEdgeSauce &&
       numberPixelsScrollSectionMove < topEdgeMeal
     ) {
-      setActiveTab("Соусы");
+      setActiveTab('Соусы');
     } else {
-      setActiveTab("Начинки");
+      setActiveTab('Начинки');
     }
   };
 
-  const buns = ingredients.filter((i) => i.type === "bun");
-  const main = ingredients.filter((i) => i.type === "main");
-  const sauces = ingredients.filter((i) => i.type === "sauce");
+  const buns = ingredients.filter((i) => i.type === 'bun');
+  const main = ingredients.filter((i) => i.type === 'main');
+  const sauces = ingredients.filter((i) => i.type === 'sauce');
 
   return (
     <section className={styles.section}>
@@ -100,21 +100,21 @@ export default function BurgerIngredients() {
       <nav className={`${styles.tab} pb-10`}>
         <Tab
           value="Булки"
-          active={activeTab === "Булки"}
+          active={activeTab === 'Булки'}
           onClick={scrollToTitle}
         >
           Булки
         </Tab>
         <Tab
           value="Соусы"
-          active={activeTab === "Соусы"}
+          active={activeTab === 'Соусы'}
           onClick={scrollToTitle}
         >
           Соусы
         </Tab>
         <Tab
           value="Начинки"
-          active={activeTab === "Начинки"}
+          active={activeTab === 'Начинки'}
           onClick={scrollToTitle}
         >
           Начинки

@@ -3,46 +3,46 @@ import {
   ListIcon,
   Logo,
   ProfileIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, NavLink } from "react-router-dom";
-import styles from "./app-header.module.css";
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import { Link, NavLink } from 'react-router-dom';
+import styles from './app-header.module.css';
 
 export default function AppHeader() {
   const activeLinkLeftNav = ({ isActive }) =>
     `${styles.cell} ${styles.link} ${
-      isActive ? styles.active : ""
+      isActive ? styles.active : ''
     }  pr-5 pb-4 pt-4`;
   const activeLinkRightNav = ({ isActive }) =>
-    `${styles.cell} ${styles.link} ${isActive ? styles.active : ""}`;
+    `${styles.cell} ${styles.link} ${isActive ? styles.active : ''}`;
 
   return (
     <header className={styles.header}>
       <nav className={`${styles.cell} ${styles.leftnav}`}>
-        <NavLink to={"/"} end className={activeLinkLeftNav}>
+        <NavLink to={'/'} end className={activeLinkLeftNav}>
           {({ isActive }) => (
             <>
-              <BurgerIcon type={isActive ? "primary" : "secondary"} />
+              <BurgerIcon type={isActive ? 'primary' : 'secondary'} />
               <p className="text text_type_main-default">Конструктор</p>
             </>
           )}
         </NavLink>
-        <NavLink to={"/feed"} className={activeLinkLeftNav}>
+        <NavLink to={'/feed'} className={activeLinkLeftNav}>
           {({ isActive }) => (
             <>
-              <ListIcon type={isActive ? "primary" : "secondary"} />
+              <ListIcon type={isActive ? 'primary' : 'secondary'} />
               <p className="text text_type_main-default">Лента заказов</p>
             </>
           )}
         </NavLink>
       </nav>
-      <Link to='/' className={`${styles.logo} mt-6 mb-6`}>
+      <Link to="/" className={`${styles.logo} mt-6 mb-6`}>
         <Logo />
       </Link>
       <nav className={styles.rightnav}>
-        <NavLink to={"/profile"} className={activeLinkRightNav}>
+        <NavLink to={'/profile'} className={activeLinkRightNav}>
           {({ isActive }) => (
             <>
-              <ProfileIcon type={isActive ? "primary" : "secondary"} />
+              <ProfileIcon type={isActive ? 'primary' : 'secondary'} />
               <p className="text text_type_main-default">Личный кабинет</p>
             </>
           )}

@@ -14,7 +14,7 @@
 }
 
 .ingredientIcon::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   border-radius: 50%;
@@ -29,8 +29,10 @@
 
 .shading {
   position: absolute;
-  top: 0;bottom: 0;
-  left: 0; right: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   border-radius: inherit;
   background-color: #1c1c21;
   opacity: 0.6;

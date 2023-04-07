@@ -1,13 +1,13 @@
-import classNames from "classnames";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
-import { getUser, logoutUser } from "../services/actions/user";
-import styles from "./profile.module.css";
+import classNames from 'classnames';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { getUser, logoutUser } from '../services/actions/user';
+import styles from './profile.module.css';
 
 const Profile = () => {
   const activeLink = ({ isActive }) =>
-    classNames("text text_type_main-medium", {
+    classNames('text text_type_main-medium', {
       [styles.link]: true,
       [styles.active]: isActive,
     });
@@ -32,7 +32,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (isLogout) {
-      navigate("/login");
+      navigate('/login');
     }
   });
 

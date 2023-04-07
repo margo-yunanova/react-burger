@@ -2,12 +2,12 @@ import {
   Button,
   EmailInput,
   PasswordInput,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate, useLocation } from "react-router-dom";
-import { authorizeUser, getUser } from "../services/actions/user";
-import styles from "./login.module.css";
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, Navigate, useLocation } from 'react-router-dom';
+import { authorizeUser, getUser } from '../services/actions/user';
+import styles from './login.module.css';
 
 const Login = () => {
   const [form, setForm] = useState({});
@@ -16,7 +16,7 @@ const Login = () => {
   const request = useSelector((state) => state.user.request);
   const dispatch = useDispatch();
 
-  const {state} = useLocation()
+  const { state } = useLocation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -45,14 +45,14 @@ const Login = () => {
         <h2 className="text text_type_main-medium">Вход</h2>
         <EmailInput
           name="email"
-          value={form.email ?? ""}
+          value={form.email ?? ''}
           onChange={(e) =>
             setForm({ ...form, [e.target.name]: e.target.value })
           }
         />
         <PasswordInput
           name="password"
-          value={form.password ?? ""}
+          value={form.password ?? ''}
           onChange={(e) =>
             setForm({ ...form, [e.target.name]: e.target.value })
           }
@@ -67,7 +67,7 @@ const Login = () => {
             Вы — новый пользователь?
           </span>
           <Link
-            to={"/register"}
+            to={'/register'}
             className={`${styles.link} ${styles.active} text text_type_main-default`}
           >
             Зарегистрироваться
@@ -78,7 +78,7 @@ const Login = () => {
             Забыли пароль?
           </span>
           <Link
-            to={"/forgot-password"}
+            to={'/forgot-password'}
             className={`${styles.link} ${styles.active} text text_type_main-default`}
           >
             Восстановить пароль

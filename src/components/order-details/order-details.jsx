@@ -1,5 +1,5 @@
-import { useSelector } from "react-redux";
-import styles from "./order-details.module.css";
+import { useSelector } from 'react-redux';
+import styles from './order-details.module.css';
 
 export default function OrderDetails() {
   const number = useSelector((store) => store.orderDetails.order.number);

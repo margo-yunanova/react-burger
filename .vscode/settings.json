@@ -1,7 +1,4 @@
 {
-    "cSpell.words": [
-        "Logo",
-        "praktikum"
-    ],
-    "prettier.printWidth": 90
+  "cSpell.words": ["Logo", "praktikum"],
+  "prettier.printWidth": 90
 }

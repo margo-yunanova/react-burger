@@ -2,27 +2,27 @@ import {
   Button,
   Input,
   PasswordInput,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { resetPasswordRequest } from "../utils/burger-api";
-import styles from "./reset-password.module.css";
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import { useState } from 'react';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { resetPasswordRequest } from '../utils/burger-api';
+import styles from './reset-password.module.css';
 
 const ResetPasswordPage = () => {
   const [form, setForm] = useState({});
   const navigate = useNavigate();
-  const successResetPassword = localStorage.getItem("successResetPassword");
+  const successResetPassword = localStorage.getItem('successResetPassword');
 
   if (!successResetPassword) {
-    return <Navigate to={"/forgot-password"} />;
+    return <Navigate to={'/forgot-password'} />;
   }
 
   const submitResetForm = (e) => {
     e.preventDefault();
     resetPasswordRequest(form).then(({ success }) => {
       if (success) {
-        navigate("/login", { replace: true });
-        localStorage.removeItem("successResetPassword");
+        navigate('/login', { replace: true });
+        localStorage.removeItem('successResetPassword');
       }
       return null;
     });
@@ -34,14 +34,14 @@ const ResetPasswordPage = () => {
         <h2 className="text text_type_main-medium">Восстановление пароля</h2>
         <PasswordInput
           name="password"
-          placeholder={"Введите новый пароль"}
+          placeholder={'Введите новый пароль'}
           value={form.password || ''}
           onChange={(e) => setForm({ [e.target.name]: e.target.value })}
         />
         <Input
           name="token"
-          type={"text"}
-          placeholder={"Введите код из письма"}
+          type={'text'}
+          placeholder={'Введите код из письма'}
           value={form.token || ''}
           onChange={(e) => setForm({ [e.target.name]: e.target.value })}
         />
@@ -55,7 +55,7 @@ const ResetPasswordPage = () => {
             Вспомнили пароль?
           </span>
           <Link
-            to={"/login"}
+            to={'/login'}
             className={`${styles.link} ${styles.active} text text_type_main-default`}
           >
             Войти

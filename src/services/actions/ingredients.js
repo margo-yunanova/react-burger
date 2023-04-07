@@ -1,4 +1,4 @@
-import { getIngredientsRequest } from "../../utils/burger-api";
+import { getIngredientsRequest } from '../../utils/burger-api';
 
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
@@ -10,7 +10,7 @@ export const getIngredients = () => {
       type: GET_INGREDIENTS_REQUEST,
     });
     getIngredientsRequest()
-      .then(response => {
+      .then((response) => {
         dispatch({
           type: GET_INGREDIENTS_SUCCESS,
           payload: {
@@ -19,7 +19,7 @@ export const getIngredients = () => {
           },
         });
       })
-      .catch(error => {
+      .catch((error) => {
         //console.log(error);
         dispatch({
           type: GET_INGREDIENTS_FAILED,

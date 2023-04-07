@@ -1,24 +1,24 @@
 import {
   CurrencyIcon,
-  FormattedDate
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import classNames from "classnames";
-import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router";
-import IngredientImageRoundBorder from "../components/ingredient-image-round-border/ingredient-image-round-border";
-import { statusOrderName } from "../utils/constants";
-import styles from "./order-placed-details.module.css";
+  FormattedDate,
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import IngredientImageRoundBorder from '../components/ingredient-image-round-border/ingredient-image-round-border';
+import { statusOrderName } from '../utils/constants';
+import styles from './order-placed-details.module.css';
 
 const Ingredient = ({ id, index, quantity }) => {
   const ingredients = useSelector(
-    (state) => state.ingredients.listBurgerIngredients.ingredients
+    (state) => state.ingredients.listBurgerIngredients.ingredients,
   );
 
   const ingredient = ingredients.find((item) => item._id === id);
 
   return (
-    <div className={`${styles.ingredient} ${index > 0 && "pt-4"}`}>
+    <div className={`${styles.ingredient} ${index > 0 && 'pt-4'}`}>
       <IngredientImageRoundBorder id={ingredient._id} />
       <p className="text text_type_main-medium">{ingredient.name}</p>
       <div className={styles.price}>
@@ -41,11 +41,11 @@ const OrderPlacedDetails = () => {
   const orders = useSelector((state) => state.wsReducer.messages.orders);
 
   const ingredients = useSelector(
-    (state) => state.ingredients.listBurgerIngredients.ingredients
+    (state) => state.ingredients.listBurgerIngredients.ingredients,
   );
 
   const success = useSelector(
-    (state) => state.ingredients.listBurgerIngredients.success
+    (state) => state.ingredients.listBurgerIngredients.success,
   );
 
   if (!success || !orders) {
@@ -67,8 +67,8 @@ const OrderPlacedDetails = () => {
     return sum + ingredients.find((item) => id === item._id).price;
   }, 0);
 
-  const statusClass = classNames("text text_type_main-default", {
-    [styles.orderDone]: order.status === "done",
+  const statusClass = classNames('text text_type_main-default', {
+    [styles.orderDone]: order.status === 'done',
   });
 
   return (
