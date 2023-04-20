@@ -7,12 +7,12 @@ import {
 import { Link, NavLink } from 'react-router-dom';
 import styles from './app-header.module.css';
 
-export default function AppHeader() {
-  const activeLinkLeftNav = ({ isActive }) =>
+const AppHeader = () => {
+  const activeLinkLeftNav = ({ isActive }: { isActive: boolean}) =>
     `${styles.cell} ${styles.link} ${
       isActive ? styles.active : ''
     }  pr-5 pb-4 pt-4`;
-  const activeLinkRightNav = ({ isActive }) =>
+  const activeLinkRightNav = ({ isActive }: { isActive: boolean}) =>
     `${styles.cell} ${styles.link} ${isActive ? styles.active : ''}`;
 
   return (
@@ -51,3 +51,5 @@ export default function AppHeader() {
     </header>
   );
 }
+
+export default AppHeader;

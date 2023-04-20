@@ -1,7 +1,12 @@
-import PropTypes from 'prop-types';
+import { FC } from 'react';
 import styles from './modal-overlay.module.css';
 
-export default function ModalOverlay({ children, close }) {
+type TModalOverlay = {
+  children: React.ReactNode;
+  close: () => void;
+}
+
+const ModalOverlay: FC<TModalOverlay> = ({ children, close }) => {
   return (
     <div className={[styles.popup, styles.opened].join(' ')} onClick={close}>
       {children}
@@ -9,7 +14,4 @@ export default function ModalOverlay({ children, close }) {
   );
 }
 
-ModalOverlay.propTypes = {
-  children: PropTypes.node.isRequired,
-  close: PropTypes.func.isRequired,
-};
+export default ModalOverlay;

@@ -1,7 +1,12 @@
-import PropTypes from 'prop-types';
 import styles from './ingredient.module.css';
+import { FC } from 'react';
 
-const Ingredient = ({ children, title }) => {
+type TIngredient = {
+  title?: string;
+  children: React.ReactNode;
+}
+
+const Ingredient: FC<TIngredient> = ({ children, title }) => {
   return (
     <div className={styles.section}>
       <p className="text text_type_main-large">{title}</p>
@@ -11,8 +16,3 @@ const Ingredient = ({ children, title }) => {
 };
 
 export default Ingredient;
-
-Ingredient.propTypes = {
-  children: PropTypes.node.isRequired,
-  title: PropTypes.node,
-};
