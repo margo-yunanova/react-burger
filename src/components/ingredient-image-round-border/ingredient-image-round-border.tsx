@@ -1,14 +1,20 @@
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import styles from './ingredient-image-round-border.module.css';
-import PropTypes from 'prop-types';
+import { FC } from 'react';
 
-const IngredientImageRoundBorder = ({ id, counter, index }) => {
+type TIngredientImageRoundBorder = {
+  id?: string; //.isRequired, TODO добавить когда яндекс пофиксит бэкэнд
+  counter?: number;
+  index?: number;
+}
+
+const IngredientImageRoundBorder: FC<TIngredientImageRoundBorder> = ({ id, counter = 0, index }) => {
   const ingredients = useSelector(
-    (state) => state.ingredients.listBurgerIngredients.ingredients,
+    (state: any) => state.ingredients.listBurgerIngredients.ingredients,
   );
 
-  const ingredient = ingredients.find((item) => item._id === id);
+  const ingredient = ingredients.find((item: any) => item._id === id);
 
   const styleIcon = classNames(styles.ingredientIcon, styles[`zIndex${index}`]);
 
@@ -28,9 +34,3 @@ const IngredientImageRoundBorder = ({ id, counter, index }) => {
 };
 
 export default IngredientImageRoundBorder;
-
-IngredientImageRoundBorder.propTypes = {
-  id: PropTypes.string, //.isRequired, TODO добавить когда яндекс пофиксит бэкэнд
-  counter: PropTypes.number,
-  index: PropTypes.number,
-};

@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux';
 import styles from './order-details.module.css';
 
-export default function OrderDetails() {
-  const number = useSelector((store) => store.orderDetails.order.number);
+const OrderDetails = () => {
+  const number = useSelector((store: any) => store.orderDetails.order.number);
 
   return (
     <div className={styles.popup}>
@@ -18,3 +18,5 @@ export default function OrderDetails() {
     </div>
   );
 }
+
+export default OrderDetails;

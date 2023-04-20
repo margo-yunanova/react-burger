@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   WS_CONNECTION_START,
@@ -8,7 +7,12 @@ import {
 import { getOrdersWsUrl } from '../../utils/burger-api';
 import styles from './order-placed.module.css';
 
-const OrderPlaced = ({ children, isAllOrders }) => {
+type TOrderPlaced = {
+  children: React.ReactNode;
+  isAllOrders: boolean;
+}
+
+const OrderPlaced: FC<TOrderPlaced> = ({ children, isAllOrders }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -16,15 +20,10 @@ const OrderPlaced = ({ children, isAllOrders }) => {
       type: WS_CONNECTION_START,
       payload: { url: getOrdersWsUrl(isAllOrders) },
     });
-    return () => dispatch({ type: WS_CONNECTION_STOP });
+    return () => void dispatch({ type: WS_CONNECTION_STOP });
   }, [dispatch, isAllOrders]);
 
   return <div className={styles.section}>{children}</div>;
 };
 
 export default OrderPlaced;
-
-OrderPlaced.propTypes = {
-  children: PropTypes.node.isRequired,
-  isAllOrders: PropTypes.bool.isRequired,
-};

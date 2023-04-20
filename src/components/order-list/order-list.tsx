@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 const OrderList = () => {
   const location = useLocation();
-  const orders = useSelector((state) => state.wsReducer.messages.orders);
+  const orders = useSelector((state: any) => state.wsReducer.messages.orders);
 
   if (!orders) {
     return null;
@@ -14,7 +14,7 @@ const OrderList = () => {
   return (
     <section className={styles.scroll}>
       {orders.length > 0 &&
-        orders.map((order, index) => (
+        orders.map((order: any, index: any) => (
           <Link
             key={order._id}
             to={`/feed/${order._id}`}

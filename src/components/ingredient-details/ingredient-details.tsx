@@ -6,13 +6,13 @@ export default function IngredientDetails() {
   const { id } = useParams();
 
   const ingredients = useSelector(
-    (state) => state.ingredients.listBurgerIngredients.ingredients,
+    (state: any) => state.ingredients.listBurgerIngredients.ingredients,
   );
 
   const success = useSelector(
-    (state) => state.ingredients.listBurgerIngredients.success,
+    (state: any) => state.ingredients.listBurgerIngredients.success,
   );
-  const ingredient = ingredients.find((item) => item._id === id);
+  const ingredient = ingredients.find((item: any) => item._id === id);
 
   if (!success) {
     return null;
