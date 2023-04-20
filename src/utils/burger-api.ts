@@ -1,14 +1,14 @@
 import { BURGER_API_URL, wsUrl } from './constants';
 
-export const getOrdersWsUrl = (isAllOrders) =>
+export const getOrdersWsUrl = (isAllOrders: boolean): string =>
   isAllOrders
     ? `${wsUrl}/all`
-    : `${wsUrl}?token=${localStorage.getItem('accessToken').slice(7)}`;
+    : `${wsUrl}?token=${localStorage.getItem('accessToken') ?? ''.slice(7)}`;
 
-const checkResponse = (res) =>
+const checkResponse = (res: Response) =>
   res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 
-const request = (endpoint, options) => {
+const request = (endpoint: string, options?: RequestInit) => {
   const url = `${BURGER_API_URL}/${endpoint}`;
   const params = {
     ...options,
@@ -20,7 +20,13 @@ const request = (endpoint, options) => {
   return fetch(url, params).then(checkResponse);
 };
 
-const updateTokenRequest = (token) =>
+type TUpdateTokenResponse = {
+  success: boolean;
+  accessToken: string;
+  refreshToken: string;
+};
+
+const updateTokenRequest = (token: string): Promise<TUpdateTokenResponse> =>
   request('auth/token', {
     method: 'POST',
     body: JSON.stringify({
@@ -28,13 +34,13 @@ const updateTokenRequest = (token) =>
     }),
   });
 
-const requestWithToken = (endpoint, options) => {
+const requestWithToken = (endpoint: string, options?: RequestInit) => {
   const url = `${BURGER_API_URL}/${endpoint}`;
   const params = {
     ...options,
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
-      authorization: localStorage.getItem('accessToken'),
+      authorization: localStorage.getItem('accessToken') ?? '', //as string
       ...options?.headers,
     },
   };
@@ -43,7 +49,7 @@ const requestWithToken = (endpoint, options) => {
       if (response.status !== 401 && response.status !== 403) {
         return response;
       }
-      return updateTokenRequest(localStorage.getItem('refreshToken'))
+      return updateTokenRequest(localStorage.getItem('refreshToken') ?? '') //as string
         .catch((error) => {
           //console.log(error, 'не удалось обновить токен');
           return Promise.reject(error);
@@ -62,9 +68,48 @@ const requestWithToken = (endpoint, options) => {
     .then(checkResponse);
 };
 
-export const getIngredientsRequest = () => request('ingredients');
+type TIngredient = {
+  calories: number;
+  carbohydrates: number;
+  fat: number;
+  image: string;
+  image_large: string;
+  image_mobile: string;
+  name: string;
+  price: number;
+  proteins: number;
+  type: string;
+  __v: number;
+  _id: string;
+};
+type TIngredientsResponse = {
+  data: Array<TIngredient>;
+  success: boolean;
+};
+export const getIngredientsRequest = (): Promise<TIngredientsResponse> =>
+  request('ingredients');
 
-export const makeOrderDetailsRequest = (ingredientsId) =>
+type TMadeOrderResponse = {
+  name: string,
+  order: {
+    createdAt: string;
+    ingredients: Array<TIngredient>;
+    name: string;
+    number: number;
+    owner: {
+      createdAt: string;
+      email: string;
+      name: string;
+      updatedAt: string;
+    };
+    price: number;
+    status: string;
+    updatedAt: string;
+    _id: string;
+  },
+  success: boolean,
+}
+export const makeOrderDetailsRequest = (ingredientsId: string[]): Promise<TMadeOrderResponse> =>
   requestWithToken('orders', {
     method: 'POST',
     body: JSON.stringify({
@@ -72,7 +117,16 @@ export const makeOrderDetailsRequest = (ingredientsId) =>
     }),
   });
 
-export const restorePasswordRequest = ({ email }) =>
+type TRestorePasswordResponse = {
+  success: boolean;
+  message: string;
+};
+
+export const restorePasswordRequest = ({
+  email,
+}: {
+  email: string;
+}): Promise<TRestorePasswordResponse> =>
   request('password-reset', {
     method: 'POST',
     body: JSON.stringify({
@@ -80,7 +134,18 @@ export const restorePasswordRequest = ({ email }) =>
     }),
   });
 
-export const resetPasswordRequest = ({ password, token }) =>
+type TResetPasswordResponse = {
+  success: boolean;
+  message: string;
+};
+
+export const resetPasswordRequest = ({
+  password,
+  token,
+}: {
+  password: string;
+  token: string;
+}): Promise<TResetPasswordResponse> =>
   request(`password-reset/reset`, {
     method: 'POST',
     body: JSON.stringify({
@@ -89,7 +154,27 @@ export const resetPasswordRequest = ({ password, token }) =>
     }),
   });
 
-export const createUserRequest = ({ email, password, name }) =>
+type TUser = {
+  email: string;
+  name: string;
+};
+
+type TCreatedUserResponse = {
+  success: boolean;
+  user: TUser;
+  accessToken: string;
+  refreshToken: string;
+};
+
+export const createUserRequest = ({
+  email,
+  password,
+  name,
+}: {
+  email: string;
+  password: string;
+  name: string;
+}): Promise<TCreatedUserResponse> =>
   request(`auth/register`, {
     method: 'POST',
     body: JSON.stringify({
@@ -99,7 +184,20 @@ export const createUserRequest = ({ email, password, name }) =>
     }),
   });
 
-export const loginUserRequest = ({ email, password }) =>
+type TLoginUserResponse = {
+  success: boolean;
+  user: TUser;
+  accessToken: string;
+  refreshToken: string;
+};
+
+export const loginUserRequest = ({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}): Promise<TLoginUserResponse> =>
   request(`auth/login`, {
     method: 'POST',
     body: JSON.stringify({
@@ -108,7 +206,14 @@ export const loginUserRequest = ({ email, password }) =>
     }),
   });
 
-export const logoutUserRequest = (token) =>
+type TLogoutUserResponse = {
+  success: boolean;
+  message: string;
+};
+
+export const logoutUserRequest = (
+  token: string,
+): Promise<TLogoutUserResponse> =>
   request(`auth/logout`, {
     method: 'POST',
     body: JSON.stringify({
@@ -116,9 +221,23 @@ export const logoutUserRequest = (token) =>
     }),
   });
 
-export const getUserRequest = () => requestWithToken(`auth/user`);
+type TUserResponse = {
+  success: boolean;
+  user: TUser;
+};
 
-export const updateUserRequest = ({ name, email, password }) =>
+export const getUserRequest = (): Promise<TUserResponse> =>
+  requestWithToken(`auth/user`);
+
+export const updateUserRequest = ({
+  name,
+  email,
+  password,
+}: {
+  name: string;
+  email: string;
+  password: string;
+}): Promise<TUserResponse> =>
   requestWithToken(`auth/user`, {
     method: 'PATCH',
     body: JSON.stringify({
