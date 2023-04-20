@@ -7,7 +7,7 @@ import BurgerIngredients from '../components/burger-ingredients/burger-ingredien
 
 const HomePage = () => {
   const ingredients = useSelector(
-    (state) => state.ingredients.listBurgerIngredients.ingredients,
+    (state: any) => state.ingredients.listBurgerIngredients.ingredients,
   );
 
   return (

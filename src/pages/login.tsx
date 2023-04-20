@@ -3,28 +3,28 @@ import {
   EmailInput,
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useEffect, useState } from 'react';
+import { FormEventHandler, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate, useLocation } from 'react-router-dom';
 import { authorizeUser, getUser } from '../services/actions/user';
 import styles from './login.module.css';
 
 const Login = () => {
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState({ email: '', password: '', });
   const [isRequestSent, setRequestSent] = useState(false);
-  const successRequest = useSelector((state) => state.user.success);
-  const request = useSelector((state) => state.user.request);
+  const successRequest = useSelector((state: any) => state.user.success);
+  const request = useSelector((state: any) => state.user.request);
   const dispatch = useDispatch();
 
   const { state } = useLocation();
 
-  const handleSubmit = (e) => {
+  const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();
-    dispatch(authorizeUser(form));
+    dispatch(authorizeUser(form) as any);
   };
 
   useEffect(() => {
-    dispatch(getUser());
+    dispatch(getUser() as any);
     setRequestSent(true);
   }, [dispatch]);
 
@@ -45,14 +45,14 @@ const Login = () => {
         <h2 className="text text_type_main-medium">Вход</h2>
         <EmailInput
           name="email"
-          value={form.email ?? ''}
+          value={form.email}
           onChange={(e) =>
             setForm({ ...form, [e.target.name]: e.target.value })
           }
         />
         <PasswordInput
           name="password"
-          value={form.password ?? ''}
+          value={form.password}
           onChange={(e) =>
             setForm({ ...form, [e.target.name]: e.target.value })
           }

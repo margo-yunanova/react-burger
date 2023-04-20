@@ -2,7 +2,7 @@ import {
   Button,
   EmailInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useEffect, useState } from 'react';
+import { FormEventHandler, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { getUser } from '../services/actions/user';
@@ -10,15 +10,15 @@ import { restorePasswordRequest } from '../utils/burger-api';
 import styles from './forgot-password.module.css';
 
 const ForgotPasswordPage = () => {
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState({ email: '', });
   const [isRequestSent, setRequestSent] = useState(false);
-  const successRequest = useSelector((state) => state.user.success);
-  const request = useSelector((state) => state.user.request);
+  const successRequest = useSelector((state: any) => state.user.success);
+  const request = useSelector((state: any) => state.user.request);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUser());
+    dispatch(getUser() as any);
     setRequestSent(true);
   }, [dispatch]);
 
@@ -30,12 +30,12 @@ const ForgotPasswordPage = () => {
     return <Navigate to={'/'} />;
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();
     restorePasswordRequest(form).then(({ success }) => {
       if (success) {
         navigate('/reset-password', { replace: true });
-        localStorage.setItem('successResetPassword', success);
+        localStorage.setItem('successResetPassword', 'true'); //TODO хотела сохранять boolean, а сохраняю строку
       }
       return null;
     });
@@ -48,7 +48,7 @@ const ForgotPasswordPage = () => {
         <EmailInput
           name="email"
           placeholder="Укажите e-mail"
-          value={form.email ?? ''}
+          value={form.email}
           onChange={(e) =>
             setForm({ ...form, [e.target.name]: e.target.value })
           }

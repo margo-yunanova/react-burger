@@ -13,15 +13,15 @@ import styles from './profile-orders.module.css';
 const ProfileOrders = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const orders = useSelector((state) => state.wsReducer.messages.orders);
-  const success = useSelector((state) => state.wsReducer.messages.success);
+  const orders = useSelector((state: any) => state.wsReducer.messages.orders);
+  const success = useSelector((state: any) => state.wsReducer.messages.success);
 
   useEffect(() => {
     dispatch({
       type: WS_CONNECTION_START,
       payload: { url: getOrdersWsUrl(false) },
     });
-    return () => dispatch({ type: WS_CONNECTION_STOP });
+    return () => void dispatch({ type: WS_CONNECTION_STOP });
   }, [dispatch]);
 
   if (!success || !orders) {
@@ -31,7 +31,7 @@ const ProfileOrders = () => {
   return (
     <div className={styles.scroll}>
       {orders.length > 0 &&
-        orders.map((order, index) => (
+        orders.map((order: any, index: number) => (
           <Link
             key={order._id}
             to={`/profile/orders/${order._id}`}
