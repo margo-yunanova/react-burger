@@ -1,11 +1,11 @@
 import classNames from 'classnames';
-import { MouseEventHandler, useEffect } from 'react';
+import { FC, MouseEventHandler, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { getUser, logoutUser } from '../services/actions/user';
 import styles from './profile.module.css';
 
-const Profile = () => {
+const Profile: FC = () => {
   const activeLink = ({ isActive }: { isActive: boolean}) =>
     classNames('text text_type_main-medium', {
       [styles.link]: true,

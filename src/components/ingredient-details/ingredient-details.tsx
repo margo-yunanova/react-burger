@@ -1,8 +1,9 @@
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import styles from './ingredient-details.module.css';
+import { FC } from 'react';
 
-export default function IngredientDetails() {
+const IngredientDetails: FC = () => {
   const { id } = useParams();
 
   const ingredients = useSelector(
@@ -43,3 +44,5 @@ export default function IngredientDetails() {
     </div>
   );
 }
+
+export default IngredientDetails;

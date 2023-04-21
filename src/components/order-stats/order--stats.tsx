@@ -1,7 +1,8 @@
 import { useSelector } from 'react-redux';
 import styles from './order-stats.module.css';
+import { FC } from 'react';
 
-const OrderStats = () => {
+const OrderStats: FC = () => {
   const messages = useSelector((state: any) => state.wsReducer.messages);
 
   if (!messages.orders) {

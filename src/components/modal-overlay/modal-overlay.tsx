@@ -1,10 +1,9 @@
-import { FC } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import styles from './modal-overlay.module.css';
 
-type TModalOverlay = {
-  children: React.ReactNode;
+type TModalOverlay = PropsWithChildren<{
   close: () => void;
-}
+}>;
 
 const ModalOverlay: FC<TModalOverlay> = ({ children, close }) => {
   return (
@@ -12,6 +11,6 @@ const ModalOverlay: FC<TModalOverlay> = ({ children, close }) => {
       {children}
     </div>
   );
-}
+};
 
 export default ModalOverlay;

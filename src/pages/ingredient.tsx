@@ -1,10 +1,9 @@
 import styles from './ingredient.module.css';
-import { FC } from 'react';
+import { FC, PropsWithChildren } from 'react';
 
-type TIngredient = {
+type TIngredient = PropsWithChildren<{
   title?: string;
-  children: React.ReactNode;
-}
+}>;
 
 const Ingredient: FC<TIngredient> = ({ children, title }) => {
   return (

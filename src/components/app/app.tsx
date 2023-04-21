@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import Feed from '../../pages/feed';
@@ -23,7 +23,7 @@ import OrderStats from '../order-stats/order--stats';
 import ProfileForm from '../profile-form/profile-form';
 import { ProtectedRouteElement } from '../protected-route-element/protected-route-element';
 
-function App() {
+const App: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

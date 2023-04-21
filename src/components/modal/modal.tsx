@@ -1,14 +1,13 @@
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { FC, useEffect } from 'react';
+import { FC, PropsWithChildren, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import styles from './modal.module.css';
 
-type TModal = {
-  children: React.ReactNode;
+type TModal = PropsWithChildren<{
   close: () => void;
   title?: string;
-}
+}>
 
 const Modal: FC<TModal> = ({ children, close, title = '' }) => {
   useEffect(() => {

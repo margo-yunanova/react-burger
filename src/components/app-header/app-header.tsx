@@ -6,8 +6,9 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, NavLink } from 'react-router-dom';
 import styles from './app-header.module.css';
+import { FC } from 'react';
 
-const AppHeader = () => {
+const AppHeader: FC = () => {
   const activeLinkLeftNav = ({ isActive }: { isActive: boolean}) =>
     `${styles.cell} ${styles.link} ${
       isActive ? styles.active : ''

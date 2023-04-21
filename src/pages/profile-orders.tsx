@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -10,7 +10,7 @@ import {
 import { getOrdersWsUrl } from '../utils/burger-api';
 import styles from './profile-orders.module.css';
 
-const ProfileOrders = () => {
+const ProfileOrders: FC = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const orders = useSelector((state: any) => state.wsReducer.messages.orders);

@@ -35,7 +35,7 @@ const Ingredient: FC<TIngredient> = ({ id, index, quantity }) => {
   );
 };
 
-const OrderPlacedDetails = () => {
+const OrderPlacedDetails: FC = () => {
   const { id } = useParams();
 
   const orders = useSelector((state: any) => state.wsReducer.messages.orders);

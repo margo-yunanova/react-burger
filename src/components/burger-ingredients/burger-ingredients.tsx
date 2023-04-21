@@ -44,7 +44,7 @@ const Ingredient: FC<{ingredient: TIngredient}> = ({ ingredient }) => {
   );
 };
 
-const BurgerIngredients = () => {
+const BurgerIngredients: FC = () => {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState('Булки');
 

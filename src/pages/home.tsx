@@ -4,8 +4,9 @@ import { useSelector } from 'react-redux';
 import styles from '../components/app/app.module.css';
 import BurgerConstructor from '../components/burger-constructor/burger-constructor';
 import BurgerIngredients from '../components/burger-ingredients/burger-ingredients';
+import { FC } from 'react';
 
-const HomePage = () => {
+const HomePage: FC = () => {
   const ingredients = useSelector(
     (state: any) => state.ingredients.listBurgerIngredients.ingredients,
   );

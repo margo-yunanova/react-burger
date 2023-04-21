@@ -103,7 +103,7 @@ const BunFillingCard: FC<TBunFillingCard> = ({ item, index }) => {
   );
 }
 
-export default function BurgerConstructor() {
+const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { bun, bunFilling } = useSelector((state: any) => state.orderIngredients);
@@ -202,3 +202,5 @@ export default function BurgerConstructor() {
     </section>
   );
 }
+
+export default BurgerConstructor;

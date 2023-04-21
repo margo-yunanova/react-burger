@@ -1,7 +1,8 @@
 import { useSelector } from 'react-redux';
 import styles from './order-details.module.css';
+import { FC } from 'react';
 
-const OrderDetails = () => {
+const OrderDetails: FC = () => {
   const number = useSelector((store: any) => store.orderDetails.order.number);
 
   return (

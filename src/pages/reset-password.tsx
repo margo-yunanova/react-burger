@@ -3,12 +3,12 @@ import {
   Input,
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { FormEventHandler, useState } from 'react';
+import { FC, FormEventHandler, useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { resetPasswordRequest } from '../utils/burger-api';
 import styles from './reset-password.module.css';
 
-const ResetPasswordPage = () => {
+const ResetPasswordPage: FC = () => {
   const [form, setForm] = useState({ password: '', token: '',});
   const navigate = useNavigate();
   const successResetPassword = localStorage.getItem('successResetPassword'); //TODO - вместо boolean сейчас строка

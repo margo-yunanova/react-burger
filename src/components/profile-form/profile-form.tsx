@@ -4,16 +4,17 @@ import {
   Input,
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { FormEventHandler, useEffect, useState } from 'react';
+import { FC, FormEventHandler, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getUser, updateUser } from '../../services/actions/user';
 import styles from './profile-form.module.css';
 
-const ProfileForm = () => {
+const ProfileForm: FC = () => {
   const [form, setForm] = useState({
     name: '',
-    email: '',
+    email: '', //TODO проверить как работает редактирование пароля
+    password: '', //
   });
 
   const isLogout = useSelector((state:any) => state.user.isLogout);
@@ -33,7 +34,7 @@ const ProfileForm = () => {
 
   useEffect(() => {
     if (successRequest) {
-      setForm({ name, email });
+      setForm({ name, email, password: '', });
     }
   }, [successRequest, name, email]);
 
@@ -44,7 +45,7 @@ const ProfileForm = () => {
 
   const handleReset: FormEventHandler = (e) => {
     e.preventDefault();
-    setForm({ name, email });
+    setForm({ name, email, password: '' });
   };
 
   useEffect(() => {
@@ -79,7 +80,7 @@ const ProfileForm = () => {
         placeholder={'Пароль'}
         icon="EditIcon"
         onChange={(e) => setForm({ ...form, [e.target.name]: e.target.value })}
-        value={'*'.repeat(10)}
+        value={form.password}
       />
       <div className={styles.button}>
         <Button htmlType="reset" type="secondary" size="large">

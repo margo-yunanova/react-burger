@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, PropsWithChildren, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   WS_CONNECTION_START,
@@ -7,9 +7,7 @@ import {
 import styles from './feed.module.css';
 import { getOrdersWsUrl } from '../utils/burger-api';
 
-type TFeed = {
-  children: React.ReactNode;
-}
+type TFeed = PropsWithChildren;
 
 const Feed: FC<TFeed> = ({ children }) => {
   const dispatch = useDispatch();

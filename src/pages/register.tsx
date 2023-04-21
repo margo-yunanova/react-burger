@@ -4,13 +4,13 @@ import {
   Input,
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { FormEventHandler, useState } from 'react';
+import { FC, FormEventHandler, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
 import { registerUser } from '../services/actions/user';
 import styles from './register.module.css';
 
-const RegisterPage = () => {
+const RegisterPage: FC = () => {
   const [form, setForm] = useState({ name: '', email: '', password: '', });
   const success = useSelector((state: any) => state.user.success);
   const accessToken = localStorage.getItem('accessToken');

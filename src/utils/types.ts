@@ -29,3 +29,16 @@ export type TMadeOrder = {
   updatedAt: string;
   _id: string;
 }
+
+export type TAction<T, U = never> = {
+  readonly type: T;
+  readonly payload: U;
+}
+
+export type TPayloadUser = {
+  success: boolean;
+  user: {
+    email: string;
+    name: string;
+  }
+}

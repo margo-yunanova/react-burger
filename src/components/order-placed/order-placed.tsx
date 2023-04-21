@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, PropsWithChildren, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   WS_CONNECTION_START,
@@ -7,10 +7,9 @@ import {
 import { getOrdersWsUrl } from '../../utils/burger-api';
 import styles from './order-placed.module.css';
 
-type TOrderPlaced = {
-  children: React.ReactNode;
+type TOrderPlaced = PropsWithChildren<{
   isAllOrders: boolean;
-}
+}>;
 
 const OrderPlaced: FC<TOrderPlaced> = ({ children, isAllOrders }) => {
   const dispatch = useDispatch();

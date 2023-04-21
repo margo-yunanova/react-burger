@@ -3,13 +3,13 @@ import {
   EmailInput,
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { FormEventHandler, useEffect, useState } from 'react';
+import { FC, FormEventHandler, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate, useLocation } from 'react-router-dom';
 import { authorizeUser, getUser } from '../services/actions/user';
 import styles from './login.module.css';
 
-const Login = () => {
+const Login: FC = () => {
   const [form, setForm] = useState({ email: '', password: '', });
   const [isRequestSent, setRequestSent] = useState(false);
   const successRequest = useSelector((state: any) => state.user.success);
