@@ -9,7 +9,46 @@ export const SET_CHECKOUT_BUTTON_ACTIVE = 'SET_CHECKOUT_BUTTON_ACTIVE';
 export const SHOW_ORDER_MODAL = 'SHOW_ORDER_MODAL';
 export const HIDE_ORDER_MODAL = 'HIDE_ORDER_MODAL';
 
-export const getOrderDetails = (ingredientsId) => {
+type TGetOrderDetailsRequest = {
+  readonly type: typeof GET_ORDER_DETAILS_REQUEST;
+};
+
+type TGetOrderDetailsSuccess = {
+  readonly type: typeof GET_ORDER_DETAILS_SUCCESS;
+  readonly payload: {
+    name: string;
+    order: {
+      number: number;
+    };
+    success: boolean;
+  };
+};
+
+type TGetOrderDetailsFailed = {
+  readonly type: typeof GET_ORDER_DETAILS_FAILED;
+};
+
+type TShowOrderModal = {
+  readonly type: typeof SHOW_ORDER_MODAL;
+};
+
+type TEmptyConstructor = {
+  readonly type: typeof EMPTY_CONSTRUCTOR;
+};
+
+type TSetCheckoutButtonActive = {
+  readonly type: typeof SET_CHECKOUT_BUTTON_ACTIVE;
+};
+
+export type TGetOrderDetails =
+  | TEmptyConstructor
+  | TGetOrderDetailsFailed
+  | TGetOrderDetailsRequest
+  | TGetOrderDetailsSuccess
+  | TSetCheckoutButtonActive
+  | TShowOrderModal;
+
+export const getOrderDetails = (ingredientsId: Array<string>) => {
   return (dispatch) => {
     dispatch({
       type: GET_ORDER_DETAILS_REQUEST,
@@ -29,8 +68,7 @@ export const getOrderDetails = (ingredientsId) => {
         dispatch({ type: SHOW_ORDER_MODAL });
         dispatch({ type: EMPTY_CONSTRUCTOR });
       })
-      .catch((error) => {
-        //console.log(error);
+      .catch(() => {
         dispatch({ type: GET_ORDER_DETAILS_FAILED });
       })
       .finally(() => dispatch({ type: SET_CHECKOUT_BUTTON_ACTIVE }));
