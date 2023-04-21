@@ -1,28 +1,35 @@
+import { TIngredient } from '../../utils/types';
 import {
   GET_INGREDIENTS_FAILED,
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
 } from '../actions/ingredients';
+import type { TGetIngredients } from '../actions/ingredients';
 
-const initialState = {
+type TInitialStateIngredients = {
   listBurgerIngredients: {
-    success: null,
+    success: boolean;
+    ingredients: Array<TIngredient>;
+  };
+};
+
+const initialState: TInitialStateIngredients = {
+  listBurgerIngredients: {
+    success: false,
     ingredients: [],
   },
 };
 
-export const ingredients = (state = initialState, action) => {
+export const ingredients = (
+  state = initialState,
+  action: TGetIngredients,
+): TInitialStateIngredients => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
-      return {
-        ...state,
-      };
+      return state;
     }
     case GET_INGREDIENTS_FAILED: {
-      return {
-        ...state,
-        listBurgerIngredients: [],
-      };
+      return initialState;
     }
     case GET_INGREDIENTS_SUCCESS: {
       const { success, ingredients } = action.payload;
