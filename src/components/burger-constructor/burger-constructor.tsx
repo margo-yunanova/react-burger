@@ -4,8 +4,7 @@ import {
   CurrencyIcon,
   DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
-import { useEffect, useRef } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
@@ -17,12 +16,17 @@ import {
 } from '../../services/actions/constructor';
 import { getOrderDetails } from '../../services/actions/orderDetails';
 import { getUser } from '../../services/actions/user';
-import { ingredientType } from '../../utils/prop-types';
 import styles from './burger-constructor.module.css';
+import { TIngredient } from '../../utils/types';
 
-function BunFillingCard({ item, index }) {
+type TBunFillingCard = {
+  item: TIngredient;
+  index: number;
+}
+
+const BunFillingCard: FC<TBunFillingCard> = ({ item, index }) => {
   const dispatch = useDispatch();
-  const ref = useRef(null);
+  const ref = useRef<HTMLLIElement>(null);
 
   const [{ opacity }, drag, dragPreview] = useDrag({
     type: 'dragBunFillingList',
@@ -32,7 +36,7 @@ function BunFillingCard({ item, index }) {
     }),
   });
 
-  const [, drop] = useDrop({
+  const [, drop] = useDrop<{item: TIngredient; index: number}>({
     accept: 'dragBunFillingList',
     hover: (item, monitor) => {
       if (!ref.current) return;
@@ -46,7 +50,7 @@ function BunFillingCard({ item, index }) {
         ref.current?.getBoundingClientRect();
       const clientOffset = monitor.getClientOffset();
       const locationMouseOverHoverIngredient =
-        clientOffset.y - topHoveredIngredient;
+        clientOffset!.y - topHoveredIngredient;
 
       if (
         dragIndex < hoverIndex &&
@@ -70,7 +74,7 @@ function BunFillingCard({ item, index }) {
     },
   });
 
-  const handleClose = (ingredient) => {
+  const handleClose = (ingredient: TIngredient) => {
     dispatch({
       type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
       payload: {
@@ -99,44 +103,45 @@ function BunFillingCard({ item, index }) {
   );
 }
 
-BunFillingCard.propTypes = {
-  item: ingredientType.isRequired,
-  index: PropTypes.number.isRequired,
-};
-
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { bun, bunFilling } = useSelector((state) => state.orderIngredients);
+  const { bun, bunFilling } = useSelector((state: any) => state.orderIngredients);
 
   const orderDetailsRequest = useSelector(
-    (store) => store.orderDetails.request,
+    (store: any) => store.orderDetails.request,
   );
 
   const orderTotal =
     (bun ? bun.price * 2 : 0) +
-    bunFilling.reduce((sum, item) => sum + item.price, 0);
-  const successRequest = useSelector((state) => state.user.success);
+    bunFilling.reduce((sum: number, item: any) => sum + item.price, 0);
+
+  const successRequest = useSelector((state: any) => state.user.success);
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getUser());
+    dispatch(getUser() as any);
   }, [dispatch]);
 
   const makeOrder = () => {
     if (successRequest) {
       const ingredientsId = [
         bun._id,
-        ...bunFilling.map((item) => item._id),
+        ...bunFilling.map((item: any) => item._id),
         bun._id,
       ];
-      dispatch(getOrderDetails(ingredientsId));
+      dispatch(getOrderDetails(ingredientsId) as any);
     } else {
       navigate(`/login`, { state: { from: location } });
     }
   };
 
-  const handleDrop = (ingredient) => {
+  const [, dropTargetRef] = useDrop<TIngredient>({
+    accept: 'ingredient',
+    drop: (item) => handleDrop(item),
+  });
+
+  const handleDrop = (ingredient: TIngredient) => {
     dispatch({
       type: ADD_INGREDIENT_INTO_CONSTRUCTOR,
       payload: {
@@ -145,11 +150,6 @@ export default function BurgerConstructor() {
       },
     });
   };
-
-  const [, dropTargetRef] = useDrop({
-    accept: 'ingredient',
-    drop: (item) => handleDrop(item),
-  });
 
   return (
     <section className={`${styles.section} pt-25`}>
@@ -167,7 +167,7 @@ export default function BurgerConstructor() {
         )}
         {bunFilling && (
           <div className={styles.scroll}>
-            {bunFilling.map((item, i) => (
+            {bunFilling.map((item: any, i: number) => (
               <BunFillingCard key={item.code} item={item} index={i} />
             ))}
           </div>

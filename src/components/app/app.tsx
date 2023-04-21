@@ -28,10 +28,10 @@ function App() {
   const navigate = useNavigate();
 
   const orderDetailVisible = useSelector(
-    (state) => state.orderDetails.orderDetailVisible,
+    (state: any) => state.orderDetails.orderDetailVisible,
   );
 
-  useEffect(() => dispatch(getIngredients()), [dispatch]);
+  useEffect(() => dispatch(getIngredients() as any), [dispatch]);
 
   const location = useLocation();
   const state = location.state;

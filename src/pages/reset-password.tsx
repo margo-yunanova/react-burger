@@ -11,7 +11,7 @@ import styles from './reset-password.module.css';
 const ResetPasswordPage = () => {
   const [form, setForm] = useState({ password: '', token: '',});
   const navigate = useNavigate();
-  const successResetPassword = localStorage.getItem('successResetPassword');
+  const successResetPassword = localStorage.getItem('successResetPassword'); //TODO - вместо boolean сейчас строка
 
   if (!successResetPassword) {
     return <Navigate to={'/forgot-password'} />;

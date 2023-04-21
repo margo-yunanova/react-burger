@@ -3,19 +3,25 @@ import {
   FormattedDate,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import IngredientImageRoundBorder from '../components/ingredient-image-round-border/ingredient-image-round-border';
 import { statusOrderName } from '../utils/constants';
 import styles from './order-placed-details.module.css';
+import { FC } from 'react';
+import { TMadeOrder } from '../utils/types';
 
-const Ingredient = ({ id, index, quantity }) => {
+type TIngredient = {
+  id: string;
+  quantity: number;
+  index: number;
+}
+const Ingredient: FC<TIngredient> = ({ id, index, quantity }) => {
   const ingredients = useSelector(
-    (state) => state.ingredients.listBurgerIngredients.ingredients,
+    (state: any) => state.ingredients.listBurgerIngredients.ingredients,
   );
 
-  const ingredient = ingredients.find((item) => item._id === id);
+  const ingredient = ingredients.find((item: any) => item._id === id);
 
   return (
     <div className={`${styles.ingredient} ${index > 0 && 'pt-4'}`}>
@@ -23,38 +29,32 @@ const Ingredient = ({ id, index, quantity }) => {
       <p className="text text_type_main-medium">{ingredient.name}</p>
       <div className={styles.price}>
         <p className="text text_type_digits-default">{`${quantity} x ${ingredient.price}`}</p>
-        <CurrencyIcon />
+        <CurrencyIcon type="primary"/>
       </div>
     </div>
   );
 };
 
-Ingredient.propTypes = {
-  id: PropTypes.node.isRequired,
-  quantity: PropTypes.node.isRequired,
-  index: PropTypes.node.isRequired,
-};
-
 const OrderPlacedDetails = () => {
   const { id } = useParams();
 
-  const orders = useSelector((state) => state.wsReducer.messages.orders);
+  const orders = useSelector((state: any) => state.wsReducer.messages.orders);
 
   const ingredients = useSelector(
-    (state) => state.ingredients.listBurgerIngredients.ingredients,
+    (state: any) => state.ingredients.listBurgerIngredients.ingredients,
   );
 
   const success = useSelector(
-    (state) => state.ingredients.listBurgerIngredients.success,
+    (state: any) => state.ingredients.listBurgerIngredients.success,
   );
 
   if (!success || !orders) {
     return null;
   }
 
-  const order = orders.find((item) => item._id === id);
+  const order = orders.find((item: any) => item._id === id) as TMadeOrder;
 
-  const commonQuantityUniqueIngredients = {};
+  const commonQuantityUniqueIngredients: { [key: string]: number; } = {};
 
   for (const id of order?.ingredients) {
     commonQuantityUniqueIngredients[id] =
@@ -63,8 +63,8 @@ const OrderPlacedDetails = () => {
 
   const uniqueId = Object.keys(commonQuantityUniqueIngredients);
 
-  const totalOrder = order.ingredients.reduce((sum, id) => {
-    return sum + ingredients.find((item) => id === item._id).price;
+  const totalOrder = order.ingredients.reduce((sum: number, id: string): number => {
+    return sum + ingredients.find((item: any) => id === item._id).price;
   }, 0);
 
   const statusClass = classNames('text text_type_main-default', {
@@ -100,7 +100,7 @@ const OrderPlacedDetails = () => {
         />
         <div className={styles.price}>
           <p className="text text_type_digits-default">{totalOrder}</p>
-          <CurrencyIcon />
+          <CurrencyIcon type='primary'/>
         </div>
       </div>
     </section>

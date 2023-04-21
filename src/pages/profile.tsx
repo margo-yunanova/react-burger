@@ -1,33 +1,33 @@
 import classNames from 'classnames';
-import { useEffect } from 'react';
+import { MouseEventHandler, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { getUser, logoutUser } from '../services/actions/user';
 import styles from './profile.module.css';
 
 const Profile = () => {
-  const activeLink = ({ isActive }) =>
+  const activeLink = ({ isActive }: { isActive: boolean}) =>
     classNames('text text_type_main-medium', {
       [styles.link]: true,
       [styles.active]: isActive,
     });
 
-  const isLogout = useSelector((state) => state.user.isLogout);
+  const isLogout = useSelector((state: any) => state.user.isLogout);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const successRequest = useSelector((state) => state.user.success);
+  const successRequest = useSelector((state: any) => state.user.success);
 
   useEffect(() => {
     if (!successRequest) {
-      dispatch(getUser());
+      dispatch(getUser() as any);
     }
   }, [dispatch, successRequest]);
 
-  const handleExit = (e) => {
+  const handleExit: MouseEventHandler = (e) => {
     e.preventDefault();
-    dispatch(logoutUser());
+    dispatch(logoutUser() as any);
   };
 
   useEffect(() => {
@@ -46,7 +46,7 @@ const Profile = () => {
           <NavLink to="/profile/orders" end className={activeLink}>
             История заказов
           </NavLink>
-          <Link
+          <Link to=''
             className={`${styles.link} text text_type_main-medium`}
             onClick={handleExit}
           >

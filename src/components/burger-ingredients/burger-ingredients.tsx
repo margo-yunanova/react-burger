@@ -3,20 +3,20 @@ import {
   CurrencyIcon,
   Tab,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useRef, useState } from 'react';
+import { FC, UIEventHandler, useRef, useState } from 'react';
 import { useDrag } from 'react-dnd';
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import { ingredientType } from '../../utils/prop-types';
 import styles from './burger-ingredients.module.css';
+import { TIngredient } from '../../utils/types';
 
-const Ingredient = ({ ingredient }) => {
-  const { bun, bunFilling } = useSelector((state) => state.orderIngredients);
+const Ingredient: FC<{ingredient: TIngredient}> = ({ ingredient }) => {
+  const { bun, bunFilling } = useSelector((state: any) => state.orderIngredients);
 
   const count =
     ingredient.type !== 'bun'
       ? bunFilling.reduce(
-          (sum, item) => (item._id === ingredient._id ? sum + 1 : sum),
+          (sum: number, item: any) => (item._id === ingredient._id ? sum + 1 : sum),
           0,
         )
       : bun?._id === ingredient._id
@@ -37,46 +37,44 @@ const Ingredient = ({ ingredient }) => {
       <img src={ingredient.image} alt={ingredient.name} />
       <div className={`${styles.price} pt-1 pb-1`}>
         <p className="text text_type_digits-default">{ingredient.price}</p>
-        <CurrencyIcon />
+        <CurrencyIcon type='primary'/>
       </div>
       <p className="text text_type_main-default pb-7">{ingredient.name}</p>
     </div>
   );
 };
 
-Ingredient.propTypes = {
-  ingredient: ingredientType.isRequired,
-};
-
-export default function BurgerIngredients() {
+const BurgerIngredients = () => {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState('Булки');
 
-  const titleMealEl = useRef(null);
-  const titleSauceEl = useRef(null);
-  const titleBunEl = useRef(null);
+  const titleMealEl = useRef<HTMLInputElement>(null);
+  const titleSauceEl = useRef<HTMLInputElement>(null);
+  const titleBunEl = useRef<HTMLInputElement>(null);
 
   const ingredients = useSelector(
-    (state) => state.ingredients.listBurgerIngredients.ingredients,
+    (state: any) => state.ingredients.listBurgerIngredients.ingredients,
   );
 
-  const scrollToTitle = (activeTab) => {
+  const scrollToTitle = (activeTab: string) => {
     setActiveTab(activeTab);
     const titlesIngredients = {
       Булки: titleBunEl.current,
       Соусы: titleSauceEl.current,
       Начинки: titleMealEl.current,
     };
-    titlesIngredients[activeTab].scrollIntoView({
+    titlesIngredients[activeTab as keyof typeof titlesIngredients]?.scrollIntoView({
       behavior: 'smooth',
     });
   };
 
-  const scroll = (evt) => {
+  const scroll: UIEventHandler<HTMLDivElement> = (evt) => {
+    const eventTarget = evt.target as HTMLElement;
+
     const numberPixelsScrollSectionMove =
-      evt.target.scrollTop + evt.target.offsetTop;
-    const topEdgeSauce = titleSauceEl.current.offsetTop;
-    const topEdgeMeal = titleMealEl.current.offsetTop;
+      eventTarget.scrollTop + eventTarget.offsetTop;
+    const topEdgeSauce = titleSauceEl.current!.offsetTop;
+    const topEdgeMeal = titleMealEl.current!.offsetTop;
 
     if (numberPixelsScrollSectionMove < topEdgeSauce) {
       setActiveTab('Булки');
@@ -90,9 +88,9 @@ export default function BurgerIngredients() {
     }
   };
 
-  const buns = ingredients.filter((i) => i.type === 'bun');
-  const main = ingredients.filter((i) => i.type === 'main');
-  const sauces = ingredients.filter((i) => i.type === 'sauce');
+  const buns = ingredients.filter((i: any) => i.type === 'bun');
+  const main = ingredients.filter((i: any) => i.type === 'main');
+  const sauces = ingredients.filter((i: any) => i.type === 'sauce');
 
   return (
     <section className={styles.section}>
@@ -130,7 +128,7 @@ export default function BurgerIngredients() {
           Булки
         </h2>
         <div className={`${styles.table} pl-4`}>
-          {buns.map((bun) => (
+          {buns.map((bun: any) => (
             <Link
               key={bun._id}
               to={`/ingredients/${bun._id}`}
@@ -150,7 +148,7 @@ export default function BurgerIngredients() {
           Соусы
         </h2>
         <div className={`${styles.table} pl-4`}>
-          {sauces.map((sauce) => (
+          {sauces.map((sauce: any) => (
             <Link
               key={sauce._id}
               to={`/ingredients/${sauce._id}`}
@@ -170,7 +168,7 @@ export default function BurgerIngredients() {
           Начинки
         </h2>
         <div className={`${styles.table} pl-4`}>
-          {main.map((item) => (
+          {main.map((item: any) => (
             <Link
               key={item._id}
               to={`/ingredients/${item._id}`}
@@ -185,3 +183,5 @@ export default function BurgerIngredients() {
     </section>
   );
 }
+
+export default BurgerIngredients;

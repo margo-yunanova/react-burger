@@ -1,4 +1,5 @@
 import { BURGER_API_URL, wsUrl } from './constants';
+import { TIngredient, TMadeOrder } from './types';
 
 export const getOrdersWsUrl = (isAllOrders: boolean): string =>
   isAllOrders
@@ -62,26 +63,11 @@ const requestWithToken = (endpoint: string, options?: RequestInit) => {
         });
     })
     .catch((error) => {
-      //console.log(error);
       return Promise.reject(error);
     })
     .then(checkResponse);
 };
 
-type TIngredient = {
-  calories: number;
-  carbohydrates: number;
-  fat: number;
-  image: string;
-  image_large: string;
-  image_mobile: string;
-  name: string;
-  price: number;
-  proteins: number;
-  type: string;
-  __v: number;
-  _id: string;
-};
 type TIngredientsResponse = {
   data: Array<TIngredient>;
   success: boolean;
@@ -90,24 +76,11 @@ export const getIngredientsRequest = (): Promise<TIngredientsResponse> =>
   request('ingredients');
 
 type TMadeOrderResponse = {
-  name: string,
+  name: string;
   order: {
-    createdAt: string;
-    ingredients: Array<TIngredient>;
-    name: string;
     number: number;
-    owner: {
-      createdAt: string;
-      email: string;
-      name: string;
-      updatedAt: string;
-    };
-    price: number;
-    status: string;
-    updatedAt: string;
-    _id: string;
-  },
-  success: boolean,
+  };
+  success: boolean;
 }
 export const makeOrderDetailsRequest = (ingredientsId: string[]): Promise<TMadeOrderResponse> =>
   requestWithToken('orders', {

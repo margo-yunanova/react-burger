@@ -4,7 +4,7 @@ import {
   Input,
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useEffect, useState } from 'react';
+import { FormEventHandler, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getUser, updateUser } from '../../services/actions/user';
@@ -16,18 +16,18 @@ const ProfileForm = () => {
     email: '',
   });
 
-  const isLogout = useSelector((state) => state.user.isLogout);
+  const isLogout = useSelector((state:any) => state.user.isLogout);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const successRequest = useSelector((state) => state.user.success);
-  const name = useSelector((state) => state.user.user?.name);
-  const email = useSelector((state) => state.user.user?.email);
+  const successRequest = useSelector((state:any) => state.user.success);
+  const name = useSelector((state:any) => state.user.user?.name);
+  const email = useSelector((state:any) => state.user.user?.email);
 
   useEffect(() => {
     if (!successRequest) {
-      dispatch(getUser());
+      dispatch(getUser() as any);
     }
   }, [dispatch, successRequest]);
 
@@ -37,12 +37,12 @@ const ProfileForm = () => {
     }
   }, [successRequest, name, email]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();
-    dispatch(updateUser(form));
+    dispatch(updateUser(form) as any);
   };
 
-  const handleReset = (e) => {
+  const handleReset: FormEventHandler = (e) => {
     e.preventDefault();
     setForm({ name, email });
   };
@@ -68,7 +68,6 @@ const ProfileForm = () => {
         value={form.name}
       />
       <EmailInput
-        type={'email'}
         name={'email'}
         placeholder="Логин"
         isIcon={true}
@@ -76,7 +75,6 @@ const ProfileForm = () => {
         value={form.email}
       />
       <PasswordInput
-        type={'password'}
         name={'password'}
         placeholder={'Пароль'}
         icon="EditIcon"

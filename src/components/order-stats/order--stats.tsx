@@ -2,18 +2,18 @@ import { useSelector } from 'react-redux';
 import styles from './order-stats.module.css';
 
 const OrderStats = () => {
-  const messages = useSelector((state) => state.wsReducer.messages);
+  const messages = useSelector((state: any) => state.wsReducer.messages);
 
   if (!messages.orders) {
     return null;
   }
 
   const ordersDone = messages.orders
-    .filter((item) => item.status === 'done')
+    .filter((item:any) => item.status === 'done')
     .reverse();
 
   const ordersInProcess = messages.orders
-    .filter((item) => item.status !== 'done')
+    .filter((item:any) => item.status !== 'done')
     .reverse();
 
   return (
@@ -22,14 +22,14 @@ const OrderStats = () => {
         <span className="text text_type_main-medium pb-6">Готовы:</span>
         <span className="text text_type_main-medium pb-6">В работе:</span>
         <div className={`${styles.orderNumber} ${styles.orderNumberDone}`}>
-          {ordersDone.map((order, index) => (
+          {ordersDone.map((order:any, index: number) => (
             <span key={index} className="text text_type_digits-default">
               {order.number}
             </span>
           ))}
         </div>
         <div className={styles.orderNumber}>
-          {ordersInProcess.map((order, index) => (
+          {ordersInProcess.map((order: any, index: number) => (
             <span key={index} className="text text_type_digits-default">
               {order.number}
             </span>
