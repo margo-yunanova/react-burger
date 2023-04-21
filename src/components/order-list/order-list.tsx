@@ -2,8 +2,9 @@ import styles from './order-list.module.css';
 import { Link, useLocation } from 'react-router-dom';
 import OrderItem from '../order-item/order-item';
 import { useSelector } from 'react-redux';
+import { FC } from 'react';
 
-const OrderList = () => {
+const OrderList: FC = () => {
   const location = useLocation();
   const orders = useSelector((state: any) => state.wsReducer.messages.orders);
 
