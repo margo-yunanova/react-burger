@@ -6,6 +6,7 @@ import {
   logoutUserRequest,
 } from '../../utils/burger-api';
 import { localStorage } from '../../utils/constants';
+import { TAction, TPayloadUser } from '../../utils/types';
 
 export const REGISTER_USER_SUCCESS = 'REGISTER_USER_SUCCESS';
 export const REGISTER_USER_FAILED = 'REGISTER_USER_FAILED';
@@ -30,7 +31,21 @@ export const UPDATE_TOKEN_FAILED = 'UPDATE_TOKEN_FAILED';
 export const SET_REGISTER_BUTTON_DISABLED = 'SET_REGISTER_BUTTON_DISABLED';
 export const SET_REGISTER_BUTTON_ACTIVE = 'SET_REGISTER_BUTTON_ACTIVE';
 
-export const registerUser = (form) => {
+type TRegisterForm = {
+  name: string;
+  email: string;
+  password: string;
+};
+
+type TRegisterUserRequest = TAction<typeof REGISTER_USER_REQUEST>;
+
+type TRegisterUserSuccess = TAction<typeof REGISTER_USER_SUCCESS, TPayloadUser>;
+
+type TRegisterUserFailed = TAction<typeof REGISTER_USER_FAILED>;
+
+type TSetRegisterButtonActive = TAction<typeof SET_REGISTER_BUTTON_ACTIVE>;
+
+export const registerUser = (form: TRegisterForm) => {
   return (dispatch) => {
     dispatch({
       type: REGISTER_USER_REQUEST,
@@ -58,7 +73,21 @@ export const registerUser = (form) => {
   };
 };
 
-export const authorizeUser = (form) => {
+type TAuthorizeForm = {
+  email: string;
+  password: string;
+};
+
+type TAuthorizeUserRequest = TAction<typeof AUTHORIZATION_USER_REQUEST>;
+
+type TAuthorizeUserSuccess = TAction<
+  typeof AUTHORIZATION_USER_SUCCESS,
+  TPayloadUser
+>;
+
+type TAuthorizeUserFailed = TAction<typeof AUTHORIZATION_USER_FAILED>;
+
+export const authorizeUser = (form: TAuthorizeForm) => {
   return (dispatch) => {
     dispatch({
       type: AUTHORIZATION_USER_REQUEST,
@@ -86,6 +115,12 @@ export const authorizeUser = (form) => {
   };
 };
 
+type TGetUserRequest = TAction<typeof AUTHORIZATION_USER_REQUEST>;
+
+type TGetUserSuccess = TAction<typeof AUTHORIZATION_USER_SUCCESS, TPayloadUser>;
+
+type TGetUserFailed = TAction<typeof AUTHORIZATION_USER_FAILED>;
+
 export const getUser = () => {
   return (dispatch) => {
     dispatch({
@@ -112,7 +147,22 @@ export const getUser = () => {
   };
 };
 
-export const updateUser = (form) => {
+type TUpdateForm = {
+  email: string;
+  name: string;
+  password: string;
+};
+
+type TUpdateUserRequest = TAction<typeof AUTHORIZATION_USER_REQUEST>;
+
+type TUpdateUserSuccess = TAction<
+  typeof AUTHORIZATION_USER_SUCCESS,
+  TPayloadUser
+>;
+
+type TUpdateUserFailed = TAction<typeof AUTHORIZATION_USER_FAILED>;
+
+export const updateUser = (form: TUpdateForm) => {
   return (dispatch) => {
     dispatch({
       type: UPDATE_USER_REQUEST,
@@ -138,12 +188,18 @@ export const updateUser = (form) => {
   };
 };
 
+type TLogoutUserRequest = TAction<typeof LOGOUT_USER_REQUEST>;
+
+type TLogoutUserSuccess = TAction<typeof LOGOUT_USER_SUCCESS, TPayloadUser>;
+
+type TLogoutUserFailed = TAction<typeof LOGOUT_USER_FAILED>;
+
 export const logoutUser = () => {
   return (dispatch) => {
     dispatch({
       type: LOGOUT_USER_REQUEST,
     });
-    logoutUserRequest(localStorage.getItem('refreshToken'))
+    logoutUserRequest(localStorage.getItem('refreshToken') as string)
       .then((response) => {
         dispatch({
           type: LOGOUT_USER_SUCCESS,
@@ -161,3 +217,21 @@ export const logoutUser = () => {
       .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE })); //TODO кнопки
   };
 };
+
+export type TUser =
+  | TRegisterUserRequest
+  | TRegisterUserSuccess
+  | TRegisterUserFailed
+  | TSetRegisterButtonActive
+  | TAuthorizeUserFailed
+  | TAuthorizeUserRequest
+  | TAuthorizeUserSuccess
+  | TGetUserFailed
+  | TGetUserRequest
+  | TGetUserSuccess
+  | TUpdateUserFailed
+  | TUpdateUserRequest
+  | TUpdateUserSuccess
+  | TLogoutUserFailed
+  | TLogoutUserRequest
+  | TLogoutUserSuccess;
