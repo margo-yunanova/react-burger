@@ -4,6 +4,7 @@
   "homepage": "https://margo-yunanova.github.io/",
   "private": true,
   "dependencies": {
+    "@redux-devtools/extension": "^3.2.5",
     "@reduxjs/toolkit": "^1.9.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

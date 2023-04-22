@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import {
   legacy_createStore as createStore,
-  compose,
+  //compose,
   applyMiddleware,
+  ActionCreator,
+  Action,
 } from 'redux';
-import thunk from 'redux-thunk';
+import thunk, { ThunkAction } from 'redux-thunk';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 import App from './components/app/app';
 import { rootReducer } from './services/reducers';
 import { BrowserRouter } from 'react-router-dom';
 import {
+  TWsConnectionActions,
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_START,
@@ -22,6 +25,11 @@ import {
   WS_SEND_MESSAGE,
 } from './services/actions/webSocket';
 import { socketMiddleware } from './services/middleware/socketMiddleware';
+import { composeWithDevTools } from '@redux-devtools/extension';
+import { TConstructorActions } from './services/actions/constructor';
+import { TIngredientsActions } from './services/actions/ingredients';
+import { TOrderDetailsActions } from './services/actions/orderDetails';
+import { TUserActions } from './services/actions/user';
 
 const wsActions = {
   wsInit: WS_CONNECTION_START,
@@ -33,10 +41,12 @@ const wsActions = {
   onMessage: WS_GET_MESSAGE,
 };
 
-const composeEnhancers =
-  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-    : compose;
+// const composeEnhancers =
+//   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+//     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+//     : compose;
+
+const composeEnhancers = composeWithDevTools({});
 
 const enhancer = composeEnhancers(
   applyMiddleware(thunk, socketMiddleware(wsActions)),
@@ -44,7 +54,12 @@ const enhancer = composeEnhancers(
 
 const store = createStore(rootReducer, enhancer);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+type RootState = ReturnType<typeof store.getState>
+type TApplicationActions = TConstructorActions | TIngredientsActions | TOrderDetailsActions | TUserActions | TWsConnectionActions;
+export type AppThunk<TReturn = void> = ActionCreator<ThunkAction<TReturn, Action, RootState, TApplicationActions>>;
+export type AppDispatch = Dispatch<TApplicationActions>;
+
+const root = ReactDOM.createRoot(document.getElementById('root') as Element);
 
 root.render(
   <React.StrictMode>
