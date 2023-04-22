@@ -20,7 +20,7 @@ import styles from './burger-constructor.module.css';
 import { TIngredient } from '../../utils/types';
 
 type TBunFillingCard = {
-  item: TIngredient;
+  item: TIngredient & { code: string; };
   index: number;
 }
 
@@ -74,7 +74,7 @@ const BunFillingCard: FC<TBunFillingCard> = ({ item, index }) => {
     },
   });
 
-  const handleClose = (ingredient: TIngredient) => {
+  const handleClose = (ingredient: TIngredient & { code: string; }) => {
     dispatch({
       type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
       payload: {
