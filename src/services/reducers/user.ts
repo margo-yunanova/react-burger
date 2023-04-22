@@ -1,3 +1,4 @@
+import { TPayloadUser } from '../../utils/types';
 import {
   REGISTER_USER_FAILED,
   REGISTER_USER_REQUEST,
@@ -14,16 +15,27 @@ import {
   LOGOUT_USER_FAILED,
   LOGOUT_USER_REQUEST,
   LOGOUT_USER_SUCCESS,
+  TUserActions,
 } from '../actions/user';
 
-const initialState = {
+type TUserState = {
+  success: boolean;
+  user: { email: string; name: string } | null;
+  request: boolean;
+  isLogout: boolean;
+};
+
+const initialState: TUserState = {
   success: false,
   user: null,
   request: false,
   isLogout: false,
 };
 
-export const user = (state = initialState, action) => {
+export const user = (
+  state = initialState,
+  action: TUserActions,
+): TUserState => {
   switch (action.type) {
     case REGISTER_USER_REQUEST: {
       return {
@@ -35,17 +47,11 @@ export const user = (state = initialState, action) => {
     }
 
     case REGISTER_USER_FAILED: {
-      return {
-        ...state,
-        success: false,
-        user: null,
-        request: false,
-        isLogout: false,
-      };
+      return initialState;
     }
 
     case REGISTER_USER_SUCCESS: {
-      const { user, success } = action.payload;
+      const { user, success } = action.payload as TPayloadUser;
       return {
         ...state,
         success,
@@ -68,17 +74,11 @@ export const user = (state = initialState, action) => {
     }
 
     case AUTHORIZATION_USER_FAILED: {
-      return {
-        ...state,
-        success: false,
-        user: null,
-        request: false,
-        isLogout: false,
-      };
+      return initialState;
     }
 
     case AUTHORIZATION_USER_SUCCESS: {
-      const { user, success } = action.payload;
+      const { user, success } = action.payload as TPayloadUser;
       return {
         ...state,
         success,
@@ -101,17 +101,11 @@ export const user = (state = initialState, action) => {
     }
 
     case GET_USER_FAILED: {
-      return {
-        ...state,
-        success: false,
-        user: null,
-        request: false,
-        isLogout: false,
-      };
+      return initialState;
     }
 
     case GET_USER_SUCCESS: {
-      const { user, success } = action.payload;
+      const { user, success } = action.payload as TPayloadUser;
       return {
         ...state,
         success,
@@ -134,17 +128,11 @@ export const user = (state = initialState, action) => {
     }
 
     case UPDATE_USER_FAILED: {
-      return {
-        ...state,
-        success: false,
-        user: null,
-        request: false,
-        isLogout: false,
-      };
+      return initialState;
     }
 
     case UPDATE_USER_SUCCESS: {
-      const { user, success } = action.payload;
+      const { user, success } = action.payload as TPayloadUser;
       return {
         ...state,
         success,
@@ -167,17 +155,11 @@ export const user = (state = initialState, action) => {
     }
 
     case LOGOUT_USER_FAILED: {
-      return {
-        ...state,
-        success: false,
-        user: null,
-        request: false,
-        isLogout: false,
-      };
+      return state;
     }
 
     case LOGOUT_USER_SUCCESS: {
-      const { success } = action.payload;
+      const { success } = action.payload as {success: boolean};
       return {
         ...state,
         success,

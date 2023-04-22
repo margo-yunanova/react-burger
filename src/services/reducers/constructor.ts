@@ -1,16 +1,23 @@
+import { TIngredient } from '../../utils/types';
 import {
   ADD_INGREDIENT_INTO_CONSTRUCTOR,
   EMPTY_CONSTRUCTOR,
   MOVE_INGREDIENT_IN_CONSTRUCTOR,
   REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
+  TConstructorActions,
 } from '../actions/constructor';
 
-const initialState = {
+export type TOrderIngredientsState = {
+  bun: TIngredient | null;
+  bunFilling: Array<TIngredient & { code: string; }>
+}
+
+const initialState: TOrderIngredientsState = {
   bun: null,
   bunFilling: [],
 };
 
-export const orderIngredients = (state = initialState, action) => {
+export const orderIngredients = (state = initialState, action: TConstructorActions): TOrderIngredientsState => {
   switch (action.type) {
     case ADD_INGREDIENT_INTO_CONSTRUCTOR: {
       const { ingredient, code } = action.payload;
@@ -49,10 +56,7 @@ export const orderIngredients = (state = initialState, action) => {
     }
 
     case EMPTY_CONSTRUCTOR: {
-      return {
-        bun: null,
-        bunFilling: [],
-      };
+      return initialState;
     }
 
     default:

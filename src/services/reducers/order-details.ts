@@ -4,9 +4,20 @@ import {
   SHOW_ORDER_MODAL,
   HIDE_ORDER_MODAL,
   GET_ORDER_DETAILS_REQUEST,
+  TOrderDetailsActions,
 } from '../actions/orderDetails';
 
-const initialState = {
+type TOrderDetailsState = {
+  name: string | null;
+  order: {
+    number: number | null;
+  };
+  success: boolean;
+  request: boolean;
+  orderDetailVisible: boolean;
+};
+
+const initialState: TOrderDetailsState = {
   name: null,
   order: {
     number: null,
@@ -16,7 +27,10 @@ const initialState = {
   orderDetailVisible: false,
 };
 
-export const orderDetails = (state = initialState, action) => {
+export const orderDetails = (
+  state = initialState,
+  action: TOrderDetailsActions,
+): TOrderDetailsState => {
   switch (action.type) {
     case GET_ORDER_DETAILS_REQUEST: {
       return {
@@ -25,14 +39,7 @@ export const orderDetails = (state = initialState, action) => {
       };
     }
     case GET_ORDER_DETAILS_FAILED: {
-      return {
-        ...state,
-        order: {
-          number: null,
-        },
-        orderDetailVisible: false,
-        request: false,
-      };
+      return initialState;
     }
     case GET_ORDER_DETAILS_SUCCESS: {
       const {
@@ -44,7 +51,7 @@ export const orderDetails = (state = initialState, action) => {
           number: number,
         },
         request: false,
-        orderDetailsSuccess: true,
+        orderDetailVisible: true,
       };
     }
     case SHOW_ORDER_MODAL: {

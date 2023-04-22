@@ -32,7 +32,7 @@ export type TMadeOrder = {
 
 export type TAction<T, U = never> = {
   readonly type: T;
-  readonly payload: U;
+  readonly payload?: U;
 }
 
 export type TPayloadUser = {

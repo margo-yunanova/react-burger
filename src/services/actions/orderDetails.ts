@@ -1,3 +1,4 @@
+import { AppDispatch, AppThunk } from '../..';
 import { makeOrderDetailsRequest } from '../../utils/burger-api';
 import { EMPTY_CONSTRUCTOR } from './constructor';
 
@@ -9,11 +10,11 @@ export const SET_CHECKOUT_BUTTON_ACTIVE = 'SET_CHECKOUT_BUTTON_ACTIVE';
 export const SHOW_ORDER_MODAL = 'SHOW_ORDER_MODAL';
 export const HIDE_ORDER_MODAL = 'HIDE_ORDER_MODAL';
 
-type TGetOrderDetailsRequest = {
+type TGetOrderDetailsRequestAction = {
   readonly type: typeof GET_ORDER_DETAILS_REQUEST;
 };
 
-type TGetOrderDetailsSuccess = {
+type TGetOrderDetailsSuccessAction = {
   readonly type: typeof GET_ORDER_DETAILS_SUCCESS;
   readonly payload: {
     name: string;
@@ -24,32 +25,37 @@ type TGetOrderDetailsSuccess = {
   };
 };
 
-type TGetOrderDetailsFailed = {
+type TGetOrderDetailsFailedAction = {
   readonly type: typeof GET_ORDER_DETAILS_FAILED;
 };
 
-type TShowOrderModal = {
+type TShowOrderModalAction = {
   readonly type: typeof SHOW_ORDER_MODAL;
 };
 
-type TEmptyConstructor = {
-  readonly type: typeof EMPTY_CONSTRUCTOR;
+type THideOrderModalAction = {
+  readonly type: typeof HIDE_ORDER_MODAL;
 };
 
-type TSetCheckoutButtonActive = {
+type TSetCheckoutButtonActiveAction = {
   readonly type: typeof SET_CHECKOUT_BUTTON_ACTIVE;
 };
 
-export type TGetOrderDetails =
-  | TEmptyConstructor
-  | TGetOrderDetailsFailed
-  | TGetOrderDetailsRequest
-  | TGetOrderDetailsSuccess
-  | TSetCheckoutButtonActive
-  | TShowOrderModal;
+type TSetCheckoutButtonDisabledAction = {
+  readonly type: typeof SET_CHECKOUT_BUTTON_DISABLED;
+};
 
-export const getOrderDetails = (ingredientsId: Array<string>) => {
-  return (dispatch) => {
+export type TOrderDetailsActions =
+  | TGetOrderDetailsFailedAction
+  | TGetOrderDetailsRequestAction
+  | TGetOrderDetailsSuccessAction
+  | TSetCheckoutButtonActiveAction
+  | TShowOrderModalAction
+  | TSetCheckoutButtonDisabledAction
+  | THideOrderModalAction;
+
+export const getOrderDetails: AppThunk = (ingredientsId: Array<string>) => {
+  return (dispatch: AppDispatch) => {
     dispatch({
       type: GET_ORDER_DETAILS_REQUEST,
     });

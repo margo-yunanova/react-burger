@@ -4,16 +4,16 @@ import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
 } from '../actions/ingredients';
-import type { TGetIngredients } from '../actions/ingredients';
+import type { TIngredientsActions } from '../actions/ingredients';
 
-type TInitialStateIngredients = {
+export type TIngredientsState = {
   listBurgerIngredients: {
     success: boolean;
     ingredients: Array<TIngredient>;
   };
 };
 
-const initialState: TInitialStateIngredients = {
+const initialState: TIngredientsState = {
   listBurgerIngredients: {
     success: false,
     ingredients: [],
@@ -22,8 +22,8 @@ const initialState: TInitialStateIngredients = {
 
 export const ingredients = (
   state = initialState,
-  action: TGetIngredients,
-): TInitialStateIngredients => {
+  action: TIngredientsActions,
+): TIngredientsState => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return state;

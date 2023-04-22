@@ -1,3 +1,4 @@
+import { AppDispatch, AppThunk } from '../..';
 import {
   createUserRequest,
   loginUserRequest,
@@ -24,11 +25,11 @@ export const LOGOUT_USER_SUCCESS = 'LOGOUT_USER_SUCCESS';
 export const LOGOUT_USER_REQUEST = 'LOGOUT_USER_REQUEST';
 export const LOGOUT_USER_FAILED = 'LOGOUT_USER_FAILED';
 
-export const UPDATE_TOKEN_REQUEST = 'UPDATE_TOKEN_REQUEST';
-export const UPDATE_TOKEN_SUCCESS = 'UPDATE_TOKEN_SUCCESS';
-export const UPDATE_TOKEN_FAILED = 'UPDATE_TOKEN_FAILED';
+// export const UPDATE_TOKEN_REQUEST = 'UPDATE_TOKEN_REQUEST';
+// export const UPDATE_TOKEN_SUCCESS = 'UPDATE_TOKEN_SUCCESS';
+// export const UPDATE_TOKEN_FAILED = 'UPDATE_TOKEN_FAILED';
 
-export const SET_REGISTER_BUTTON_DISABLED = 'SET_REGISTER_BUTTON_DISABLED';
+//export const SET_REGISTER_BUTTON_DISABLED = 'SET_REGISTER_BUTTON_DISABLED';
 export const SET_REGISTER_BUTTON_ACTIVE = 'SET_REGISTER_BUTTON_ACTIVE';
 
 type TRegisterForm = {
@@ -37,16 +38,16 @@ type TRegisterForm = {
   password: string;
 };
 
-type TRegisterUserRequest = TAction<typeof REGISTER_USER_REQUEST>;
+type TRegisterUserRequestAction = TAction<typeof REGISTER_USER_REQUEST>;
 
-type TRegisterUserSuccess = TAction<typeof REGISTER_USER_SUCCESS, TPayloadUser>;
+type TRegisterUserSuccessAction = TAction<typeof REGISTER_USER_SUCCESS, TPayloadUser>;
 
-type TRegisterUserFailed = TAction<typeof REGISTER_USER_FAILED>;
+type TRegisterUserFailedAction = TAction<typeof REGISTER_USER_FAILED>;
 
-type TSetRegisterButtonActive = TAction<typeof SET_REGISTER_BUTTON_ACTIVE>;
+type TSetRegisterButtonActiveAction = TAction<typeof SET_REGISTER_BUTTON_ACTIVE>;
 
-export const registerUser = (form: TRegisterForm) => {
-  return (dispatch) => {
+export const registerUser:AppThunk = (form: TRegisterForm) => {
+  return (dispatch: AppDispatch) => {
     dispatch({
       type: REGISTER_USER_REQUEST,
     });
@@ -78,17 +79,17 @@ type TAuthorizeForm = {
   password: string;
 };
 
-type TAuthorizeUserRequest = TAction<typeof AUTHORIZATION_USER_REQUEST>;
+type TAuthorizeUserRequestAction = TAction<typeof AUTHORIZATION_USER_REQUEST>;
 
-type TAuthorizeUserSuccess = TAction<
+type TAuthorizeUserSuccessAction = TAction<
   typeof AUTHORIZATION_USER_SUCCESS,
   TPayloadUser
 >;
 
-type TAuthorizeUserFailed = TAction<typeof AUTHORIZATION_USER_FAILED>;
+type TAuthorizeUserFailedAction = TAction<typeof AUTHORIZATION_USER_FAILED>;
 
-export const authorizeUser = (form: TAuthorizeForm) => {
-  return (dispatch) => {
+export const authorizeUser:AppThunk = (form: TAuthorizeForm) => {
+  return (dispatch: AppDispatch) => {
     dispatch({
       type: AUTHORIZATION_USER_REQUEST,
     });
@@ -115,14 +116,14 @@ export const authorizeUser = (form: TAuthorizeForm) => {
   };
 };
 
-type TGetUserRequest = TAction<typeof AUTHORIZATION_USER_REQUEST>;
+type TGetUserRequestAction = TAction<typeof GET_USER_REQUEST>;
 
-type TGetUserSuccess = TAction<typeof AUTHORIZATION_USER_SUCCESS, TPayloadUser>;
+type TGetUserSuccessAction = TAction<typeof GET_USER_SUCCESS, TPayloadUser>;
 
-type TGetUserFailed = TAction<typeof AUTHORIZATION_USER_FAILED>;
+type TGetUserFailedAction = TAction<typeof GET_USER_FAILED>;
 
-export const getUser = () => {
-  return (dispatch) => {
+export const getUser:AppThunk = () => {
+  return (dispatch: AppDispatch) => {
     dispatch({
       type: GET_USER_REQUEST,
     });
@@ -153,17 +154,17 @@ type TUpdateForm = {
   password: string;
 };
 
-type TUpdateUserRequest = TAction<typeof AUTHORIZATION_USER_REQUEST>;
+type TUpdateUserRequestAction = TAction<typeof UPDATE_USER_REQUEST>;
 
-type TUpdateUserSuccess = TAction<
-  typeof AUTHORIZATION_USER_SUCCESS,
+type TUpdateUserSuccessAction = TAction<
+  typeof UPDATE_USER_SUCCESS,
   TPayloadUser
 >;
 
-type TUpdateUserFailed = TAction<typeof AUTHORIZATION_USER_FAILED>;
+type TUpdateUserFailedAction = TAction<typeof UPDATE_USER_FAILED>;
 
-export const updateUser = (form: TUpdateForm) => {
-  return (dispatch) => {
+export const updateUser:AppThunk = (form: TUpdateForm) => {
+  return (dispatch: AppDispatch) => {
     dispatch({
       type: UPDATE_USER_REQUEST,
     });
@@ -188,14 +189,14 @@ export const updateUser = (form: TUpdateForm) => {
   };
 };
 
-type TLogoutUserRequest = TAction<typeof LOGOUT_USER_REQUEST>;
+type TLogoutUserRequestAction = TAction<typeof LOGOUT_USER_REQUEST>;
 
-type TLogoutUserSuccess = TAction<typeof LOGOUT_USER_SUCCESS, TPayloadUser>;
+type TLogoutUserSuccessAction = TAction<typeof LOGOUT_USER_SUCCESS, {success: boolean}>;
 
-type TLogoutUserFailed = TAction<typeof LOGOUT_USER_FAILED>;
+type TLogoutUserFailedAction = TAction<typeof LOGOUT_USER_FAILED>;
 
-export const logoutUser = () => {
-  return (dispatch) => {
+export const logoutUser:AppThunk = () => {
+  return (dispatch: AppDispatch) => {
     dispatch({
       type: LOGOUT_USER_REQUEST,
     });
@@ -218,20 +219,20 @@ export const logoutUser = () => {
   };
 };
 
-export type TUser =
-  | TRegisterUserRequest
-  | TRegisterUserSuccess
-  | TRegisterUserFailed
-  | TSetRegisterButtonActive
-  | TAuthorizeUserFailed
-  | TAuthorizeUserRequest
-  | TAuthorizeUserSuccess
-  | TGetUserFailed
-  | TGetUserRequest
-  | TGetUserSuccess
-  | TUpdateUserFailed
-  | TUpdateUserRequest
-  | TUpdateUserSuccess
-  | TLogoutUserFailed
-  | TLogoutUserRequest
-  | TLogoutUserSuccess;
+export type TUserActions =
+  | TRegisterUserRequestAction
+  | TRegisterUserSuccessAction
+  | TRegisterUserFailedAction
+  | TSetRegisterButtonActiveAction
+  | TAuthorizeUserFailedAction
+  | TAuthorizeUserRequestAction
+  | TAuthorizeUserSuccessAction
+  | TGetUserFailedAction
+  | TGetUserRequestAction
+  | TGetUserSuccessAction
+  | TUpdateUserFailedAction
+  | TUpdateUserRequestAction
+  | TUpdateUserSuccessAction
+  | TLogoutUserFailedAction
+  | TLogoutUserRequestAction
+  | TLogoutUserSuccessAction;
