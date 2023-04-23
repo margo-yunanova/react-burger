@@ -1,5 +1,5 @@
 import { BURGER_API_URL, wsUrl } from './constants';
-import { TIngredient, TMadeOrder } from './types';
+import { TIngredient } from './types';
 
 export const getOrdersWsUrl = (isAllOrders: boolean): string =>
   isAllOrders

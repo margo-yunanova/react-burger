@@ -11,10 +11,9 @@ import styles from './profile-form.module.css';
 import { useAppDispatch, useAppSelector } from '../../utils/types';
 
 const ProfileForm: FC = () => {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<{name: string; email: string; password?: string; }>({
     name: '',
-    email: '', //TODO проверить как работает редактирование пароля
-    password: '', //
+    email: '',
   });
 
   const isLogout = useAppSelector((state) => state.user.isLogout);
@@ -34,7 +33,7 @@ const ProfileForm: FC = () => {
 
   useEffect(() => {
     if (successRequest) {
-      setForm({ name, email, password: '', });
+      setForm({ name, email,  });
     }
   }, [successRequest, name, email]);
 
@@ -45,7 +44,7 @@ const ProfileForm: FC = () => {
 
   const handleReset: FormEventHandler = (e) => {
     e.preventDefault();
-    setForm({ name, email, password: '' });
+    setForm({ name, email });
   };
 
   useEffect(() => {
@@ -80,7 +79,7 @@ const ProfileForm: FC = () => {
         placeholder={'Пароль'}
         icon="EditIcon"
         onChange={(e) => setForm({ ...form, [e.target.name]: e.target.value })}
-        value={form.password}
+        value={form.password || '*'.repeat(10)}
       />
       <div className={styles.button}>
         <Button htmlType="reset" type="secondary" size="large">

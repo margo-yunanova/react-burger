@@ -23,7 +23,7 @@ import {
   WS_GET_MESSAGE,
   WS_SEND_MESSAGE,
 } from './services/actions/webSocket';
-import { socketMiddleware } from './services/middleware/socketMiddleware';
+import { createSocketMiddleware } from './services/middleware/socketMiddleware';
 import { composeWithDevTools } from '@redux-devtools/extension';
 import { TConstructorActions } from './services/actions/constructor';
 import { TIngredientsActions } from './services/actions/ingredients';
@@ -43,12 +43,12 @@ const wsActions = {
 const composeEnhancers = composeWithDevTools({});
 
 const enhancer = composeEnhancers(
-  applyMiddleware(thunk, socketMiddleware(wsActions)),
+  applyMiddleware(thunk, createSocketMiddleware(wsActions)),
 );
 
 const store = createStore(rootReducer, enhancer);
 
-export type RootState = ReturnType<typeof store.getState>
+export type RootState = ReturnType<typeof rootReducer>;
 type TApplicationActions = TConstructorActions | TIngredientsActions | TOrderDetailsActions | TUserActions | TWsConnectionActions;
 export type AppThunk<TReturn = void> = ActionCreator<ThunkAction<TReturn, Action, RootState, TApplicationActions>>;
 export type AppDispatch = typeof store.dispatch;

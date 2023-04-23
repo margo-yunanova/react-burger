@@ -11,6 +11,7 @@ export const ProtectedRouteElement: FC<TProtectedRouteElement> = ({ element }) =
   const dispatch = useAppDispatch();
   const successRequest = useAppSelector((state) => state.user.success);
   const request = useAppSelector((state) => state.user.request);
+  const isLogout = useAppSelector((state) => state.user.isLogout);
   const [isRequestSent, setRequestSent] = useState(false);
 
   const location = useLocation();
@@ -24,7 +25,7 @@ export const ProtectedRouteElement: FC<TProtectedRouteElement> = ({ element }) =
     return null;
   }
 
-  if (!successRequest) {
+  if (!successRequest || isLogout) {
     return <Navigate to="/login" state={{ from: location }} />;
   }
   return element;

@@ -46,5 +46,7 @@ export type TPayloadUser = {
   }
 }
 
+export type WsActionsName = 'wsInit' | 'wsSendMessage' | 'onOpen' | 'onClose' | 'onError' | 'onMessage' | 'wsStop';
+
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 export const useAppDispatch: () => AppDispatch | AppThunk = useDispatch;

@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { FC, MouseEventHandler, useEffect } from 'react';
-import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 import { getUser, logoutUser } from '../services/actions/user';
 import styles from './profile.module.css';
 import { useAppDispatch, useAppSelector } from '../utils/types';
@@ -12,10 +12,7 @@ const Profile: FC = () => {
       [styles.active]: isActive,
     });
 
-  const isLogout = useAppSelector((state) => state.user.isLogout);
-
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const successRequest = useAppSelector((state) => state.user.success);
 
@@ -29,12 +26,6 @@ const Profile: FC = () => {
     e.preventDefault();
     dispatch(logoutUser());
   };
-
-  useEffect(() => {
-    if (isLogout) {
-      navigate('/login');
-    }
-  });
 
   return (
     <section className={styles.grid}>
