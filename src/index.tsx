@@ -1,9 +1,8 @@
-import React, { Dispatch } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import {
   legacy_createStore as createStore,
-  //compose,
   applyMiddleware,
   ActionCreator,
   Action,
@@ -41,11 +40,6 @@ const wsActions = {
   onMessage: WS_GET_MESSAGE,
 };
 
-// const composeEnhancers =
-//   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-//     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-//     : compose;
-
 const composeEnhancers = composeWithDevTools({});
 
 const enhancer = composeEnhancers(
@@ -54,10 +48,10 @@ const enhancer = composeEnhancers(
 
 const store = createStore(rootReducer, enhancer);
 
-type RootState = ReturnType<typeof store.getState>
+export type RootState = ReturnType<typeof store.getState>
 type TApplicationActions = TConstructorActions | TIngredientsActions | TOrderDetailsActions | TUserActions | TWsConnectionActions;
 export type AppThunk<TReturn = void> = ActionCreator<ThunkAction<TReturn, Action, RootState, TApplicationActions>>;
-export type AppDispatch = Dispatch<TApplicationActions>;
+export type AppDispatch = typeof store.dispatch;
 
 const root = ReactDOM.createRoot(document.getElementById('root') as Element);
 

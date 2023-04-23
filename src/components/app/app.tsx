@@ -1,5 +1,4 @@
 import { FC, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import Feed from '../../pages/feed';
 import OrderPlacedDetails from '../../pages/order-placed-details';
@@ -22,16 +21,17 @@ import OrderList from '../order-list/order-list';
 import OrderStats from '../order-stats/order--stats';
 import ProfileForm from '../profile-form/profile-form';
 import { ProtectedRouteElement } from '../protected-route-element/protected-route-element';
+import { useAppDispatch, useAppSelector } from '../../utils/types';
 
 const App: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const orderDetailVisible = useSelector(
-    (state: any) => state.orderDetails.orderDetailVisible,
+  const orderDetailVisible = useAppSelector(
+    (state) => state.orderDetails.orderDetailVisible,
   );
 
-  useEffect(() => dispatch(getIngredients() as any), [dispatch]);
+  useEffect(() => void dispatch(getIngredients()), [dispatch]);
 
   const location = useLocation();
   const state = location.state;

@@ -1,3 +1,6 @@
+import { TypedUseSelectorHook, useSelector, useDispatch } from "react-redux";
+import type { AppDispatch, AppThunk, RootState } from "..";
+
 export type TIngredient = {
   calories: number;
   carbohydrates: number;
@@ -42,3 +45,6 @@ export type TPayloadUser = {
     name: string;
   }
 }
+
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+export const useAppDispatch: () => AppDispatch | AppThunk = useDispatch;

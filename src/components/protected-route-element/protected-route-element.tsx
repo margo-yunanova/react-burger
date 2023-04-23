@@ -1,22 +1,22 @@
 import React, { FC, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router';
 import { getUser } from '../../services/actions/user';
+import { useAppDispatch, useAppSelector } from '../../utils/types';
 
 type TProtectedRouteElement = {
   element: React.ReactElement;
 }
 
 export const ProtectedRouteElement: FC<TProtectedRouteElement> = ({ element }) => {
-  const dispatch = useDispatch();
-  const successRequest = useSelector((state: any) => state.user.success);
-  const request = useSelector((state: any) => state.user.request);
+  const dispatch = useAppDispatch();
+  const successRequest = useAppSelector((state) => state.user.success);
+  const request = useAppSelector((state) => state.user.request);
   const [isRequestSent, setRequestSent] = useState(false);
 
   const location = useLocation();
 
   useEffect(() => {
-    dispatch(getUser() as any);
+    dispatch(getUser());
     setRequestSent(true);
   }, [dispatch]);
 

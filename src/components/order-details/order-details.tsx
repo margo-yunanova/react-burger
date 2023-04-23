@@ -1,9 +1,9 @@
-import { useSelector } from 'react-redux';
 import styles from './order-details.module.css';
 import { FC } from 'react';
+import { useAppSelector } from '../../utils/types';
 
 const OrderDetails: FC = () => {
-  const number = useSelector((store: any) => store.orderDetails.order.number);
+  const number = useAppSelector((store) => store.orderDetails.order.number);
 
   return (
     <div className={styles.popup}>

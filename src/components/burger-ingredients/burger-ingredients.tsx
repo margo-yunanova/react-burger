@@ -5,18 +5,17 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { FC, UIEventHandler, useRef, useState } from 'react';
 import { useDrag } from 'react-dnd';
-import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import styles from './burger-ingredients.module.css';
-import { TIngredient } from '../../utils/types';
+import { TIngredient, useAppSelector } from '../../utils/types';
 
 const Ingredient: FC<{ingredient: TIngredient}> = ({ ingredient }) => {
-  const { bun, bunFilling } = useSelector((state: any) => state.orderIngredients);
+  const { bun, bunFilling } = useAppSelector((state) => state.orderIngredients);
 
   const count =
     ingredient.type !== 'bun'
       ? bunFilling.reduce(
-          (sum: number, item: any) => (item._id === ingredient._id ? sum + 1 : sum),
+          (sum, item) => (item._id === ingredient._id ? sum + 1 : sum),
           0,
         )
       : bun?._id === ingredient._id
@@ -52,8 +51,8 @@ const BurgerIngredients: FC = () => {
   const titleSauceEl = useRef<HTMLInputElement>(null);
   const titleBunEl = useRef<HTMLInputElement>(null);
 
-  const ingredients = useSelector(
-    (state: any) => state.ingredients.listBurgerIngredients.ingredients,
+  const ingredients = useAppSelector(
+    (state) => state.ingredients.ingredients,
   );
 
   const scrollToTitle = (activeTab: string) => {
@@ -88,9 +87,9 @@ const BurgerIngredients: FC = () => {
     }
   };
 
-  const buns = ingredients.filter((i: any) => i.type === 'bun');
-  const main = ingredients.filter((i: any) => i.type === 'main');
-  const sauces = ingredients.filter((i: any) => i.type === 'sauce');
+  const buns = ingredients.filter((i) => i.type === 'bun');
+  const main = ingredients.filter((i) => i.type === 'main');
+  const sauces = ingredients.filter((i) => i.type === 'sauce');
 
   return (
     <section className={styles.section}>
@@ -128,7 +127,7 @@ const BurgerIngredients: FC = () => {
           Булки
         </h2>
         <div className={`${styles.table} pl-4`}>
-          {buns.map((bun: any) => (
+          {buns.map((bun) => (
             <Link
               key={bun._id}
               to={`/ingredients/${bun._id}`}
@@ -148,7 +147,7 @@ const BurgerIngredients: FC = () => {
           Соусы
         </h2>
         <div className={`${styles.table} pl-4`}>
-          {sauces.map((sauce: any) => (
+          {sauces.map((sauce) => (
             <Link
               key={sauce._id}
               to={`/ingredients/${sauce._id}`}
@@ -168,7 +167,7 @@ const BurgerIngredients: FC = () => {
           Начинки
         </h2>
         <div className={`${styles.table} pl-4`}>
-          {main.map((item: any) => (
+          {main.map((item) => (
             <Link
               key={item._id}
               to={`/ingredients/${item._id}`}

@@ -7,17 +7,13 @@ import {
 import type { TIngredientsActions } from '../actions/ingredients';
 
 export type TIngredientsState = {
-  listBurgerIngredients: {
-    success: boolean;
+  success: boolean;
     ingredients: Array<TIngredient>;
-  };
 };
 
 const initialState: TIngredientsState = {
-  listBurgerIngredients: {
-    success: false,
-    ingredients: [],
-  },
+  success: false,
+  ingredients: [],
 };
 
 export const ingredients = (
@@ -35,10 +31,8 @@ export const ingredients = (
       const { success, ingredients } = action.payload;
       return {
         ...state,
-        listBurgerIngredients: {
-          success: success,
-          ingredients: ingredients,
-        },
+        success: success,
+        ingredients: ingredients,
       };
     }
 

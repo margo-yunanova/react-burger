@@ -1,18 +1,18 @@
-import React, { FC, PropsWithChildren, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { FC, PropsWithChildren, useEffect } from 'react';
 import {
   WS_CONNECTION_START,
   WS_CONNECTION_STOP,
 } from '../../services/actions/webSocket';
 import { getOrdersWsUrl } from '../../utils/burger-api';
 import styles from './order-placed.module.css';
+import { useAppDispatch } from '../../utils/types';
 
 type TOrderPlaced = PropsWithChildren<{
   isAllOrders: boolean;
 }>;
 
 const OrderPlaced: FC<TOrderPlaced> = ({ children, isAllOrders }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch({

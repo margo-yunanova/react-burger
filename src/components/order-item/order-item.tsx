@@ -5,10 +5,9 @@ import {
 import styles from './order-item.module.css';
 import classNames from 'classnames';
 import IngredientImageRoundBorder from '../ingredient-image-round-border/ingredient-image-round-border';
-import { useSelector } from 'react-redux';
 import { statusOrderName } from '../../utils/constants';
 import { FC } from 'react';
-import { TMadeOrder } from '../../utils/types';
+import { TMadeOrder, useAppSelector } from '../../utils/types';
 
 type TOrderItem = {
   order: TMadeOrder;
@@ -20,18 +19,19 @@ const OrderItem: FC<TOrderItem> = ({ order, isStatusVisible }) => {
     [styles.orderDone]: order.status === 'done',
   });
 
-  const ingredients = useSelector(
-    (state: any) => state.ingredients.listBurgerIngredients.ingredients,
+  const ingredients = useAppSelector(
+    (state) => state.ingredients.ingredients,
   );
 
   const counter = order.ingredients.length - 5;
 
   const totalOrder = order.ingredients.reduce((sum, id) => {
     //TODO удалить когда яндекс пофиксит бэкэнд
-    if (ingredients.find((item: any) => id === item._id) === undefined) {
+    const ingredient = ingredients.find((item) => id === item._id);
+    if (ingredient === undefined) {
       return sum;
     }
-    return sum + ingredients.find((item: any) => id === item._id).price;
+    return sum + ingredient.price;
   }, 0);
 
   return (

@@ -1,9 +1,9 @@
 import classNames from 'classnames';
 import { FC, MouseEventHandler, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { getUser, logoutUser } from '../services/actions/user';
 import styles from './profile.module.css';
+import { useAppDispatch, useAppSelector } from '../utils/types';
 
 const Profile: FC = () => {
   const activeLink = ({ isActive }: { isActive: boolean}) =>
@@ -12,22 +12,22 @@ const Profile: FC = () => {
       [styles.active]: isActive,
     });
 
-  const isLogout = useSelector((state: any) => state.user.isLogout);
+  const isLogout = useAppSelector((state) => state.user.isLogout);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const successRequest = useSelector((state: any) => state.user.success);
+  const successRequest = useAppSelector((state) => state.user.success);
 
   useEffect(() => {
     if (!successRequest) {
-      dispatch(getUser() as any);
+      dispatch(getUser());
     }
   }, [dispatch, successRequest]);
 
   const handleExit: MouseEventHandler = (e) => {
     e.preventDefault();
-    dispatch(logoutUser() as any);
+    dispatch(logoutUser());
   };
 
   useEffect(() => {

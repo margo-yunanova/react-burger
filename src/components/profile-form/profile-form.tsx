@@ -5,10 +5,10 @@ import {
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { FC, FormEventHandler, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getUser, updateUser } from '../../services/actions/user';
 import styles from './profile-form.module.css';
+import { useAppDispatch, useAppSelector } from '../../utils/types';
 
 const ProfileForm: FC = () => {
   const [form, setForm] = useState({
@@ -17,18 +17,18 @@ const ProfileForm: FC = () => {
     password: '', //
   });
 
-  const isLogout = useSelector((state:any) => state.user.isLogout);
+  const isLogout = useAppSelector((state) => state.user.isLogout);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const successRequest = useSelector((state:any) => state.user.success);
-  const name = useSelector((state:any) => state.user.user?.name);
-  const email = useSelector((state:any) => state.user.user?.email);
+  const successRequest = useAppSelector((state) => state.user.success);
+  const name = useAppSelector((state) => state.user.user!.name);
+  const email = useAppSelector((state) => state.user.user!.email);
 
   useEffect(() => {
     if (!successRequest) {
-      dispatch(getUser() as any);
+      dispatch(getUser());
     }
   }, [dispatch, successRequest]);
 
@@ -40,7 +40,7 @@ const ProfileForm: FC = () => {
 
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();
-    dispatch(updateUser(form) as any);
+    dispatch(updateUser(form));
   };
 
   const handleReset: FormEventHandler = (e) => {

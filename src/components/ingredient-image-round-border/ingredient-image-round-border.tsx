@@ -1,7 +1,7 @@
 import classNames from 'classnames';
-import { useSelector } from 'react-redux';
 import styles from './ingredient-image-round-border.module.css';
 import { FC } from 'react';
+import { useAppSelector } from '../../utils/types';
 
 type TIngredientImageRoundBorder = {
   id?: string; //.isRequired, TODO добавить когда яндекс пофиксит бэкэнд
@@ -10,11 +10,11 @@ type TIngredientImageRoundBorder = {
 }
 
 const IngredientImageRoundBorder: FC<TIngredientImageRoundBorder> = ({ id, counter = 0, index }) => {
-  const ingredients = useSelector(
-    (state: any) => state.ingredients.listBurgerIngredients.ingredients,
+  const ingredients = useAppSelector(
+    (state) => state.ingredients.ingredients,
   );
 
-  const ingredient = ingredients.find((item: any) => item._id === id);
+  const ingredient = ingredients.find((item) => item._id === id);
 
   const styleIcon = classNames(styles.ingredientIcon, styles[`zIndex${index}`]);
 

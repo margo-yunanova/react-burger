@@ -4,27 +4,27 @@ import {
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { FC, FormEventHandler, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate, useLocation } from 'react-router-dom';
 import { authorizeUser, getUser } from '../services/actions/user';
 import styles from './login.module.css';
+import { useAppDispatch, useAppSelector } from '../utils/types';
 
 const Login: FC = () => {
   const [form, setForm] = useState({ email: '', password: '', });
   const [isRequestSent, setRequestSent] = useState(false);
-  const successRequest = useSelector((state: any) => state.user.success);
-  const request = useSelector((state: any) => state.user.request);
-  const dispatch = useDispatch();
+  const successRequest = useAppSelector((state) => state.user.success);
+  const request = useAppSelector((state) => state.user.request);
+  const dispatch = useAppDispatch();
 
   const { state } = useLocation();
 
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();
-    dispatch(authorizeUser(form) as any);
+    dispatch(authorizeUser(form));
   };
 
   useEffect(() => {
-    dispatch(getUser() as any);
+    dispatch(getUser());
     setRequestSent(true);
   }, [dispatch]);
 

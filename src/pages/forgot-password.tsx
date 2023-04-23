@@ -3,22 +3,22 @@ import {
   EmailInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { FC, FormEventHandler, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { getUser } from '../services/actions/user';
 import { restorePasswordRequest } from '../utils/burger-api';
 import styles from './forgot-password.module.css';
+import { useAppDispatch, useAppSelector } from '../utils/types';
 
 const ForgotPasswordPage: FC = () => {
   const [form, setForm] = useState({ email: '', });
   const [isRequestSent, setRequestSent] = useState(false);
-  const successRequest = useSelector((state: any) => state.user.success);
-  const request = useSelector((state: any) => state.user.request);
+  const successRequest = useAppSelector((state) => state.user.success);
+  const request = useAppSelector((state) => state.user.request);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getUser() as any);
+    dispatch(getUser());
     setRequestSent(true);
   }, [dispatch]);
 

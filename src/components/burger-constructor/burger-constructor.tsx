@@ -6,7 +6,6 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { FC, useEffect, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { useLocation, useNavigate } from 'react-router';
 import {
@@ -17,7 +16,7 @@ import {
 import { getOrderDetails } from '../../services/actions/orderDetails';
 import { getUser } from '../../services/actions/user';
 import styles from './burger-constructor.module.css';
-import { TIngredient } from '../../utils/types';
+import { TIngredient, useAppDispatch, useAppSelector } from '../../utils/types';
 
 type TBunFillingCard = {
   item: TIngredient & { code: string; };
@@ -25,7 +24,7 @@ type TBunFillingCard = {
 }
 
 const BunFillingCard: FC<TBunFillingCard> = ({ item, index }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const ref = useRef<HTMLLIElement>(null);
 
   const [{ opacity }, drag, dragPreview] = useDrag({
@@ -104,33 +103,33 @@ const BunFillingCard: FC<TBunFillingCard> = ({ item, index }) => {
 }
 
 const BurgerConstructor: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
-  const { bun, bunFilling } = useSelector((state: any) => state.orderIngredients);
+  const { bun, bunFilling } = useAppSelector((state) => state.orderIngredients);
 
-  const orderDetailsRequest = useSelector(
-    (store: any) => store.orderDetails.request,
+  const orderDetailsRequest = useAppSelector(
+    (store) => store.orderDetails.request,
   );
 
   const orderTotal =
     (bun ? bun.price * 2 : 0) +
-    bunFilling.reduce((sum: number, item: any) => sum + item.price, 0);
+    bunFilling.reduce((sum, item) => sum + item.price, 0);
 
-  const successRequest = useSelector((state: any) => state.user.success);
+  const successRequest = useAppSelector((state) => state.user.success);
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getUser() as any);
+    dispatch(getUser);
   }, [dispatch]);
 
   const makeOrder = () => {
-    if (successRequest) {
+    if (successRequest && bun !== null) {
       const ingredientsId = [
         bun._id,
-        ...bunFilling.map((item: any) => item._id),
+        ...bunFilling.map((item) => item._id),
         bun._id,
       ];
-      dispatch(getOrderDetails(ingredientsId) as any);
+      dispatch(getOrderDetails(ingredientsId));
     } else {
       navigate(`/login`, { state: { from: location } });
     }
@@ -167,7 +166,7 @@ const BurgerConstructor: FC = () => {
         )}
         {bunFilling && (
           <div className={styles.scroll}>
-            {bunFilling.map((item: any, i: number) => (
+            {bunFilling.map((item, i) => (
               <BunFillingCard key={item.code} item={item} index={i} />
             ))}
           </div>
