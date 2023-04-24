@@ -9,7 +9,7 @@ export const getOrdersWsUrl = (isAllOrders: boolean): string =>
 const checkResponse = (res: Response) =>
   res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 
-const request = (endpoint: string, options?: RequestInit) => {
+const request = async (endpoint: string, options?: RequestInit) => {
   const url = `${BURGER_API_URL}/${endpoint}`;
   const params = {
     ...options,
@@ -18,7 +18,7 @@ const request = (endpoint: string, options?: RequestInit) => {
       ...options?.headers,
     },
   };
-  return fetch(url, params).then(checkResponse);
+  return checkResponse(await fetch(url, params));
 };
 
 type TUpdateTokenResponse = {
@@ -35,7 +35,7 @@ const updateTokenRequest = (token: string): Promise<TUpdateTokenResponse> =>
     }),
   });
 
-const requestWithToken = (endpoint: string, options?: RequestInit) => {
+const requestWithToken = async (endpoint: string, options?: RequestInit) => {
   const url = `${BURGER_API_URL}/${endpoint}`;
   const params = {
     ...options,
@@ -45,27 +45,17 @@ const requestWithToken = (endpoint: string, options?: RequestInit) => {
       ...options?.headers,
     },
   };
-  return fetch(url, params)
-    .then((response) => {
-      if (response.status !== 401 && response.status !== 403) {
-        return response;
-      }
-      return updateTokenRequest(localStorage.getItem('refreshToken') ?? '') //as string
-        .catch((error) => {
-          //console.log(error, 'не удалось обновить токен');
-          return Promise.reject(error);
-        })
-        .then((token) => {
-          localStorage.setItem('refreshToken', token.refreshToken);
-          localStorage.setItem('accessToken', token.accessToken);
-          params.headers.authorization = token.accessToken;
-          return fetch(url, params);
-        });
-    })
-    .catch((error) => {
-      return Promise.reject(error);
-    })
-    .then(checkResponse);
+  const response = await fetch(url, params);
+  if (response.status !== 401 && response.status !== 403) {
+    return checkResponse(response);
+  }
+  const token = await updateTokenRequest(
+    localStorage.getItem('refreshToken') ?? '',
+  );
+  localStorage.setItem('refreshToken', token.refreshToken);
+  localStorage.setItem('accessToken', token.accessToken);
+  params.headers.authorization = token.accessToken;
+  return checkResponse(await fetch(url, params));
 };
 
 type TIngredientsResponse = {

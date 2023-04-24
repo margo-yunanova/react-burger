@@ -30,15 +30,13 @@ const ForgotPasswordPage: FC = () => {
     return <Navigate to={'/'} />;
   }
 
-  const handleSubmit: FormEventHandler = (e) => {
+  const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
-    restorePasswordRequest(form).then(({ success }) => {
-      if (success) {
-        navigate('/reset-password', { replace: true });
-        localStorage.setItem('successResetPassword', 'true'); //TODO хотела сохранять boolean, а сохраняю строку
-      }
-      return null;
-    });
+    const { success } = await restorePasswordRequest(form);
+    if (success) {
+      navigate('/reset-password', { replace: true });
+      localStorage.setItem('successResetPassword', 'true'); //TODO хотела сохранять boolean, а сохраняю строку
+    }
   };
 
   return (

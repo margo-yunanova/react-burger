@@ -25,11 +25,6 @@ export const LOGOUT_USER_SUCCESS = 'LOGOUT_USER_SUCCESS';
 export const LOGOUT_USER_REQUEST = 'LOGOUT_USER_REQUEST';
 export const LOGOUT_USER_FAILED = 'LOGOUT_USER_FAILED';
 
-// export const UPDATE_TOKEN_REQUEST = 'UPDATE_TOKEN_REQUEST';
-// export const UPDATE_TOKEN_SUCCESS = 'UPDATE_TOKEN_SUCCESS';
-// export const UPDATE_TOKEN_FAILED = 'UPDATE_TOKEN_FAILED';
-
-//export const SET_REGISTER_BUTTON_DISABLED = 'SET_REGISTER_BUTTON_DISABLED';
 export const SET_REGISTER_BUTTON_ACTIVE = 'SET_REGISTER_BUTTON_ACTIVE';
 
 type TRegisterForm = {
@@ -40,37 +35,42 @@ type TRegisterForm = {
 
 type TRegisterUserRequestAction = TAction<typeof REGISTER_USER_REQUEST>;
 
-type TRegisterUserSuccessAction = TAction<typeof REGISTER_USER_SUCCESS, TPayloadUser>;
+type TRegisterUserSuccessAction = TAction<
+  typeof REGISTER_USER_SUCCESS,
+  TPayloadUser
+>;
 
 type TRegisterUserFailedAction = TAction<typeof REGISTER_USER_FAILED>;
 
-type TSetRegisterButtonActiveAction = TAction<typeof SET_REGISTER_BUTTON_ACTIVE>;
+type TSetRegisterButtonActiveAction = TAction<
+  typeof SET_REGISTER_BUTTON_ACTIVE
+>;
 
-export const registerUser:AppThunk = (form: TRegisterForm) => {
-  return (dispatch: AppDispatch) => {
-    dispatch({
-      type: REGISTER_USER_REQUEST,
-    });
-    createUserRequest(form)
-      .then((response) => {
-        dispatch({
-          type: REGISTER_USER_SUCCESS,
-          payload: {
-            success: response.success,
-            user: {
-              email: response.user.email,
-              name: response.user.name,
-            },
+export const registerUser: AppThunk = (form: TRegisterForm) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: REGISTER_USER_REQUEST,
+      });
+      const { success, user, refreshToken, accessToken } =
+        await createUserRequest(form);
+      dispatch({
+        type: REGISTER_USER_SUCCESS,
+        payload: {
+          success,
+          user: {
+            email: user.email,
+            name: user.name,
           },
-        });
-        localStorage.setItem('refreshToken', response.refreshToken);
-        localStorage.setItem('accessToken', response.accessToken);
-      })
-      .catch((error) => {
-        //console.log(error);
-        dispatch({ type: REGISTER_USER_FAILED });
-      })
-      .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE })); //TODO кнопки
+        },
+      });
+      localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('accessToken', accessToken);
+    } catch {
+      dispatch({ type: REGISTER_USER_FAILED });
+    } finally {
+      dispatch({ type: SET_REGISTER_BUTTON_ACTIVE }); //TODO кнопки
+    }
   };
 };
 
@@ -88,31 +88,31 @@ type TAuthorizeUserSuccessAction = TAction<
 
 type TAuthorizeUserFailedAction = TAction<typeof AUTHORIZATION_USER_FAILED>;
 
-export const authorizeUser:AppThunk = (form: TAuthorizeForm) => {
-  return (dispatch: AppDispatch) => {
-    dispatch({
-      type: AUTHORIZATION_USER_REQUEST,
-    });
-    loginUserRequest(form)
-      .then((response) => {
-        dispatch({
-          type: AUTHORIZATION_USER_SUCCESS,
-          payload: {
-            success: response.success,
-            user: {
-              email: response.user.email,
-              name: response.user.name,
-            },
+export const authorizeUser: AppThunk = (form: TAuthorizeForm) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: AUTHORIZATION_USER_REQUEST,
+      });
+      const { success, user, refreshToken, accessToken } =
+        await loginUserRequest(form);
+      dispatch({
+        type: AUTHORIZATION_USER_SUCCESS,
+        payload: {
+          success,
+          user: {
+            email: user.email,
+            name: user.name,
           },
-        });
-        localStorage.setItem('refreshToken', response.refreshToken);
-        localStorage.setItem('accessToken', response.accessToken);
-      })
-      .catch((error) => {
-        //console.log(error);
-        dispatch({ type: AUTHORIZATION_USER_FAILED });
-      })
-      .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE })); //TODO кнопки
+        },
+      });
+      localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('accessToken', accessToken);
+    } catch {
+      dispatch({ type: AUTHORIZATION_USER_FAILED });
+    } finally {
+      dispatch({ type: SET_REGISTER_BUTTON_ACTIVE }); //TODO кнопки
+    }
   };
 };
 
@@ -122,29 +122,28 @@ type TGetUserSuccessAction = TAction<typeof GET_USER_SUCCESS, TPayloadUser>;
 
 type TGetUserFailedAction = TAction<typeof GET_USER_FAILED>;
 
-export const getUser:AppThunk = () => {
-  return (dispatch: AppDispatch) => {
-    dispatch({
-      type: GET_USER_REQUEST,
-    });
-    getUserRequest()
-      .then((response) => {
-        dispatch({
-          type: 'GET_USER_SUCCESS',
-          payload: {
-            success: response.success,
-            user: {
-              email: response.user.email,
-              name: response.user.name,
-            },
+export const getUser: AppThunk = () => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: GET_USER_REQUEST,
+      });
+      const { success, user } = await getUserRequest();
+      dispatch({
+        type: 'GET_USER_SUCCESS',
+        payload: {
+          success,
+          user: {
+            email: user.email,
+            name: user.name,
           },
-        });
-      })
-      .catch((error) => {
-        dispatch({ type: GET_USER_FAILED });
-        //console.log(error, 'данные юзера не получены');
-      })
-      .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE })); //TODO кнопки
+        },
+      });
+    } catch {
+      dispatch({ type: GET_USER_FAILED });
+    } finally {
+      dispatch({ type: SET_REGISTER_BUTTON_ACTIVE }); //TODO кнопки
+    }
   };
 };
 
@@ -163,59 +162,62 @@ type TUpdateUserSuccessAction = TAction<
 
 type TUpdateUserFailedAction = TAction<typeof UPDATE_USER_FAILED>;
 
-export const updateUser:AppThunk = (form: TUpdateForm) => {
-  return (dispatch: AppDispatch) => {
-    dispatch({
-      type: UPDATE_USER_REQUEST,
-    });
-    updateUserRequest(form)
-      .then((response) => {
-        dispatch({
-          type: UPDATE_USER_SUCCESS,
-          payload: {
-            success: response.success,
-            user: {
-              email: response.user.email,
-              name: response.user.name,
-            },
+export const updateUser: AppThunk = (form: TUpdateForm) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      dispatch({
+        type: UPDATE_USER_REQUEST,
+      });
+      const { success, user } = await updateUserRequest(form);
+      dispatch({
+        type: UPDATE_USER_SUCCESS,
+        payload: {
+          success,
+          user: {
+            email: user.email,
+            name: user.name,
           },
-        });
-      })
-      .catch((error) => {
-        //console.log(error);
-        dispatch({ type: UPDATE_USER_FAILED });
-      })
-      .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE })); //TODO кнопки
+        },
+      });
+    } catch {
+      dispatch({ type: UPDATE_USER_FAILED });
+    } finally {
+      dispatch({ type: SET_REGISTER_BUTTON_ACTIVE }); //TODO кнопки
+    }
   };
 };
 
 type TLogoutUserRequestAction = TAction<typeof LOGOUT_USER_REQUEST>;
 
-type TLogoutUserSuccessAction = TAction<typeof LOGOUT_USER_SUCCESS, {success: boolean}>;
+type TLogoutUserSuccessAction = TAction<
+  typeof LOGOUT_USER_SUCCESS,
+  { success: boolean }
+>;
 
 type TLogoutUserFailedAction = TAction<typeof LOGOUT_USER_FAILED>;
 
-export const logoutUser:AppThunk = () => {
-  return (dispatch: AppDispatch) => {
-    dispatch({
-      type: LOGOUT_USER_REQUEST,
-    });
-    logoutUserRequest(localStorage.getItem('refreshToken') as string)
-      .then((response) => {
-        dispatch({
-          type: LOGOUT_USER_SUCCESS,
-          payload: {
-            success: response.success, //TODO message - нужно ли сохранять
-          },
-        });
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-      })
-      .catch((error) => {
-        //console.log(error);
-        dispatch({ type: LOGOUT_USER_FAILED });
-      })
-      .finally(() => dispatch({ type: SET_REGISTER_BUTTON_ACTIVE })); //TODO кнопки
+export const logoutUser: AppThunk = () => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: LOGOUT_USER_REQUEST,
+      });
+      const { success } = await logoutUserRequest(
+        localStorage.getItem('refreshToken') as string,
+      );
+      dispatch({
+        type: LOGOUT_USER_SUCCESS,
+        payload: {
+          success, //TODO message - нужно ли сохранять
+        },
+      });
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+    } catch {
+      dispatch({ type: LOGOUT_USER_FAILED });
+    } finally {
+      dispatch({ type: SET_REGISTER_BUTTON_ACTIVE }); //TODO кнопки
+    }
   };
 };
 

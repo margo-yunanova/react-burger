@@ -55,28 +55,28 @@ export type TOrderDetailsActions =
   | THideOrderModalAction;
 
 export const getOrderDetails: AppThunk = (ingredientsId: Array<string>) => {
-  return (dispatch: AppDispatch) => {
-    dispatch({
-      type: GET_ORDER_DETAILS_REQUEST,
-    });
-    makeOrderDetailsRequest(ingredientsId)
-      .then((response) => {
-        dispatch({
-          type: GET_ORDER_DETAILS_SUCCESS,
-          payload: {
-            name: response.name,
-            order: {
-              number: response.order.number,
-            },
-            success: response.success,
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: GET_ORDER_DETAILS_REQUEST,
+      });
+      const { name, order, success } = await makeOrderDetailsRequest(ingredientsId);
+      dispatch({
+        type: GET_ORDER_DETAILS_SUCCESS,
+        payload: {
+          name,
+          order: {
+            number: order.number,
           },
-        });
-        dispatch({ type: SHOW_ORDER_MODAL });
-        dispatch({ type: EMPTY_CONSTRUCTOR });
-      })
-      .catch(() => {
-        dispatch({ type: GET_ORDER_DETAILS_FAILED });
-      })
-      .finally(() => dispatch({ type: SET_CHECKOUT_BUTTON_ACTIVE }));
+          success,
+        },
+      });
+      dispatch({ type: SHOW_ORDER_MODAL });
+      dispatch({ type: EMPTY_CONSTRUCTOR });
+    } catch {
+      dispatch({ type: GET_ORDER_DETAILS_FAILED });
+    } finally {
+      dispatch({ type: SET_CHECKOUT_BUTTON_ACTIVE });
+    }
   };
 };

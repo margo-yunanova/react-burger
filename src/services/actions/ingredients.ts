@@ -28,24 +28,23 @@ export type TIngredientsActions =
   | TGetIngredientsSuccessAction;
 
 export const getIngredients: AppThunk = () => {
-  return (dispatch: AppDispatch) => {
-    dispatch({
-      type: GET_INGREDIENTS_REQUEST,
-    });
-    getIngredientsRequest()
-      .then((response) => {
-        dispatch({
-          type: GET_INGREDIENTS_SUCCESS,
-          payload: {
-            success: response.success,
-            ingredients: response.data,
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: GET_INGREDIENTS_REQUEST,
+      });
+      const { success, data } = await getIngredientsRequest();
+      dispatch({
+        type: GET_INGREDIENTS_SUCCESS,
+        payload: {
+          success,
+          ingredients: data,
           },
         });
-      })
-      .catch(() => {
-        dispatch({
-          type: GET_INGREDIENTS_FAILED,
-        });
+    } catch {
+      dispatch({
+        type: GET_INGREDIENTS_FAILED,
       });
+    };
   };
 };

@@ -17,15 +17,13 @@ const ResetPasswordPage: FC = () => {
     return <Navigate to={'/forgot-password'} />;
   }
 
-  const submitResetForm: FormEventHandler = (e) => {
+  const submitResetForm: FormEventHandler = async (e) => {
     e.preventDefault();
-    resetPasswordRequest(form).then(({ success }) => {
+    const { success } = await resetPasswordRequest(form)
       if (success) {
         navigate('/login', { replace: true });
         localStorage.removeItem('successResetPassword');
       }
-      return null;
-    });
   };
 
   return (
