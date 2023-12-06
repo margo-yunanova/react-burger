@@ -1,6 +1,57 @@
-# Проект: "Главная страница "Stellar burgers"
+# Главная страница "Stellar burgers"
 
-Учебный проект сайта для изучения JavaScript-библиотеки "React"
+Stellar burgers - это учебный проект для изучения TypeScript, React, Drag-and-drop (react-dnd), Redux, ReactRouter, Websocket.
+
+## Описание проекта
+
+Stellar burgers - это одностраничное приложение, где пользователи могут собрать и заказать космический бургер. 
+
+## Установка
+
+Для запуска проекта выполните следующие шаги:
+
+- Запуск проекта:
+
+`npm start`
+
+- Сборка проекта
+
+`npm run build`
+
+## Этапы разработки
+
+### Первый этап - Вёрстка первого экрана
+
+<img width="800px" src="https://github.com/margo-yunanova/react-burger/assets/67325499/fe0d3ee6-c798-47e8-a6c0-6e92932020b9" />
+
+- На первом этапе созданы React компоненты:
+  - AppHeader — шапка приложения;
+  - BurgerIngredients — список ингредиентов;
+  - BurgerConstructor — текущий состав бургера.
+  - Modal и ModalOverlay - модальные окна для оформленного заказа, детальной информации об ингредиенте и детального состава заказа. Компоненты модальных окон:
+    - IngredientDetails - детали ингредиента
+    <img width="400px" src="https://github.com/margo-yunanova/react-burger/assets/67325499/514f4fb2-2741-47ac-852e-81586ecf1b21" />
+
+    - OrderDetails - детали заказа
+    <img width="400px" src="https://github.com/margo-yunanova/react-burger/assets/67325499/514f4fb2-2741-47ac-852e-81586ecf1b21" />
+     
+- Подключено API, запрос происходит при монтировании компонента App. Полученные данные используются в компонентах BurgerIngredients, BurgerConstructor, IngredientDetails и OrderDetails
+
+### Второй этап - Redux и React DND
+- Создано хранилище:
+  - список всех полученных ингредиентов,
+  - список всех ингредиентов в текущем конструкторе бургера,
+  - объект текущего просматриваемого ингредиента,
+  - объект созданного заказа
+- Реализован Drag-and-drop c помощью библиотеки react-dnd
+- Реализована сортировка ингредиентов в BurgerConstructor
+- Экшены и редьюсеры:
+  - получают список ингредиентов от API для компонента BurgerIngredients.
+  - хранят список ингредиентов для конструктора бургера для компонента BurgerConstructor.
+  - управляют модальными окнами
+  - обновляют номер заказа в модальном окне OrderDetails.
+- Подсчёт итоговой стоимости бургера в зависимости от тех ингредиентов, которые находятся в конструкторе.
+- Создание заказа подключено к API
 
 ## Полезные ссылки
 
@@ -10,24 +61,3 @@
 
 Одностраничное приложение создано с помощью [Create React App](https://github.com/facebook/create-react-app).
 
-## Доступные скрипты
-
-В директории проекта Вы можете запустить:
-
-### `npm start`
-
-Команда запускает приложение в режиме разработки и открывает [http://localhost:3000](http://localhost:3000) для просмотра в браузере.
-
-### `npm test`
-
-Команда запускает тестирование.
-
-### `npm run build`
-
-Собирает приложение для продакшена в папке `build`.
-
-### `npm run deploy`
-
-Команда загружает проект на Github Pages.
-
-Остальные команды можно посмотреть [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
