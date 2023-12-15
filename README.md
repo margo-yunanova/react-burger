@@ -1,10 +1,10 @@
 # Главная страница "Stellar burgers"
 
-Stellar burgers — учебный проект, созданный для изучения TypeScript, React, Drag-and-drop (react-dnd), Redux и ReactRouter.
+Stellar burgers — проек для изучения TypeScript, React, Drag-and-drop (react-dnd), Redux и ReactRouter, Websocket.
 
 ## Описание проекта
 
-Stellar burgers представляет собой одностраничное приложение, которое позволяет пользователям создавать и заказывать космические бургеры.
+Stellar burgers представляет собой одностраничное приложение, которое позволяет пользователям создавать, заказывать и отслеживать статус заказа в режиме реального времени.
 
 ## Установка
 
