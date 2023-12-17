@@ -1,33 +1,53 @@
-# Проект: "Главная страница "Stellar burgers"
+# Главная страница "Stellar burgers"
 
-Учебный проект сайта для изучения JavaScript-библиотеки "React"
+Stellar burgers — проек для изучения TypeScript, React, Drag-and-drop (react-dnd), Redux и ReactRouter, Websocket.
+
+## Описание проекта
+
+Stellar burgers представляет собой одностраничное приложение, которое позволяет пользователям создавать, заказывать и отслеживать статус заказа в режиме реального времени.
+
+## Установка
+
+Для запуска проекта выполните следующие шаги:
+
+- Запуск проекта: `npm start`
+- Сборка проекта: `npm run build`
+
+## Этапы разработки
+
+### Первый этап - Вёрстка первого экрана
+
+![Экран с компонентами](https://github.com/margo-yunanova/react-burger/assets/67325499/fe0d3ee6-c798-47e8-a6c0-6e92932020b9)
+
+- Создание компонентов React:
+  - AppHeader — шапка приложения;
+  - BurgerIngredients — список ингредиентов;
+  - BurgerConstructor — текущий состав бургера.
+  - Modal и ModalOverlay - модальные окна для оформления заказа, детальной информации об ингредиенте и состава заказа.
+
+### Второй этап - Redux и React DND
+
+- Создание хранилища для управления:
+  - списком ингредиентов;
+  - составом бургера;
+  - объектами ингредиента и заказа.
+- Реализация Drag-and-drop с помощью библиотеки react-dnd.
+- Работа с экшенами и редьюсерами для управления данными.
+- Подсчёт стоимости бургера и создание заказа.
+
+### Третий этап - Роутинг и авторизация
+
+- Создание страниц для авторизации, регистрации и личного кабинета.
+- Взаимодействие с сервером: регистрация, авторизация, обновление токена, получение информации о пользователе.
+- Настройка перехода между страницами.
+
+### Четвертый этап - Лента заказов
+
+- Создание сокет-соединения для отслеживания реального времени появления новых заказов и изменения статусов заказов.
 
 ## Полезные ссылки
 
-1. [Мой проект на Github Pages;](https://margo-yunanova.github.io/react-burger/)
-1. [Ссылка на макет в Figma для первого этапа;](<https://www.figma.com/file/ocw9a6hNGeAejl4F3G9fp8/React-_-%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%BD%D1%8B%D0%B5-%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B8-(3-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B0)_external_link?node-id=724%3A414&t=Nvfz9N3rrvFsdqPJ-0>)
-1. [Чек лист первого этапа;](https://code.s3.yandex.net/web-plus/checklists/checklist_pdf/checklist_7.pdf)
-
-Одностраничное приложение создано с помощью [Create React App](https://github.com/facebook/create-react-app).
-
-## Доступные скрипты
-
-В директории проекта Вы можете запустить:
-
-### `npm start`
-
-Команда запускает приложение в режиме разработки и открывает [http://localhost:3000](http://localhost:3000) для просмотра в браузере.
-
-### `npm test`
-
-Команда запускает тестирование.
-
-### `npm run build`
-
-Собирает приложение для продакшена в папке `build`.
-
-### `npm run deploy`
-
-Команда загружает проект на Github Pages.
-
-Остальные команды можно посмотреть [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. [Мой проект на Github Pages](https://margo-yunanova.github.io/react-burger/)
+2. [Ссылка на макет в Figma](https://www.figma.com/file/ocw9a6hNGeAejl4F3G9fp8/React-_-%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%BD%D1%8B%D0%B5-%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B8-(3-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B0)_external_link?node-id=724%3A414&t=Nvfz9N3rrvFsdqPJ-0>)
+3. [Чек лист первого этапа](https://code.s3.yandex.net/web-plus/checklists/checklist_pdf/checklist_7.pdf)
+4. [Чек лист второго этапа](https://code.s3.yandex.net/web-plus/checklists/checklist_pdf/checklist_8.pdf)
